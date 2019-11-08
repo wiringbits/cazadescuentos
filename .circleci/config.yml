@@ -1,0 +1,29 @@
+# Scala CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/sample-config/ for more details
+#
+version: 2
+jobs:
+  build-landing-page:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:12.9.1-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: my-project-{{ .Branch }}-{{ checksum "landing-page/package-lock.json" }}
+      - run: cd landing-page && npm install
+      - save_cache:
+          key: my-project-{{ .Branch }}-{{ checksum "landing-page/package-lock.json" }}
+          paths:
+            - "landing-page/node_modules"
+      #- run: cd landing-page && npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      #- run: cd landing-page && npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+      - run: cd landing-page && npm run build-prod
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-landing-page

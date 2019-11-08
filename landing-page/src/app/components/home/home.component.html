@@ -1,0 +1,251 @@
+<div id="content">
+  <div id="discountshunter" data-radium="true">
+    <header class="Header-main" role="banner">
+      <div class="Header-container">
+        <div>
+          <img class="Header-logoContainer" src="../../../assets/icon-cazadescuentos.png" alt="">
+          <picture>
+            <img *ngIf="language==='en'" class="Header-logoContainer-1" src="../../../assets/logo/discounthunter.png"
+              alt="" data-sizes="auto" sizes="150px">
+            <img *ngIf="language==='es'" class="Header-logoContainer-1" src="../../../assets/logo/cazadescuentos.png"
+              alt="" data-sizes="auto" sizes="150px">
+          </picture>
+        </div>
+      </div>
+    </header>
+
+    <div class="Droplist-container-0-1-1">
+      <div class="Droplist-row-0-1-56">
+        <div class="Droplist-displayTable-0-1-9 Droplist-whiteBg-0-1-2">
+          <div class="Droplist-displayTableCell-0-1-10 Droplist-leftColPadding-0-1-11">
+            <h1 class="h1 Droplist-h1Text-0-1-15" [innerHTML]="'pricesChangePeopleOverpayText' | translate">
+            </h1>
+            <p class="Droplist-pText-0-1-17">{{'useOurAppOnTheAvailableStores' | translate}}</p>
+            <div class="Droplist-installButton-0-1-18">
+              <button aria-label="Add Discountshunter - It's Free" id="Droplist:Install:Header" type="submit"
+                class="h-btn h-primary undefined h-size48 h-flexible" (click)="getDiscountshunter('Chrome')">
+                <div class="h-btn-content-container">
+                  <div class="h-btn-copy">{{'getOnChromeLink' | translate}} <i class="fab fa-chrome"></i></div>
+                </div>
+              </button>
+              <button aria-label="Add Discountshunter - It's Free" id="Droplist:Install:Header" type="submit"
+                class="h-btn h-primary undefined h-size48 h-flexible" (click)="getDiscountshunter('Firefox')">
+                <div class="h-btn-content-container">
+                  <div class="h-btn-copy">{{'getOnFirefoxLink' | translate}} <i class="fab fa-firefox"></i></div>
+                </div>
+              </button>
+            </div>
+            <div class="InstallButton-tooltip-0-1-151">
+              {{'getOnMobileText' | translate}}
+            </div>
+          </div>
+          <div class="Droplist-displayTableCell-0-1-10 Droplist-noPadding-0-1-8">
+            <picture><img alt=""
+                class="LazyImage-image-0-1-58 Droplist-imgFluid-0-1-12 lazyautosizes ls-is-cached lazyloaded"
+                data-sizes="auto" data-src="../../../assets/pages/prices-droped.png" data-srcset=""
+                src="../../../assets/header-image-desktop.png" sizes="979px">
+            </picture>
+          </div>
+        </div>
+
+        <div class="Droplist-row-0-1-56">
+          <div class="Droplist-col-0-1-20 Droplist-darkBlueBg-0-1-5"><img src="../../../assets/svg/find-on-map.svg"
+              alt="" class="Droplist-dropListButtonIcon-0-1-25">
+            <div>
+              {{'blueInstructionsStep1' | translate}}<br>
+              (<div class="Droplist-installLink-0-1-21"><span>{{'youWillNeedTheAppInstalled' | translate}}</span></div>)
+            </div>
+            <div class="Droplist-arrow1-0-1-22">
+              <div class="h-icon">
+                <i class="fas fa-arrow-right v2-icon-arrow-right-16 h-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="Droplist-col-0-1-20 Droplist-medBlueBg-0-1-6"><img src="../../../assets/svg/yes.svg" alt=""
+              class="Droplist-datePickerIcon-0-1-26">
+            <p [innerHTML]="'blueInstructionsStep2' | translate"></p>
+            <div class="Droplist-arrow2-0-1-23">
+              <div class="h-icon">
+                <i class="fas fa-arrow-right v2-icon-arrow-right-16 h-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="Droplist-col-0-1-20 Droplist-lightBlueBg-0-1-7"><img src="../../../assets/svg/email.svg" alt=""
+              class="Droplist-emailIcon-0-1-27">
+            <p [innerHTML]="'blueInstructionsStep3' | translate"></p>
+          </div>
+        </div>
+
+        <div class="Droplist-row-0-1-56 Droplist-whiteBg-0-1-2 Droplist-row3-0-1-28 Droplist-centerText-0-1-13">
+          <div>
+            <h2 class="h2 Droplist-h2Text-0-1-16">{{'availableOn' | translate}}</h2>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.zara.com" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="Zara"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-30 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-zara.png" sizes="150px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.liverpool.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="Liverpool"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-liverpool.png" sizes="200px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www2.hm.com" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="H&M"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-30 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-hm.png" sizes="150px"></picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.coppel.com/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="Coppel"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-coppel.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.ebay.com/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="Ebay"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-ebay.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.officedepot.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="OfficeDepotMx"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-officeDepotMx.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.officedepot.com/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="OfficeDepotUs"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-officeDepotUs.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.sanborns.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="Sanborns"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-sanborns.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.sams.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="samsclub"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-samsClub.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.samsclub.com/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="samsclub"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-samsClubUs.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.mercadolibre.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="mercadoLibre"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-mercadolibre.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://shop.nordstrom.com/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="Nordstrom"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-nordstrom.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.elektra.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="elektra"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-elektra.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.costco.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="costcoMx"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-costcoMx.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.homedepot.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="homeDepot"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-homeDepotMx.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <a href="https://www.walmart.com.mx/" target="_blank" rel="noopener noreferrer">
+              <picture><img alt="walmartMx"
+                  class="LazyImage-image-0-1-58 LazyImage-initiallyInvisible-0-1-59 Droplist-storeLogo-0-1-31 lazyautosizes ls-is-cached lazyloaded"
+                  data-sizes="auto" data-srcset="" src="../../../assets/pages/logo-walmartMx.png" sizes="160px">
+              </picture>
+            </a>
+          </div>
+          <div class="Droplist-storeLogoCol-0-1-29">
+            <p class="Droplist-storeText-0-1-31">{{'moreStoresSoon' | translate}}</p>
+          </div>
+        </div>
+        <div
+          class="Droplist-row-0-1-56 Droplist-whiteBg-0-1-2 Droplist-row8-0-1-51 Droplist-centerText-0-1-13 Droplist-footerPull-0-1-53">
+          <div>
+            <h2 class="h2 Droplist-h2Text-0-1-16">{{'getPricedropsWithTheApp' | translate}}</h2>
+            <div class="Droplist-installButtonBottom-0-1-19">
+              <div class="install-extension">
+                <div>
+                  <div class="InstallButton-buttonWrap-0-1-150">
+                    <button aria-label="Add Discountshunter - It's Free" id="Droplist:Install:Footer" type="submit"
+                      (click)="getDiscountshunter('Chrome')" class="h-btn h-primary undefined h-size48 h-flexible">
+                      <div class="h-btn-content-container">
+                        <div class="h-btn-copy">{{'getOnChromeLink' | translate}} <i class="fab fa-chrome"></i></div>
+                      </div>
+                    </button>
+                    <button aria-label="Add Discountshunter - It's Free" id="Droplist:Install:Footer" type="submit"
+                      (click)="getDiscountshunter('Firefox')" class="h-btn h-primary undefined h-size48 h-flexible">
+                      <div class="h-btn-content-container">
+                        <div class="h-btn-copy">{{'getOnFirefoxLink' | translate}} <i class="fab fa-firefox"></i></div>
+                      </div>
+                    </button>
+                    <div class="InstallButton-tooltip-0-1-151">{{'getOnMobileText' | translate}}</div>
+                    <p class="Droplist-pText-0-1-17">
+                      {{'findUsIn' | translate }}
+                      <a href="https://fb.me/cazadescuentos.net" target="_blank"><i class="fab fa-3x fa-facebook"
+                          style="color:rgb(0, 102, 255)"></i></a>
+                      <a href="https://github.com/wiringbits/cazadescuentos" target="_blank"><i class="fab fa-3x fa-github"
+                          style="color:black"></i></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
