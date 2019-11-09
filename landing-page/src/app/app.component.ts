@@ -30,7 +30,8 @@ We’ll send a notification the instant there’s a better price.`,
       blueInstructionsStep3: `3. Sit back and relax—we’ll send a notification<br>the instant there’s a deal.`,
       availableOn: 'Now available on',
       moreStoresSoon: 'More stores coming soon!',
-      getPricedropsWithTheApp: 'Get price drops with discounts hunter'
+      getPricedropsWithTheApp: 'Get price drops with discounts hunter',
+      download: 'download'
     });
 
     translate.setTranslation('es', {
@@ -50,7 +51,8 @@ Te notificaremos en el instante que los productos de tu interes bajen de precio.
       blueInstructionsStep3: `3. Relajate y te notificaremos<br>cuando el producto baje de precio.`,
       availableOn: 'Disponible para',
       moreStoresSoon: 'Mas tiendas pronto!',
-      getPricedropsWithTheApp: 'Paga menos con Caza Descuentos'
+      getPricedropsWithTheApp: 'Paga menos con Caza Descuentos',
+      download: 'Descargar'
     });
   }
 }
