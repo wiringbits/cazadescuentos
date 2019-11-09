@@ -586,7 +586,7 @@ button.h-btn {
   background-color: #ff7227 !important;
   border-color: #ff7227 !important;
   overflow: hidden;
-  padding: 0 2px;
+  padding: 10px;
   color: white;
 }
 
