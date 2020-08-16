@@ -1,7 +1,7 @@
 # The chrome extension
 Running `sbt chromePackage` on this project is enough to package the extension, and test it locally, where you can take:
 - `target/chrome/cazadescuentos.zip` for Chrome.
-- 'target/chrome/unpacked-opt/' for Firefox.
+- `target/chrome/unpacked-opt/` for Firefox.
 
 You will need to install [sbt](https://www.scala-sbt.org/), and, ideally, [nvm](https://github.com/nvm-sh/nvm).
 
