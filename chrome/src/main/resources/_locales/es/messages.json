@@ -1,0 +1,64 @@
+{
+  "extensionName": {
+    "message": "cazadescuentos"
+  },
+  "questionBeforeFollowingItem": {
+      "message": "Quieres saber cuando este producto tenga un descuento?"
+  },
+  "yes": {
+    "message": "Si"
+  },
+  "No": {
+    "message": "No"
+  },
+  "youAreFollowingThisItem": {
+    "message": "Ya sigues este producto"
+  },
+  "productHasDiscountNotification": {
+    "message": "$NAME$ de $STORE$ ha bajado $DISCOUNT$ % de precio",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Blazer"
+      },
+      "store": {
+        "content": "$2",
+        "example": "Liverpool"
+      },
+      "discount": {
+        "content": "$3",
+        "example": "20"
+      }
+    }
+  },
+  "dropListEmpty": {
+    "message": "No hay productos"
+  },
+  "dropListEmptyDetailedMessage": {
+    "message": "Agrega algunos productos para ayudarte a buscar descuentos"
+  },
+  "labelStore": {
+    "message": "Tienda"
+  },
+  "labelProduct": {
+    "message": "Producto"
+  },
+  "labelPrice": {
+    "message": "Precio"
+  },
+  "labelAvailable": {
+    "message": "Disponible"
+  },
+  "labelDiscount": {
+    "message": "Descuento"
+  },
+  "labelInitialPrice": {
+    "message": "Precio original"
+  },
+  "labelActions": {
+    "message": "Acciones"
+  },
+  "followedItemsLimitReachedMessage": {
+    "message": "Tu lista esta llena, borra algunos productos si quieres seguir otros, o contactanos en cazadescuentos@wiringbits.net si necesitas incrementar el limite"
+  }
+}
