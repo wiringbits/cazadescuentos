@@ -15,15 +15,15 @@ The purpose for this app is to let you save money, by solving these problems:
 ## How?
 Just go to your favorite online store, choose the item you are interested in, and click on the price tag icon to start following such item:
 
-![img](https://addons.cdn.mozilla.net/user-media/previews/full/240/240181.png?modified=1592789457)
+![img](_images/01.png)
 
 You will be required to confirm your intention to track the item:
 
-![img](https://addons.cdn.mozilla.net/user-media/previews/full/240/240180.png?modified=1592789459)
+![img](_images/02.png)
 
 When you click on the extension icon that's on the browser tool bar, you will get a summary on your tracked items:
 
-![img](https://addons.cdn.mozilla.net/user-media/previews/full/240/240178.png?modified=1592789456)
+![img](_images/03.png)
 
 When you are on Firefox for Android, you should see this instead:
 
