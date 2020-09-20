@@ -3,7 +3,7 @@
     "message": "cazadescuentos"
   },
   "questionBeforeFollowingItem": {
-      "message": "Quieres saber cuando este producto tenga un descuento?"
+      "message": "¿Quieres saber cuando este producto tenga un descuento?"
   },
   "yes": {
     "message": "Si"
