@@ -230,6 +230,15 @@ object OnlineStore {
         raw"[\w\W]+(-\d+.html)$$".r // should match "sony-pantalla-43-led-android-x-pro-4k-40088123.html", TODO: Improve regex
       )
 
+  final case object AmazonMx
+      extends OnlineStore(
+        "amazonMx",
+        "Amazon Mx",
+        "https://www.amazon.com.mx/",
+        "amazonMx.png",
+        raw".+".r // should match "YAYAS-Bota-Lluvia-Marino-25/dp/B07F92LF7F?th=1&psc=1", TODO: Improve regex
+      )
+
   val available: List[OnlineStore] = List(
     Liverpool,
     HandM,
@@ -253,7 +262,8 @@ object OnlineStore {
     WalmartMxSuper,
     BestbuyMx,
     BestbuyUs,
-    PalacioDeHierro
+    PalacioDeHierro,
+    AmazonMx
   )
 
   def from(string: String): Option[OnlineStore] = {

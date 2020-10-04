@@ -133,7 +133,8 @@ chromeManifest := new ExtensionManifest {
         "https://super.walmart.com.mx/*",
         "https://www.bestbuy.com.mx/*",
         "https://www.bestbuy.com/*",
-        "https://www.elpalaciodehierro.com/*"
+        "https://www.elpalaciodehierro.com/*",
+        "https://www.amazon.com.mx/*"
       ),
       css = List("css/cazadescuentosActiveTab.css"),
       js = commonScripts ::: List("external-scripts/sidenavCzd.js", "scripts/active-tab-script.js")

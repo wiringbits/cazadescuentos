@@ -41,7 +41,7 @@ class Runner(config: ActiveTabConfig, backgroundAPI: BackgroundAPI, messages: I1
   }
 
   private def verifyProduct(url: String): Unit = {
-    mySidenav.map(customSidenav => customSidenav.destroy())
+    mySidenav.foreach(customSidenav => customSidenav.destroy())
     OnlineStore.available
       .collectFirst {
         case store if url.startsWith(store.baseUrl) && url.length > store.baseUrl.length =>
