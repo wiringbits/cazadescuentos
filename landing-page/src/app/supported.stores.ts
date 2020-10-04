@@ -133,4 +133,11 @@ export const SupportedStores = [
         imgSrc: '../../../assets/pages/logo-bestbuyUs.png',
         imgSizes: '160px'
     },
+    {
+        name: 'amazonMx',
+        linkHref: 'https://www.amazon.com.mx',
+        imgAlt: 'AmazonMx',
+        imgSrc: '../../../assets/pages/logo-amazonMx.png',
+        imgSizes: '160px'
+    },
 ];

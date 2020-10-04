@@ -50,6 +50,7 @@ Mexico:
 - [Walmart](https://www.walmart.com.mx)
 - [Best Buy](https://www.bestbuy.com.mx)
 - [Palacio de Hierro](https://www.elpalaciodehierro.com)
+- [Amazon Mx](https://www.amazon.com.mx)
 
 US:
 - [Office Depot](https://www.officedepot.com)
