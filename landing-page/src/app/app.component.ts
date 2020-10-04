@@ -13,23 +13,23 @@ export class AppComponent {
     translate.setDefaultLang(languageService.getLang());
 
     translate.setTranslation('en', {
-      appName: 'Discounts Hunter',
+      appName: 'Cazadescuentos',
       pricesChangePeopleOverpayText: `Prices change.<br>
 People overpay.<br>
-With Discounts Hunter, you won't.`,
-      useOurAppOnTheAvailableStores: `Use Discounts Hunter to watch items on
-Liverpool, Zara, Coppel, H&M and more.
+With Cazadescuentos, you won't.`,
+      useOurAppOnTheAvailableStores: `Use Cazadescuentos to watch items on
+BestBuy, Ebay, Amazon Mx, Liverpool, Zara, Coppel, H&M and more.
 We’ll send a notification the instant there’s a better price.`,
       findUsIn: `Find us in`,
       getOnChromeLink: 'Get on Chrome',
       getOnFirefoxLink: 'Get on Firefox (recommended)',
       blueInstructionsStep1: '1. Find which product you are interested in buying sites',
-      youWillNeedTheAppInstalled: `You'll need Discounts Hunter installed`,
-      blueInstructionsStep2: `2. Discounts Hunter will ask you if you want <br>to add the product, so you click in ok`,
+      youWillNeedTheAppInstalled: `You'll need Cazadescuentos installed`,
+      blueInstructionsStep2: `2. Cazadescuentos will ask you if you want <br>to add the product, so you click in ok`,
       blueInstructionsStep3: `3. Sit back and relax—we’ll send a notification<br>the instant there’s a deal.`,
       availableOn: 'Now available on',
       moreStoresSoon: 'More stores coming soon!',
-      getPricedropsWithTheApp: 'Get price drops with discounts hunter'
+      getPricedropsWithTheApp: 'Get price drops with Cazadescuentos'
     });
 
     translate.setTranslation('es', {
