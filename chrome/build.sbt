@@ -10,7 +10,7 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 lazy val appName = "cazadescuentos"
 
 name := appName
-version := "1.26"
+version := "1.27"
 scalaVersion := "2.13.1"
 scalacOptions ++= Seq(
   "-language:implicitConversions",
