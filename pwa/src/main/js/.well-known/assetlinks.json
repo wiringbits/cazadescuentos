@@ -1,0 +1,12 @@
+[{
+    "relation": [
+        "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "net.cazadescuentos.app",
+        "sha256_cert_fingerprints": [
+            "2D:F6:69:5C:41:E9:97:3F:41:FE:34:37:F0:CB:5E:75:BA:0B:43:0E:4B:D4:7F:CA:2A:F6:31:23:68:9C:6E:B5\n"
+        ]
+    }
+}]

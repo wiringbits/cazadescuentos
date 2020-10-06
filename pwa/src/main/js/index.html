@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-150363811-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-150363811-1');
+  </script>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Tu app para comprar por internet con descuento">
+
+  <meta property="og:title" content="Cazadescuentos App">
+  <meta property="og:locale" content="es">
+  <meta property="og:description" content="Tu app para comprar por internet con descuento">
+  <meta property="og:url" content="https://app.cazadescuentos.net/">
+  <meta property="og:site_name" content="Cazadescuentos">
+  <script type="application/ld+json">
+    {
+      "@type": "WebSite",
+      "headline": "Cazadescuentos App",
+      "url": "https://app.cazadescuentos.net/",
+      "name": "Cazadescuentos App",
+      "description": "Tu app para comprar por internet con descuento",
+      "@context": "https://schema.org"
+    }
+  </script>
+
+  <title>Cazadescuentos | App</title>
+  <base href="/">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="theme-color" content="#000000">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Add iOS meta tags and icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Cazadescuentos App">
+  <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <button id="butInstall" aria-label="Install" hidden>Install</button>
+  <div id="root"></div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((reg) => {
+            console.log('Service worker registered.', reg);
+          });
+      });
+    }
+  </script>
+  <script src="/scripts/install.js"></script>
+  <script type="text/javascript" src="cazadescuentos-app-fastopt-bundle.js"></script>
+
+</body>
+
+</html>
