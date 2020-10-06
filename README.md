@@ -7,6 +7,10 @@ The [chrome](chrome) project is the browser extension which you can find on the 
 
 The [landing-page](landing-page) project is our main [website](https://cazadescuentos.net).
 
+The [pwa](pwa) project is the Progressive Web App that's used as a Trusted Web Activity on [Android](https://play.google.com/store/apps/details?id=net.cazadescuentos.app).
+
+The [android](android) project is the Trusted Web Activity wrapping the [pwa](pwa) project.
+
 ## Why?
 The purpose for this app is to let you save money, by solving these problems:
 - You are willing to buy an item, but you don't feel like paying the current price, you start tracking the item with the browser extension, which will notify you when the item gets a discount.
