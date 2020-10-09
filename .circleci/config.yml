@@ -21,9 +21,47 @@ jobs:
       #- run: cd landing-page && npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
       - run: cd landing-page && npm run build-prod
 
+  build-chrome:
+    docker:
+      - image: circleci/openjdk:8-jdk-node
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - chrome-cache-v1-{{ checksum "chrome/build.sbt" }}-{{ checksum "chrome/project/plugins.sbt" }}
+            # fallback to using the latest cache if no exact match is found
+            - chrome-cache-v1-
+
+      - run: cd chrome && sbt test:compile
+
+      - save_cache:
+          paths:
+            - ~/.cache/coursier
+            - ~/.ivy2/cache
+            - ~/.m2
+          key: chrome-cache-v1-{{ checksum "chrome/build.sbt" }}-{{ checksum "chrome/project/plugins.sbt" }}
+
+      # run tests!
+      - run: cd chrome && sbt test
+
+      # package
+      - run: cd chrome && sbt chromePackage
+
 
 workflows:
   version: 2
   build:
     jobs:
       - build-landing-page
+      - build-chrome
+

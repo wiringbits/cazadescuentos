@@ -1,0 +1,64 @@
+{
+  "extensionName": {
+    "message": "cazadescuentos"
+  },
+  "questionBeforeFollowingItem": {
+    "message": "Would you like to follow this item? If you do, we'll let you know when it gets a discount"
+  },
+  "yes": {
+    "message": "Yes"
+  },
+  "No": {
+    "message": "No"
+  },
+  "youAreFollowingThisItem": {
+    "message": "You are following this item"
+  },
+  "productHasDiscountNotification": {
+    "message": "$NAME$ from $STORE$ has dropped $DISCOUNT$ %",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Blazer"
+      },
+      "store": {
+        "content": "$2",
+        "example": "Liverpool"
+      },
+      "discount": {
+        "content": "$3",
+        "example": "20"
+      }
+    }
+  },
+  "dropListEmpty": {
+    "message": "The drop list is empty"
+  },
+  "dropListEmptyDetailedMessage": {
+    "message": "Please add some items to start monitoring for discounts"
+  },
+  "labelStore": {
+    "message": "Store"
+  },
+  "labelProduct": {
+    "message": "Product"
+  },
+  "labelPrice": {
+    "message": "Price"
+  },
+  "labelDiscount": {
+    "message": "Discount"
+  },
+  "labelAvailable": {
+    "message": "Available"
+  },
+  "labelInitialPrice": {
+    "message": "Initial price"
+  },
+  "labelActions": {
+    "message": "Actions"
+  },
+  "followedItemsLimitReachedMessage": {
+    "message": "Your drop list is full, delete some items in order to track others, or, contact cazadescuentos@wiringbits.net if you need to increase the limit"
+  }
+}

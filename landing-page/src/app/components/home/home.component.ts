@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DEFAULT_LANG, LanguageService } from 'src/app/services/language.service';
+import { SupportedStores } from '../../supported.stores';
 
 import { detect } from 'detect-browser';
 import { DiscountCompanyService } from 'src/app/services/discount-company.service';
@@ -12,9 +13,7 @@ const browser = detect();
 })
 export class HomeComponent implements OnInit {
   language = DEFAULT_LANG;
-  discountCompany:any[];
-  isFirefox:boolean;
-  urlExtention:string;
+  stores = SupportedStores;
 
   constructor(languageService: LanguageService, discountCompanyService: DiscountCompanyService) {
     this.language = languageService.getLang();

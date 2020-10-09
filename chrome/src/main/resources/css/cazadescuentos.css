@@ -1,0 +1,116 @@
+.icons-table div {
+    display: inline-block;
+}
+
+.delete-icon {
+    display: inline-block;
+    color: gray;
+    font-size: 1.5em;
+    margin-right: 9px;
+}
+
+.delete-icon:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.link-icon {
+    display: inline-block;
+    color: gray;
+    font-size: 1.5em;
+}
+
+.link-icon:hover {
+    color: #339af0;
+    cursor: pointer;
+}
+
+.icon-thumbs-up {
+    color: #28a745;
+    margin-right: 5px;
+}
+
+.icon-thumbs-down {
+    color: red;
+    margin-right: 5px;
+}
+
+.icon-check-circle {
+    font-size: 35px;
+    color: #28a745;
+}
+
+.icon-ban {
+    font-size: 35px;
+    color: red;
+}
+
+.table-width {
+    width: 800px;
+}
+
+span.td-success {
+    background-color: #28a745;
+    padding: 0rem 0.5rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+}
+
+tr.table-tr-dark .icon-thumbs-up, tr.table-tr-dark .icon-thumbs-down {
+    color: gray;
+}
+
+tr.table-tr-dark span.td-success {
+    background-color: gray;
+}
+
+tr.table-tr-dark span.td-danger {
+    background-color: gray;
+}
+
+.td-danger {
+    background-color: red;
+    padding: 0rem 0.5rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+}
+
+.td-dark {
+    background-color: rgba(0, 0, 0, .2) !important;
+    padding: 0.1rem;
+    color: white;
+    font-weight: bold;
+}
+
+.table-store-logo {
+    width: 80px;
+}
+
+tr.table-tr-dark {
+    color: #6c757d !important;
+}
+
+tr.table-tr-dark img {
+    opacity: 0.5;
+}
+
+tr th {
+    text-align: center;
+}
+
+tr th:nth-child(2) {
+    padding-left: 20px;
+    text-align: left;
+}
+
+tr td:nth-child(4) {
+    text-align: center;
+    min-width: 115px;
+}
+
+.container-icon-status {
+    display: inline-block;
+    height: 35px;
+}

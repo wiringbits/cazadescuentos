@@ -1,0 +1,26 @@
+{
+  "packageId": "net.cazadescuentos.app",
+  "host": "app.cazadescuentos.net",
+  "name": "Cazadescuentos",
+  "launcherName": "Cazadescuentos",
+  "display": "standalone",
+  "themeColor": "#2F3BA2",
+  "navigationColor": "#000000",
+  "backgroundColor": "#3E4EB8",
+  "enableNotifications": false,
+  "startUrl": "/index.html",
+  "iconUrl": "https://app.cazadescuentos.net/images/icons/icon-512x512.png",
+  "maskableIconUrl": "https://app.cazadescuentos.net/images/icons/icon-512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "NEW APP",
+  "webManifestUrl": "https://app.cazadescuentos.net/manifest.json",
+  "fallbackType": "customtabs",
+  "appVersion": "1"
+}
