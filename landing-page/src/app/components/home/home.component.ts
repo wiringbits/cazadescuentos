@@ -19,10 +19,18 @@ export class HomeComponent implements OnInit {
   }
 
   public getDiscountshunter(navigator: string) {
-    if (navigator === 'Chrome') {
-      window.open('https://chrome.google.com/webstore/detail/cazadescuentos/miadcmhlfknbjhlknpaidjnelinghpdf', '_blank');
-    } else { // Firefox
-      window.open('https://addons.mozilla.org/firefox/addon/cazadescuentos/', '_blank');
+    switch(navigator){
+      case 'Chrome':
+        window.open('https://chrome.google.com/webstore/detail/cazadescuentos/miadcmhlfknbjhlknpaidjnelinghpdf', '_blank');
+        break;
+      case 'Firefox':
+        window.open('https://addons.mozilla.org/firefox/addon/cazadescuentos/', '_blank');
+        break;
+      case 'Android':
+        window.open('https://play.google.com/store/apps/details?id=net.cazadescuentos.app', '_blank')
+        break;  
+      default:
+        return;
     }
   }
 }
