@@ -85,7 +85,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
         .variant(typographyTypographyMod.Style.h6)(
           """Aunque esta versión de la aplicación es funcional, aun esta en construcción.
             |
-            |Por ahora, puedes ver los descuentos en esta pantalla pero todavía no recibirás notificaciones en tu celular.
+            |Por ahora, puedes ver los descuentos en esta pantalla pero si usas iPhone o Safari, no recibirás notificaciones todavía.
             |
             |Agradecemos tu paciencia, recuerda que si quieres usar la versión completa de la aplicación,
             |esta puede ser instalada en tu computadora desde https://cazadescuentos.net
