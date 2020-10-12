@@ -2,8 +2,10 @@ package net.wiringbits.cazadescuentos.common.http
 
 import java.util.UUID
 
+import io.circe.generic.auto._
 import io.circe.parser.parse
-import net.wiringbits.cazadescuentos.common.models.{ProductDetails, StoreProduct}
+import io.circe.syntax._
+import net.wiringbits.cazadescuentos.common.models.{NotificationsSubscription, ProductDetails, StoreProduct}
 import sttp.client._
 import sttp.model.MediaType
 
@@ -14,6 +16,7 @@ trait ProductHttpService {
   def getAllSummary(): Future[List[ProductDetails]]
   def create(storeProduct: StoreProduct): Future[ProductDetails]
   def delete(storeProduct: StoreProduct): Future[Unit]
+  def subscribe(subscription: NotificationsSubscription): Future[Unit]
 }
 
 object ProductHttpService {
@@ -128,6 +131,28 @@ object ProductHttpService {
         .map(_.body)
         .map {
           case Left(error) => throw new RuntimeException(s"Request failed: $error")
+          case Right(_) => ()
+        }
+    }
+
+    override def subscribe(subscription: NotificationsSubscription): Future[Unit] = {
+      val path = ServerAPI.path ++ Seq(
+        "notifications",
+        "subscribe"
+      )
+
+      val body = subscription.asJson
+      val uri = ServerAPI.path(path)
+      basicRequest
+        .header("Authorization", buyerId.toString)
+        .contentType(MediaType.ApplicationJson)
+        .put(uri)
+        .body(body.toString())
+        .response(asString)
+        .send()
+        .map(_.body)
+        .map {
+          case Left(error) => throw new RuntimeException(s"Failed to subscribe: $error")
           case Right(_) => ()
         }
     }

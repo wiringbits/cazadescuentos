@@ -54,19 +54,7 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
-  <button id="butInstall" aria-label="Install" hidden>Install</button>
   <div id="root"></div>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then((reg) => {
-            console.log('Service worker registered.', reg);
-          });
-      });
-    }
-  </script>
-  <script src="/scripts/install.js"></script>
   <script type="text/javascript" src="cazadescuentos-app-fastopt-bundle.js"></script>
 
 </body>

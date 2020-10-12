@@ -78,6 +78,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     mui.Paper.className(classes("root"))(
       notifications,
       data,
+      InstallButton.component(InstallButton.Props(props.api)),
       mui
         .Typography()
         .component("p")
