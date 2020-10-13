@@ -1,6 +1,7 @@
 package net.wiringbits.cazadescuentos
 
 import org.scalajs.dom
+import org.scalajs.dom.experimental.URLSearchParams
 import org.scalajs.dom.experimental.serviceworkers._
 import slinky.hot
 import slinky.web.ReactDOM
@@ -16,8 +17,18 @@ object Main {
     }
 
     val apis = API()
+    val app = Option(
+      new URLSearchParams(dom.window.location.search).get("add-from-url")
+    ).map(_.trim).filter(_.nonEmpty) match {
+      case Some(sharedUrl) =>
+        SharedItemApp.component(SharedItemApp.Props(apis, sharedUrl))
+
+      case None =>
+        App.component(App.Props(apis))
+    }
+
     val pushNotificationService = PushNotificationService(apis.productService)
-    ReactDOM.render(App.component(App.Props(apis)), container())
+    ReactDOM.render(app, container())
     registerServiceWorker()
     pushNotificationService.enableNotifications()
   }
