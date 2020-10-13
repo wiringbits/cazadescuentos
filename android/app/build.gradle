@@ -21,7 +21,7 @@ apply plugin: 'com.android.application'
 def twaManifest = [
     applicationId: 'net.cazadescuentos.app',
     hostName: 'app.cazadescuentos.net', // The domain being opened in the TWA.
-    launchUrl: '/index.html', // The start path for the TWA. Must be relative to the domain.
+    launchUrl: '/index.html?utm_source=trusted-web-activity', // The start path for the TWA. Must be relative to the domain.
     name: 'Cazadescuentos', // The application name.
     launcherName: 'Cazadescuentos', // The name shown on the Android Launcher.
     themeColor: '#2F3BA2', // The color used for the status bar.
@@ -167,4 +167,6 @@ preBuild.dependsOn(generateShorcutsFile)
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.androidbrowserhelper:androidbrowserhelper:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
 }

@@ -8,7 +8,7 @@
   "navigationColor": "#000000",
   "backgroundColor": "#3E4EB8",
   "enableNotifications": false,
-  "startUrl": "/index.html",
+  "startUrl": "/index.html?utm_source=trusted-web-activity",
   "iconUrl": "https://app.cazadescuentos.net/images/icons/icon-512x512.png",
   "maskableIconUrl": "https://app.cazadescuentos.net/images/icons/icon-512x512.png",
   "splashScreenFadeOutDuration": 300,
