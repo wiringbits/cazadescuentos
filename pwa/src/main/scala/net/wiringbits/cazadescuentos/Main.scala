@@ -1,5 +1,6 @@
 package net.wiringbits.cazadescuentos
 
+import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalajs.dom
 import org.scalajs.dom.experimental.URLSearchParams
 import org.scalajs.dom.experimental.serviceworkers._
@@ -16,10 +17,9 @@ object Main {
       hot.initialize()
     }
 
+    val appInfo = AppInfo(new URLSearchParams(dom.window.location.search))
     val apis = API()
-    val app = Option(
-      new URLSearchParams(dom.window.location.search).get("add-from-url")
-    ).map(_.trim).filter(_.nonEmpty) match {
+    val app = appInfo.sharedUrl match {
       case Some(sharedUrl) =>
         SharedItemApp.component(SharedItemApp.Props(apis, sharedUrl))
 
