@@ -57,6 +57,41 @@ jobs:
       # package
       - run: cd chrome && sbt chromePackage
 
+  build-pwa:
+    docker:
+      - image: circleci/openjdk:8-jdk-node
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - pwa-cache-v1-{{ checksum "pwa/build.sbt" }}-{{ checksum "pwa/project/plugins.sbt" }}
+            # fallback to using the latest cache if no exact match is found
+            - pwa-cache-v1-
+
+      - run: cd pwa && sbt test:compile
+
+      - save_cache:
+          paths:
+            - ~/.cache/coursier
+            - ~/.ivy2/cache
+            - ~/.m2
+          key: pwa-cache-v1-{{ checksum "pwa/build.sbt" }}-{{ checksum "pwa/project/plugins.sbt" }}
+
+      # run tests!
+      # - run: cd pwa && sbt test
+
+      # package
+      - run: cd pwa && sbt build
 
 workflows:
   version: 2
@@ -64,4 +99,4 @@ workflows:
     jobs:
       - build-landing-page
       - build-chrome
-
+      - build-pwa
