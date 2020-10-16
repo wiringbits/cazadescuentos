@@ -20,11 +20,11 @@ object Main {
     val appInfo = AppInfo(new URLSearchParams(dom.window.location.search))
     val apis = API()
     val app = appInfo.sharedUrl match {
-      case Some(sharedUrl) =>
-        SharedItemApp.component(SharedItemApp.Props(apis, sharedUrl))
+      case Some(_) =>
+        SharedItemApp.component(SharedItemApp.Props(apis, appInfo))
 
       case None =>
-        App.component(App.Props(apis))
+        App.component(App.Props(apis, appInfo))
     }
 
     val pushNotificationService = PushNotificationService(apis.productService)

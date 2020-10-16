@@ -3,6 +3,7 @@ package net.wiringbits.cazadescuentos.components
 import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.common.storage.models.StoredProduct
 import net.wiringbits.cazadescuentos.components.models.DataState
+import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
@@ -30,7 +31,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   }
 
   type Data = List[StoredProduct]
-  case class Props(api: API, notifications: List[String])
+  case class Props(api: API, appInfo: AppInfo, notifications: List[String])
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val (dataState, setDataState) = Hooks.useState(DataState.loading[Data])
@@ -75,10 +76,18 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
         )
     }
 
+    val installButton = if (props.appInfo.isAndroidApp) {
+      div()
+    } else {
+      div(
+        InstallButton.component(InstallButton.Props(props.api))
+      )
+    }
+
     mui.Paper.className(classes("root"))(
       notifications,
       data,
-      InstallButton.component(InstallButton.Props(props.api)),
+      installButton,
       mui
         .Typography()
         .component("p")

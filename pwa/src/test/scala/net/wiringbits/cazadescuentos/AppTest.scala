@@ -1,9 +1,10 @@
 package net.wiringbits.cazadescuentos
 
 import net.wiringbits.cazadescuentos.common.http.ProductHttpService
-import net.wiringbits.cazadescuentos.common.models.{ProductDetails, StoreProduct}
+import net.wiringbits.cazadescuentos.common.models.{NotificationsSubscription, ProductDetails, StoreProduct}
 import net.wiringbits.cazadescuentos.common.services.ProductUpdaterService
 import net.wiringbits.cazadescuentos.common.storage.StorageService
+import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalajs.dom.document
 import org.scalatest.funsuite.AnyFunSuite
 import slinky.web.ReactDOM
@@ -24,13 +25,16 @@ class AppTest extends AnyFunSuite {
       override def getAll(): Future[List[ProductDetails]] = Future.successful(List.empty)
 
       override def getAllSummary(): Future[List[ProductDetails]] = Future.successful(List.empty)
+
+      override def subscribe(subscription: NotificationsSubscription): Future[Unit] = Future.unit
     }
 
     val productUpdaterService = new ProductUpdaterService(productHttpService, storageService)
     val apis = API(productHttpService, storageService, productUpdaterService)
 
     val div = document.createElement("div")
-    ReactDOM.render(App.component(App.Props(apis)), div)
+    val appInfo = AppInfo(None, false, None)
+    ReactDOM.render(App.component(App.Props(apis, appInfo)), div)
     ReactDOM.unmountComponentAtNode(div)
   }
 }

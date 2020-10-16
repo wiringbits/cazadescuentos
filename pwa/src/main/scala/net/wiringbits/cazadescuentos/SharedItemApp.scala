@@ -1,6 +1,7 @@
 package net.wiringbits.cazadescuentos
 
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
+import net.wiringbits.cazadescuentos.models.AppInfo
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Hooks
@@ -23,14 +24,14 @@ import scala.util.{Failure, Success}
     final case class Failed(error: String) extends State
   }
 
-  case class Props(api: API, sharedUrl: String)
+  case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val (state, setState) = Hooks.useState[State](State.InProgress)
 
     Hooks.useEffect(
       () => {
-        StoreProduct.parse(props.sharedUrl) match {
+        StoreProduct.parse(props.appInfo.sharedUrl.getOrElse("")) match {
           case Some(value) =>
             val result = for {
               details <- props.api.productService.create(value)
@@ -52,7 +53,7 @@ import scala.util.{Failure, Success}
       case State.InProgress => div(mui.CircularProgress())
       case State.Done =>
         div(
-          App.component(App.Props(props.api))
+          App.component(App.Props(props.api, props.appInfo))
         )
 
       case State.Failed(error) =>
