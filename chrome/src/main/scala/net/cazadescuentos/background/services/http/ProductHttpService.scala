@@ -4,12 +4,15 @@ import java.util.UUID
 
 import io.circe.parser.parse
 import net.cazadescuentos.background.services.http.ProductHttpService._
-import net.cazadescuentos.models.{ProductDetails, StoreProduct}
+import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
+import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import sttp.client._
 import sttp.model.MediaType
 
 import scala.concurrent.{ExecutionContext, Future}
 
+// NOTE: This can't be taken from the common library until it receives the buyer as argument
 private[background] class ProductHttpService(config: Config)(
     implicit backend: SttpBackend[Future, Nothing, Nothing],
     ec: ExecutionContext

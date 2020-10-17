@@ -1,7 +1,7 @@
 package net.cazadescuentos.common
 
 import chrome.i18n.I18N
-import net.cazadescuentos.models.OnlineStore
+import net.wiringbits.cazadescuentos.common.models.OnlineStore
 
 class I18NMessages {
 

@@ -4,7 +4,7 @@ import net.cazadescuentos.Config
 import net.cazadescuentos.background.BackgroundAPI
 import net.cazadescuentos.common.I18NMessages
 import net.cazadescuentos.facades.sidenavCzd
-import net.cazadescuentos.models.{OnlineStore, StoreProduct}
+import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
 import org.scalajs.dom
 
 import scala.concurrent.{ExecutionContext, Future}

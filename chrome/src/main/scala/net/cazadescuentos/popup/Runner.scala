@@ -5,8 +5,9 @@ import com.thoughtworks.binding.Binding._
 import net.cazadescuentos.background.BackgroundAPI
 import net.cazadescuentos.common.{I18NMessages, ResourceProvider}
 import net.cazadescuentos.facades.CommonsFacade
-import net.cazadescuentos.models.{OnlineStore, StoredProduct}
 import net.cazadescuentos.popup.views.ReactiveProductList
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
+import net.wiringbits.cazadescuentos.common.models.OnlineStore
 import org.lrng.binding.html
 import org.lrng.binding.html.NodeBinding
 import org.scalajs.dom

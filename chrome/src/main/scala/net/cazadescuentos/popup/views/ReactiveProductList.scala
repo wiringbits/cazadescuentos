@@ -2,7 +2,7 @@ package net.cazadescuentos.popup.views
 
 import com.thoughtworks.binding.Binding.Vars
 import net.cazadescuentos.background.BackgroundAPI
-import net.cazadescuentos.models.StoredProduct
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
 
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}

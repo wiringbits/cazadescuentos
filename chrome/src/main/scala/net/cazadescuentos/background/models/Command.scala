@@ -4,7 +4,7 @@ import io.circe.generic.auto._
 import io.circe.parser.parse
 import io.circe.syntax._
 import io.circe.{Decoder, DecodingFailure, Encoder, Json}
-import net.cazadescuentos.models.StoreProduct
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 
 import scala.util.Try
 

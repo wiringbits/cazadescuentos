@@ -2,7 +2,7 @@ package net.cazadescuentos.background.services.storage
 
 import java.util.UUID
 
-import net.cazadescuentos.background.services.storage.models.StoredData
+import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 
 import scala.concurrent.{ExecutionContext, Future}
 

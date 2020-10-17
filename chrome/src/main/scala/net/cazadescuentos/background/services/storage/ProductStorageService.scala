@@ -2,7 +2,10 @@ package net.cazadescuentos.background.services.storage
 
 import io.circe.parser.parse
 import io.circe.syntax._
-import net.cazadescuentos.models.{ProductDetails, StoreProduct, StoredProduct}
+import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
+import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js

@@ -4,7 +4,8 @@ import java.util.UUID
 
 import io.circe.syntax._
 import net.cazadescuentos.background.models.{Command, Event}
-import net.cazadescuentos.models.{StoreProduct, StoredProduct}
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.scalajs.js

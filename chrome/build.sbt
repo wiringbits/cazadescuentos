@@ -21,6 +21,11 @@ scalacOptions ++= Seq(
   "-feature"
 )
 
+lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
+lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
+
+dependsOn(commonJsLib, apiJsLib)
+
 // Enable macro annotations by setting scalac flags for Scala 2.13
 scalacOptions ++= {
   import Ordering.Implicits._

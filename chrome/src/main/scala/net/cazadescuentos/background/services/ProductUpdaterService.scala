@@ -6,7 +6,8 @@ import net.cazadescuentos.background.services.browser.BrowserNotificationService
 import net.cazadescuentos.background.services.http.ProductHttpService
 import net.cazadescuentos.background.services.storage.StorageService
 import net.cazadescuentos.common.I18NMessages
-import net.cazadescuentos.models.{ProductDetails, StoredProduct}
+import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
 
 import scala.concurrent.{ExecutionContext, Future}
 
