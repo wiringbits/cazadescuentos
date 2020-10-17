@@ -1,7 +1,8 @@
 package net.wiringbits.cazadescuentos
 
-import net.wiringbits.cazadescuentos.common.http.ProductHttpService
-import net.wiringbits.cazadescuentos.common.models.{NotificationsSubscription, ProductDetails, StoreProduct}
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
+import net.wiringbits.cazadescuentos.api.http.models.{NotificationsSubscription, ProductDetails}
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.common.services.ProductUpdaterService
 import net.wiringbits.cazadescuentos.common.storage.StorageService
 import net.wiringbits.cazadescuentos.models.AppInfo
