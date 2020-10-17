@@ -2,8 +2,10 @@ package net.wiringbits.cazadescuentos.common.storage
 
 import io.circe.parser.parse
 import io.circe.syntax._
-import net.wiringbits.cazadescuentos.common.models.{ProductDetails, StoreProduct}
-import net.wiringbits.cazadescuentos.common.storage.models.{StoredData, StoredProduct}
+import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
+import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
+import net.wiringbits.cazadescuentos.api.storage.models.{StoredData, StoredProduct}
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import org.scalajs.dom
 
 class StorageService {

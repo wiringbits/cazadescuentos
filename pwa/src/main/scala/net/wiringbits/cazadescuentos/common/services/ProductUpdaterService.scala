@@ -1,9 +1,9 @@
 package net.wiringbits.cazadescuentos.common.services
 
-import net.wiringbits.cazadescuentos.common.http.ProductHttpService
-import net.wiringbits.cazadescuentos.common.models.ProductDetails
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
+import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
 import net.wiringbits.cazadescuentos.common.storage.StorageService
-import net.wiringbits.cazadescuentos.common.storage.models.StoredProduct
 
 import scala.concurrent.{ExecutionContext, Future}
 

@@ -4,6 +4,9 @@ import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 val circe = "0.13.0"
 val sttp = "2.1.2"
 
+lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
+lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
+
 /**
  * Say just `build` or `sbt build` to make a production bundle in `build`
  */
@@ -135,6 +138,7 @@ lazy val buildInfoSettings: Project => Project = _.enablePlugins(BuildInfoPlugin
   )
 
 lazy val root = (project in file("."))
+  .dependsOn(commonJsLib, apiJsLib)
   .enablePlugins(ScalablyTypedConverterPlugin)
   .configure(baseSettings, browserProject, reactNpmDeps, withCssLoading, bundlerSettings, buildInfoSettings)
   .settings(

@@ -3,8 +3,8 @@ package net.wiringbits.cazadescuentos
 import java.util.Base64
 
 import net.wiringbits.cazadescuentos.PushNotificationService._
-import net.wiringbits.cazadescuentos.common.http.ProductHttpService
-import net.wiringbits.cazadescuentos.common.models.NotificationsSubscription
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
+import net.wiringbits.cazadescuentos.api.http.models.NotificationsSubscription
 import org.scalajs.dom
 import org.scalajs.dom.experimental.push._
 import org.scalajs.dom.experimental.serviceworkers._

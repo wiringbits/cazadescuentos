@@ -1,7 +1,7 @@
 package net.wiringbits.cazadescuentos.components
 
 import net.wiringbits.cazadescuentos.API
-import net.wiringbits.cazadescuentos.common.storage.models.StoredProduct
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
 import net.wiringbits.cazadescuentos.components.models.DataState
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalablytyped.runtime.StringDictionary

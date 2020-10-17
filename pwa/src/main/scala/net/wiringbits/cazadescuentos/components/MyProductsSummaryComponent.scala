@@ -1,7 +1,7 @@
 package net.wiringbits.cazadescuentos.components
 
+import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
 import net.wiringbits.cazadescuentos.common.models.OnlineStore
-import net.wiringbits.cazadescuentos.common.storage.models.StoredProduct
 import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom
 import slinky.core.FunctionalComponent

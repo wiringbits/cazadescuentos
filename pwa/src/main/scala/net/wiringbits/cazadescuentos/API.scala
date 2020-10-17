@@ -2,10 +2,10 @@ package net.wiringbits.cazadescuentos
 
 import java.util.UUID
 
-import net.wiringbits.cazadescuentos.common.http.ProductHttpService
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
+import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 import net.wiringbits.cazadescuentos.common.services.ProductUpdaterService
 import net.wiringbits.cazadescuentos.common.storage.StorageService
-import net.wiringbits.cazadescuentos.common.storage.models.StoredData
 
 import scala.concurrent.ExecutionContext
 
@@ -28,7 +28,10 @@ object API {
     val storageService = new StorageService
     val buyerId = findBuyerId(storageService)
     val productHttpServiceConfig = ProductHttpService.Config(serverApi, buyerId)
-    val productHttpService = ProductHttpService(productHttpServiceConfig)
+
+    implicit val sttpBackend = sttp.client.FetchBackend()
+    val productHttpService = new ProductHttpService.DefaultImpl(productHttpServiceConfig)
+
     val productUpdaterService = new ProductUpdaterService(productHttpService, storageService)
     API(productHttpService, storageService, productUpdaterService)
   }
