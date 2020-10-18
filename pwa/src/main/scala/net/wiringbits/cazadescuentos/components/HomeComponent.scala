@@ -10,6 +10,7 @@ import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html._
 import typings.csstype.csstypeStrings.auto
+import typings.detectBrowser.mod.Browser
 import typings.materialUiCore.createMuiThemeMod.Theme
 import typings.materialUiCore.mod.PropTypes
 import typings.materialUiCore.{typographyTypographyMod, components => mui}
@@ -84,6 +85,21 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
       )
     }
 
+    val notificationsUnsupported = props.appInfo.browser.exists { browser =>
+      List(Browser.safari, Browser.ios, Browser.`ios-webview`).contains(browser.name)
+    }
+    val disclaimer = if (notificationsUnsupported) {
+      """Desafortunadamente las notificaciones no funcionan en iPhone/Safari todavia.
+        |
+        |Agradecemos tu paciencia, recuerda que si quieres usar la versión completa de la aplicación,
+        |esta puede ser instalada en tu computadora desde https://cazadescuentos.net
+        |""".stripMargin
+    } else {
+      """Recuerda que si quieres usar la versión completa de la aplicación,
+        |esta puede ser instalada en tu computadora desde https://cazadescuentos.net
+        |""".stripMargin
+    }
+
     mui.Paper.className(classes("root"))(
       notifications,
       data,
@@ -91,15 +107,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
       mui
         .Typography()
         .component("p")
-        .variant(typographyTypographyMod.Style.h6)(
-          """Aunque esta versión de la aplicación es funcional, aun esta en construcción.
-            |
-            |Por ahora, puedes ver los descuentos en esta pantalla pero si usas iPhone o Safari, no recibirás notificaciones todavía.
-            |
-            |Agradecemos tu paciencia, recuerda que si quieres usar la versión completa de la aplicación,
-            |esta puede ser instalada en tu computadora desde https://cazadescuentos.net
-            |""".stripMargin
-        )
+        .variant(typographyTypographyMod.Style.h6)(disclaimer)
     )
   }
 }
