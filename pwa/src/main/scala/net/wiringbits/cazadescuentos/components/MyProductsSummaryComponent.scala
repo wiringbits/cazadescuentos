@@ -19,12 +19,14 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
 
 @react object MyProductsSummaryComponent {
 
+  private val tableMinWidth = 950
+
   private lazy val useStyles: StylesHook[Styles[Theme, Unit, String]] = {
     /* If you don't need direct access to theme, this could be `StyleRules[Props, String]` */
     val stylesCallback: StyleRulesCallback[Theme, Unit, String] = theme =>
       StringDictionary(
         "root" -> CSSProperties().setWidth("100%").setOverflowX(auto),
-        "table" -> CSSProperties().setMinWidth(700),
+        "table" -> CSSProperties().setMinWidth(tableMinWidth),
         "card" -> CSSProperties().setMaxWidth(345)
       )
 
@@ -36,9 +38,11 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
+    val drawTable = typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
     mui.Paper.className(classes("root"))(
       if (props.data.isEmpty) renderEmptyValues
-      else renderNonEmptyValues(props)
+      else if (drawTable) renderNonEmptyValues(props)
+      else renderNonEmptyValuesMobile(props)
     )
   }
 
@@ -82,6 +86,44 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
           }
         )
       )
+  }
+
+  private def renderNonEmptyValuesMobile(props: Props) = {
+    val classes = useStyles(())
+    props.data.map { item =>
+      def delete(): Unit = props.delete(item)
+      def open(): Unit = dom.window.open(item.sourceUrl, "_blank")
+      mui
+        .Card()
+        .withKey(item.storeProduct.url)
+        .className(classes("card"))(
+          mui.CardContent(
+            img(
+              width := "90px",
+              src := getStoreImagePath(item.store),
+              alt := item.store.id
+            ),
+            p(item.name),
+            p(s"De ${item.formattedOriginalPrice} a ${item.formattedPrice}"),
+            renderDiscountCell(item, "Descuento "),
+            div("Disponible ", getContentForStatusCell(item))
+          ),
+          mui.CardContent(
+            mui
+              .IconButton()
+              .`aria-label`("Quitar")
+              .onClick(_ => delete())(
+                muiIcons.Delete()
+              ),
+            mui
+              .IconButton()
+              .`aria-label`("Ver")
+              .onClick(_ => open())(
+                muiIcons.Link()
+              )
+          )
+        )
+    }
   }
 
   private def render(item: StoredProduct, delete: () => Unit, open: () => Unit) = {
@@ -130,8 +172,8 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     }
   }
 
-  private def renderDiscountCell(item: StoredProduct) = {
-    val strValue = s"${item.discountPercent}%"
+  private def renderDiscountCell(item: StoredProduct, tag: String = "") = {
+    val strValue = s"${tag}${item.discountPercent}%"
     if (item.price < item.originalPrice) {
       div(
         strValue,
