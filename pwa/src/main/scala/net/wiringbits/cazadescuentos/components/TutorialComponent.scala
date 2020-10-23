@@ -55,8 +55,8 @@ import scala.util.{Failure, Success}
   }
 
   private def androidVideo = {
-    val allowfullscreen = CustomAttribute[Unit]("allowfullscreen")
-    val frameborder = CustomAttribute[String]("frameborder")
+    val allowfullscreen = CustomAttribute[Unit]("allowFullScreen")
+    val frameborder = CustomAttribute[String]("frameBorder")
     val allow = CustomAttribute[String]("allow")
     iframe(
       width := "560",
