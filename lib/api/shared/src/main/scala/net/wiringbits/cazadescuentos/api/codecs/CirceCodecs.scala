@@ -1,11 +1,13 @@
 package net.wiringbits.cazadescuentos.api.codecs
 
+import java.util.UUID
+
 import io.circe.generic.semiauto._
 import io.circe.syntax._
 import io.circe.{Decoder, Encoder}
-import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
+import net.wiringbits.cazadescuentos.api.http.models.{GetTrackedProductsResponse, ProductDetails}
 import net.wiringbits.cazadescuentos.api.storage.models.{StoredData, StoredProduct}
-import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
+import net.wiringbits.cazadescuentos.common.models._
 
 object CirceCodecs {
   implicit val storeEncoder: Encoder[OnlineStore] = Encoder.instance { x: OnlineStore =>
@@ -40,4 +42,18 @@ object CirceCodecs {
 
   implicit val storedDataEncoder: Encoder[StoredData] = deriveEncoder[StoredData]
   implicit val storedDataDecoder: Decoder[StoredData] = deriveDecoder[StoredData]
+
+  implicit val availabilityStatusDecoder: Decoder[AvailabilityStatus] = implicitly[Decoder[String]].emap { str =>
+    AvailabilityStatus.from(str).toRight(s"Unknown status: $str")
+  }
+
+  implicit val trackedProductIdDecoder: Decoder[TrackedProductId] =
+    implicitly[Decoder[UUID]].map(TrackedProductId.apply)
+  implicit val storeProductIdDecoder: Decoder[StoreProductId] = implicitly[Decoder[String]].map(StoreProductId.apply)
+  implicit val productCurrencyDecoder: Decoder[ProductCurrency] = implicitly[Decoder[String]].map(ProductCurrency.apply)
+
+  implicit val getTrackedProductsResponseTrackedProductDecoder: Decoder[GetTrackedProductsResponse.TrackedProduct] = {
+    deriveDecoder[GetTrackedProductsResponse.TrackedProduct]
+  }
+
 }

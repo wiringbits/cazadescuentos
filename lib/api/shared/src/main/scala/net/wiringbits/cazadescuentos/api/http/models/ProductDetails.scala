@@ -1,7 +1,5 @@
 package net.wiringbits.cazadescuentos.api.http.models
 
-import io.circe.generic.semiauto._
-import io.circe.{Decoder, Encoder}
 import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
 
 /**

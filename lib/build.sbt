@@ -28,7 +28,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
-    libraryDependencies ++= Seq(),
+    libraryDependencies ++= Seq("org.scala-js" %%% "scalajs-java-time" % "1.0.0"),
     Compile / npmDependencies in Compile ++= Seq(
       )
   )
