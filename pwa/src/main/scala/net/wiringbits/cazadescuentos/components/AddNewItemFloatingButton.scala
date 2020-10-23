@@ -57,12 +57,8 @@ import scala.util.{Failure, Success}
         StoreProduct.parse(newItemStr) match {
           case Some(storeProduct) =>
             setAddingItem(true)
-            val result = for {
-              details <- api.productService.create(storeProduct)
-              _ = api.storageService.add(details)
-            } yield ()
-
-            result
+            api.productService
+              .create(storeProduct)
               .onComplete {
                 case Success(_) =>
                   handleDialogClosed()

@@ -4,15 +4,13 @@ import java.util.UUID
 
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import net.wiringbits.cazadescuentos.api.storage.models.StoredData
-import net.wiringbits.cazadescuentos.common.services.ProductUpdaterService
 import net.wiringbits.cazadescuentos.common.storage.StorageService
 
 import scala.concurrent.ExecutionContext
 
 case class API(
     productService: ProductHttpService,
-    storageService: StorageService,
-    productUpdaterService: ProductUpdaterService
+    storageService: StorageService
 )
 
 object API {
@@ -32,8 +30,7 @@ object API {
     implicit val sttpBackend = sttp.client.FetchBackend()
     val productHttpService = new ProductHttpService.DefaultImpl(productHttpServiceConfig)
 
-    val productUpdaterService = new ProductUpdaterService(productHttpService, storageService)
-    API(productHttpService, storageService, productUpdaterService)
+    API(productHttpService, storageService)
   }
 
   private def findBuyerId(storageService: StorageService): UUID = {

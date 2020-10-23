@@ -1,7 +1,8 @@
 package net.wiringbits.cazadescuentos.components
 
 import net.wiringbits.cazadescuentos.API
-import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
+import net.wiringbits.cazadescuentos.api.http.models.GetTrackedProductsResponse
+import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.components.models.DataState
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalablytyped.runtime.StringDictionary
@@ -12,12 +13,13 @@ import slinky.web.html._
 import typings.csstype.csstypeStrings.auto
 import typings.detectBrowser.mod.Browser
 import typings.materialUiCore.createMuiThemeMod.Theme
-import typings.materialUiCore.mod.PropTypes
 import typings.materialUiCore.{typographyTypographyMod, components => mui}
-import typings.materialUiIcons.{components => muiIcons}
 import typings.materialUiStyles.makeStylesMod.StylesHook
 import typings.materialUiStyles.mod.makeStyles
 import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 
 @react object HomeComponent {
 
@@ -31,43 +33,48 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     makeStyles(stylesCallback, WithStylesOptions())
   }
 
-  type Data = List[StoredProduct]
-  case class Props(api: API, appInfo: AppInfo, notifications: List[String])
+  type Data = List[GetTrackedProductsResponse.TrackedProduct]
+  case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val (dataState, setDataState) = Hooks.useState(DataState.loading[Data])
 
     def refreshData(): Unit = {
       setDataState(DataState.loading[Data])
-      val data = props.api.storageService.load().map(_.products).toList.flatten
-      setDataState(_.loaded(data))
+      props.api.productService.getAllSummaryV2().onComplete {
+        case Success(response) => setDataState(_.loaded(response.data))
+        case Failure(exception) => setDataState(_.failed(exception.getMessage))
+      }
     }
 
-    def delete(item: StoredProduct): Unit = {
-      props.api.storageService.delete(item.storeProduct)
-      refreshData()
+    def delete(item: StoreProduct): Unit = {
+      setDataState(
+        cur =>
+          cur match {
+            case DataState.Loaded(data) =>
+              val newData = data.filter(_.storeProduct != item)
+              DataState.Loaded(newData)
+            case x => x
+          }
+      )
+      props.api.productService.delete(item)
     }
 
     Hooks.useEffect(refreshData, "")
 
     val classes = useStyles(())
-    val notifications = if (props.notifications.isEmpty) {
-      div()
-    } else {
-      div(
-        props.notifications.map { text =>
-          div(
-            muiIcons.ThumbUp().color(PropTypes.Color.primary),
-            mui.Typography().component("h3").variant(typographyTypographyMod.Style.h5)(text)
-          )
-        }
-      )
-    }
-
     val data = dataState match {
       case DataState.Loading() =>
         div(
           mui.CircularProgress()
+        )
+
+      case DataState.Failed(msg) =>
+        div(
+          mui
+            .Typography()
+            .color(typings.materialUiCore.mod.PropTypes.Color.secondary)
+            .variant(typographyTypographyMod.Style.h6)(msg)
         )
 
       case DataState.Loaded(data) =>
@@ -101,7 +108,6 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     }
 
     mui.Paper.className(classes("root"))(
-      notifications,
       data,
       installButton,
       mui

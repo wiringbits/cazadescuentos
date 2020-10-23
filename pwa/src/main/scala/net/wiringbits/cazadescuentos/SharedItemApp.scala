@@ -33,15 +33,12 @@ import scala.util.{Failure, Success}
       () => {
         StoreProduct.parse(props.appInfo.sharedUrl.getOrElse("")) match {
           case Some(value) =>
-            val result = for {
-              details <- props.api.productService.create(value)
-              _ = props.api.storageService.add(details)
-            } yield ()
-
-            result.onComplete {
-              case Success(_) => setState(State.Done)
-              case Failure(exception) => setState(State.Failed(exception.getMessage))
-            }
+            props.api.productService
+              .create(value)
+              .onComplete {
+                case Success(_) => setState(State.Done)
+                case Failure(exception) => setState(State.Failed(exception.getMessage))
+              }
 
           case None => setState(State.Failed("La url compartida no corresponde a un producto, intenta con otra"))
         }

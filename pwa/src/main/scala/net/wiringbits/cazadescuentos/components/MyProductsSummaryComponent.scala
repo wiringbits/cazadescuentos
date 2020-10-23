@@ -1,7 +1,7 @@
 package net.wiringbits.cazadescuentos.components
 
-import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
-import net.wiringbits.cazadescuentos.common.models.OnlineStore
+import net.wiringbits.cazadescuentos.api.http.models.GetTrackedProductsResponse
+import net.wiringbits.cazadescuentos.common.models.{AvailabilityStatus, OnlineStore, StoreProduct}
 import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom
 import slinky.core.FunctionalComponent
@@ -33,8 +33,8 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     makeStyles(stylesCallback, WithStylesOptions())
   }
 
-  type Data = List[StoredProduct]
-  case class Props(data: Data, delete: StoredProduct => Unit)
+  type Data = List[GetTrackedProductsResponse.TrackedProduct]
+  case class Props(data: Data, delete: StoreProduct => Unit)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
@@ -82,7 +82,11 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
         ),
         mui.TableBody(
           props.data.map { item =>
-            render(item, delete = () => props.delete(item), open = () => dom.window.open(item.sourceUrl, "_blank"))
+            render(
+              item,
+              delete = () => props.delete(item.storeProduct),
+              open = () => dom.window.open(item.url, "_blank")
+            )
           }
         )
       )
@@ -91,11 +95,11 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   private def renderNonEmptyValuesMobile(props: Props) = {
     val classes = useStyles(())
     props.data.map { item =>
-      def delete(): Unit = props.delete(item)
-      def open(): Unit = dom.window.open(item.sourceUrl, "_blank")
+      def delete(): Unit = props.delete(item.storeProduct)
+      def open(): Unit = dom.window.open(item.url, "_blank")
       mui
         .Card()
-        .withKey(item.storeProduct.url)
+        .withKey(item.url)
         .className(classes("card"))(
           mui.CardContent(
             img(
@@ -104,7 +108,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
               alt := item.store.id
             ),
             p(item.name),
-            p(s"De ${item.formattedOriginalPrice} a ${item.formattedPrice}"),
+            p(s"De ${item.formattedInitialPrice} a ${item.formattedLastPrice}"),
             renderDiscountCell(item, "Descuento "),
             div("Disponible ", getContentForStatusCell(item))
           ),
@@ -126,9 +130,9 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     }
   }
 
-  private def render(item: StoredProduct, delete: () => Unit, open: () => Unit) = {
+  private def render(item: GetTrackedProductsResponse.TrackedProduct, delete: () => Unit, open: () => Unit) = {
     // table-tr-dark if status is unavailable
-    mui.TableRow.withKey(item.storeProduct.url)(
+    mui.TableRow.withKey(item.url)(
       mui.TableCell
         .set("component", "th")
         .scope("row")(
@@ -139,10 +143,10 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
           )
         ),
       mui.TableCell.align(right)(item.name),
-      mui.TableCell.align(right)(item.formattedPrice),
+      mui.TableCell.align(right)(item.formattedLastPrice),
       mui.TableCell.align(right)(renderDiscountCell(item)),
       mui.TableCell.align(right)(getContentForStatusCell(item)),
-      mui.TableCell.align(right)(item.formattedOriginalPrice),
+      mui.TableCell.align(right)(item.formattedInitialPrice),
       mui.TableCell.align(right)(
         mui
           .IconButton()
@@ -164,22 +168,22 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     s"/images/stores/${store.storeLogo}"
   }
 
-  private def getContentForStatusCell(product: StoredProduct) = {
-    if (product.status == StoredProduct.Status.Available) {
+  private def getContentForStatusCell(product: GetTrackedProductsResponse.TrackedProduct) = {
+    if (product.availabilityStatus == AvailabilityStatus.Available) {
       muiIcons.CheckCircle().color(PropTypes.Color.primary)
     } else {
       muiIcons.CancelRounded().color(PropTypes.Color.secondary)
     }
   }
 
-  private def renderDiscountCell(item: StoredProduct, tag: String = "") = {
-    val strValue = s"${tag}${item.discountPercent}%"
-    if (item.price < item.originalPrice) {
+  private def renderDiscountCell(item: GetTrackedProductsResponse.TrackedProduct, tag: String = "") = {
+    val strValue = s"$tag${item.discountPercent}%"
+    if (item.lastPrice < item.initialPrice) {
       div(
         strValue,
         muiIcons.ThumbUp().color(PropTypes.Color.primary)
       )
-    } else if (item.price > item.originalPrice) {
+    } else if (item.lastPrice > item.initialPrice) {
       div(
         strValue,
         muiIcons.ThumbDown().color(PropTypes.Color.secondary)

@@ -1,16 +1,18 @@
 package net.wiringbits.cazadescuentos
 
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
-import net.wiringbits.cazadescuentos.api.http.models.{NotificationsSubscription, ProductDetails}
+import net.wiringbits.cazadescuentos.api.http.models.{
+  GetTrackedProductsResponse,
+  NotificationsSubscription,
+  ProductDetails
+}
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
-import net.wiringbits.cazadescuentos.common.services.ProductUpdaterService
 import net.wiringbits.cazadescuentos.common.storage.StorageService
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalajs.dom.document
 import org.scalatest.funsuite.AnyFunSuite
 import slinky.web.ReactDOM
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AppTest extends AnyFunSuite {
@@ -27,11 +29,12 @@ class AppTest extends AnyFunSuite {
 
       override def getAllSummary(): Future[List[ProductDetails]] = Future.successful(List.empty)
 
+      override def getAllSummaryV2(): Future[GetTrackedProductsResponse] = ???
+
       override def subscribe(subscription: NotificationsSubscription): Future[Unit] = Future.unit
     }
 
-    val productUpdaterService = new ProductUpdaterService(productHttpService, storageService)
-    val apis = API(productHttpService, storageService, productUpdaterService)
+    val apis = API(productHttpService, storageService)
 
     val div = document.createElement("div")
     val appInfo = AppInfo(None, false, None)

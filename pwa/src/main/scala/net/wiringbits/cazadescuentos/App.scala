@@ -4,7 +4,6 @@ import net.wiringbits.cazadescuentos.components._
 import net.wiringbits.cazadescuentos.models.AppInfo
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.core.facade.Hooks
 import slinky.web.html.div
 import typings.materialUiCore.createMuiThemeMod.{Theme, ThemeOptions}
 import typings.materialUiCore.createTypographyMod.TypographyOptions
@@ -14,8 +13,6 @@ import typings.materialUiIcons.{components => muiIcons}
 import typings.materialUiStyles.components.ThemeProvider
 import typings.reactRouter.mod.RouteProps
 import typings.reactRouterDom.{components => router}
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 @react
 object App {
@@ -30,12 +27,6 @@ object App {
   case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
-    val (discounts, setDiscounts) = Hooks.useState(List.empty[String])
-    Hooks.useEffect(() => {
-      props.api.productUpdaterService.updateThemAll().foreach { value =>
-        setDiscounts(value)
-      }
-    }, "")
     ThemeProvider(theme)(
       mui.CssBaseline(),
       router.BrowserRouter.basename("")(
@@ -47,7 +38,7 @@ object App {
               .setRender { route =>
                 div(
                   menu(route.location.pathname),
-                  HomeComponent.component(HomeComponent.Props(props.api, props.appInfo, discounts))
+                  HomeComponent.component(HomeComponent.Props(props.api, props.appInfo))
                 )
               }
           ),
