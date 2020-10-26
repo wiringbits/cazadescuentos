@@ -21,10 +21,10 @@ object Main {
     val apis = API()
     val app = appInfo.sharedUrl match {
       case Some(_) =>
-        SharedItemApp.component(SharedItemApp.Props(apis, appInfo))
+        SharedItemApp(apis, appInfo)
 
       case None =>
-        App.component(App.Props(apis, appInfo))
+        App(apis, appInfo)
     }
 
     val pushNotificationService = PushNotificationService(apis.productService)
