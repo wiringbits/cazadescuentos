@@ -60,10 +60,33 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
 lazy val ui = (project in file("ui"))
   .configure(baseSettings)
   .configure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
+  .dependsOn(api.js, common.js)
   .settings(
     name := "cazadescuentos-ui",
-    libraryDependencies ++= Seq(),
-    Compile / npmDependencies in Compile ++= Seq()
+    scalacOptions += "-Ymacro-annotations",
+    requireJsDomEnv in Test := true,
+    stTypescriptVersion := "3.9.3",
+    stIgnore += "react-proxy",
+    Compile / npmDependencies ++= Seq(
+      "react" -> "16.13.1",
+      "react-dom" -> "16.13.1",
+      "@types/react" -> "16.9.42",
+      "@types/react-dom" -> "16.9.8",
+      "csstype" -> "2.6.11",
+      "@types/prop-types" -> "15.7.3",
+      "react-proxy" -> "1.1.8"
+    ),
+    stFlavour := Flavour.Slinky,
+    stReactEnableTreeShaking := Selection.All,
+    Compile / npmDependencies ++= Seq(
+      "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
+      "@material-ui/styles" -> "3.0.0-alpha.10", // note: version 4 is not supported yet
+      "@material-ui/icons" -> "3.0.2",
+      "@types/classnames" -> "2.2.10",
+      "react-router-dom" -> "5.1.2",
+      "@types/react-router-dom" -> "5.1.2"
+    ),
+    libraryDependencies ++= Seq("org.scala-js" %%% "scalajs-java-time" % "1.0.0")
   )
 
 lazy val root = (project in file("."))
