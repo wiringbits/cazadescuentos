@@ -6,6 +6,7 @@ val sttp = "2.1.2"
 
 lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
 lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
+lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 
 /**
  * Say just `build` or `sbt build` to make a production bundle in `build`
@@ -139,7 +140,7 @@ lazy val buildInfoSettings: Project => Project = _.enablePlugins(BuildInfoPlugin
   )
 
 lazy val root = (project in file("."))
-  .dependsOn(commonJsLib, apiJsLib)
+  .dependsOn(commonJsLib, apiJsLib, uiJsLib)
   .enablePlugins(ScalablyTypedConverterPlugin)
   .configure(baseSettings, browserProject, reactNpmDeps, withCssLoading, bundlerSettings, buildInfoSettings)
   .settings(

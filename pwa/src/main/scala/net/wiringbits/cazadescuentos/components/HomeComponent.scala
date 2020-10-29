@@ -5,6 +5,7 @@ import net.wiringbits.cazadescuentos.api.http.models.GetTrackedProductsResponse
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.components.models.DataState
 import net.wiringbits.cazadescuentos.models.AppInfo
+import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
