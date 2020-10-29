@@ -1,5 +1,4 @@
 resolvers += Resolver.bintrayRepo("oyvindberg", "converter")
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 addSbtPlugin("org.scalablytyped.converter" % "sbt-converter" % "1.0.0-beta27")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.1.0")
