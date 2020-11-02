@@ -47,7 +47,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.cache/coursier
-            - ~/.ivy2/cache
+            - ~/.ivy2
             - ~/.m2
           key: chrome-cache-v1-{{ checksum "chrome/build.sbt" }}-{{ checksum "chrome/project/plugins.sbt" }}
 
@@ -83,7 +83,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.cache/coursier
-            - ~/.ivy2/cache
+            - ~/.ivy2
             - ~/.m2
           key: pwa-cache-v1-{{ checksum "pwa/build.sbt" }}-{{ checksum "pwa/project/plugins.sbt" }}
 
