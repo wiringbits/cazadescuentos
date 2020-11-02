@@ -81,7 +81,14 @@ import scala.util.{Failure, Success}
       case DataState.Loaded(data) =>
         div(
           AddNewItemFloatingButton.component(AddNewItemFloatingButton.Props(props.api, refreshData)),
-          MyProductsSummaryComponent.component(MyProductsSummaryComponent.Props(data, delete))
+          MyProductsSummaryComponent.component(
+            MyProductsSummaryComponent.Props(
+              data,
+              delete,
+              new MyProductsSummaryComponent.Texts {}, // TODO: i18n
+              new MyProductsSummaryComponent.Icons {}
+            )
+          )
         )
     }
 

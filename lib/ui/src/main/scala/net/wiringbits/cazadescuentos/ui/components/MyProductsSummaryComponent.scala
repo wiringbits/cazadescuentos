@@ -19,6 +19,27 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
 
 @react object MyProductsSummaryComponent {
 
+  trait Texts {
+    def noProducts: String = "No hay productos"
+    def addItemsToFindDiscounts: String = "Agrega algunos productos para ayudarte a buscar descuentos"
+    def store: String = "Tiend"
+    def item: String = "Producto"
+    def price: String = "Precio"
+    def discount: String = "Descuento"
+    def available: String = "Disponible"
+    def initialPrice: String = "Precio inicial"
+    def actions: String = "Acciones"
+    def remove: String = "Quitar"
+    def show: String = "Ver"
+    def priceSummary(initialPrice: String, currentPrice: String) = s"De $initialPrice a $currentPrice"
+
+  }
+
+  trait Icons {
+    def logo: String = "/images/icons/icon-96x96.png"
+    def forStore(store: OnlineStore): String = s"/images/stores/${store.storeLogo}"
+  }
+
   private val tableMinWidth = 950
 
   private lazy val useStyles: StylesHook[Styles[Theme, Unit, String]] = {
@@ -34,19 +55,19 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   }
 
   type Data = List[GetTrackedProductsResponse.TrackedProduct]
-  case class Props(data: Data, delete: StoreProduct => Unit)
+  case class Props(data: Data, delete: StoreProduct => Unit, texts: Texts, icons: Icons)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
     val drawTable = typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
     mui.Paper.className(classes("root"))(
-      if (props.data.isEmpty) renderEmptyValues
+      if (props.data.isEmpty) renderEmptyValues(props)
       else if (drawTable) renderNonEmptyValues(props)
       else renderNonEmptyValuesMobile(props)
     )
   }
 
-  private def renderEmptyValues = {
+  private def renderEmptyValues(props: Props) = {
     val classes = useStyles(())
     div(
       mui
@@ -54,11 +75,11 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
         .className(classes("card"))(
           mui.CardHeader().title("Cazadescuentos"),
           mui.CardMedia(
-            img(src := "/images/icons/icon-96x96.png", alt := "logo")
+            img(src := props.icons.logo, alt := "logo")
           ),
           mui.CardContent(
-            h5("No hay productos"),
-            p("Agrega algunos productos para ayudarte a buscar descuentos")
+            h5(props.texts.noProducts),
+            p(props.texts.addItemsToFindDiscounts)
           )
         )
     )
@@ -68,21 +89,21 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     val classes = useStyles(())
     mui.Table
       .className(classes("table"))(
-        // thead-dark
         mui.TableHead(
           mui.TableRow(
-            mui.TableCell("Tienda"),
-            mui.TableCell.align(right)("Producto"),
-            mui.TableCell.align(right)("Precio"),
-            mui.TableCell.align(right)("Descuento"),
-            mui.TableCell.align(right)("Disponible"),
-            mui.TableCell.align(right)("Precio inicial"),
-            mui.TableCell.align(right)("Acciones")
+            mui.TableCell(props.texts.store),
+            mui.TableCell.align(right)(props.texts.item),
+            mui.TableCell.align(right)(props.texts.price),
+            mui.TableCell.align(right)(props.texts.discount),
+            mui.TableCell.align(right)(props.texts.available),
+            mui.TableCell.align(right)(props.texts.initialPrice),
+            mui.TableCell.align(right)(props.texts.actions)
           )
         ),
         mui.TableBody(
           props.data.map { item =>
             render(
+              props,
               item,
               delete = () => props.delete(item.storeProduct),
               open = () => dom.window.open(item.url, "_blank")
@@ -104,24 +125,24 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
           mui.CardContent(
             img(
               width := "90px",
-              src := getStoreImagePath(item.store),
+              src := props.icons.forStore(item.store),
               alt := item.store.id
             ),
             p(item.name),
             p(s"De ${item.formattedInitialPrice} a ${item.formattedLastPrice}"),
-            renderDiscountCell(item, "Descuento "),
-            div("Disponible ", getContentForStatusCell(item))
+            renderDiscountCell(item, s"${props.texts.discount} "),
+            div(s"${props.texts.available} ", getContentForStatusCell(item))
           ),
           mui.CardContent(
             mui
               .IconButton()
-              .`aria-label`("Quitar")
+              .`aria-label`(props.texts.remove)
               .onClick(_ => delete())(
                 muiIcons.Delete()
               ),
             mui
               .IconButton()
-              .`aria-label`("Ver")
+              .`aria-label`(props.texts.show)
               .onClick(_ => open())(
                 muiIcons.Link()
               )
@@ -130,7 +151,12 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
     }
   }
 
-  private def render(item: GetTrackedProductsResponse.TrackedProduct, delete: () => Unit, open: () => Unit) = {
+  private def render(
+      props: Props,
+      item: GetTrackedProductsResponse.TrackedProduct,
+      delete: () => Unit,
+      open: () => Unit
+  ) = {
     // table-tr-dark if status is unavailable
     mui.TableRow.withKey(item.url)(
       mui.TableCell
@@ -138,7 +164,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
         .scope("row")(
           img(
             width := "90px",
-            src := getStoreImagePath(item.store),
+            src := props.icons.forStore(item.store),
             alt := item.store.id
           )
         ),
@@ -150,22 +176,18 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
       mui.TableCell.align(right)(
         mui
           .IconButton()
-          .`aria-label`("Quitar")
+          .`aria-label`(props.texts.remove)
           .onClick(_ => delete())(
             muiIcons.Delete()
           ),
         mui
           .IconButton()
-          .`aria-label`("Ver")
+          .`aria-label`(props.texts.show)
           .onClick(_ => open())(
             muiIcons.Link()
           )
       )
     )
-  }
-
-  private def getStoreImagePath(store: OnlineStore): String = {
-    s"/images/stores/${store.storeLogo}"
   }
 
   private def getContentForStatusCell(product: GetTrackedProductsResponse.TrackedProduct) = {
