@@ -1,4 +1,4 @@
-package net.wiringbits.cazadescuentos.components.models
+package net.wiringbits.cazadescuentos.ui.models
 
 sealed trait DataState[T] extends Product with Serializable {
   def loaded(data: T): DataState.Loaded[T] = DataState.Loaded(data)

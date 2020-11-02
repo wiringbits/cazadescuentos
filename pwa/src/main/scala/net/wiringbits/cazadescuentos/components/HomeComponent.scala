@@ -3,9 +3,9 @@ package net.wiringbits.cazadescuentos.components
 import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.api.http.models.GetTrackedProductsResponse
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
-import net.wiringbits.cazadescuentos.components.models.DataState
 import net.wiringbits.cazadescuentos.models.AppInfo
 import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
+import net.wiringbits.cazadescuentos.ui.models.DataState
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
