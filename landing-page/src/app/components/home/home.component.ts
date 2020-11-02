@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DEFAULT_LANG, LanguageService } from 'src/app/services/language.service';
 import { SupportedStores } from '../../supported.stores';
 
+import { detect } from 'detect-browser';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,21 +18,75 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    const browser = detect();
+
+    if (!this.handleMobile()) {
+      // it is useless to suggest the extension on mobile
+      const isComputer = browser && (
+        browser.os.indexOf('Windows') >= 0 ||
+        browser.os.indexOf('Linux') >= 0 ||
+        browser.os.indexOf('Mac OS') >= 0
+      );
+
+      switch (isComputer && browser.name) {
+        case 'firefox':
+          this.openFirefoxApp();
+          break;
+        case 'chrome':
+          this.openChromeApp();
+          break;
+        default:
+          this.openPWA();
+          break;
+      }
+    }
+  }
+
+  private handleMobile(): boolean {
+    const browser = detect();
+    switch (browser && browser.os) {
+      case 'Android OS':
+        this.openAndroidApp();
+        return true;
+
+      case 'iOS':
+        this.openPWA();
+        return true;
+
+      default:
+        return false;
+    }
   }
 
   public getDiscountshunter(navigator: string) {
-    switch(navigator){
+    switch (navigator) {
       case 'Chrome':
-        window.open('https://chrome.google.com/webstore/detail/cazadescuentos/miadcmhlfknbjhlknpaidjnelinghpdf', '_blank');
+        this.openChromeApp();
         break;
       case 'Firefox':
-        window.open('https://addons.mozilla.org/firefox/addon/cazadescuentos/', '_blank');
+        this.openFirefoxApp();
         break;
       case 'Android':
-        window.open('https://play.google.com/store/apps/details?id=net.cazadescuentos.app', '_blank')
-        break;  
+        this.openAndroidApp();
+        break;
       default:
         return;
     }
+  }
+
+  private openAndroidApp() {
+    window.location.href = 'https://play.google.com/store/apps/details?id=net.cazadescuentos.app';
+  }
+
+  private openPWA() {
+    window.location.href = 'https://app.cazadescuentos.net/guia?utm_source=landing-page';
+  }
+
+  private openChromeApp() {
+    window.location.href = 'https://chrome.google.com/webstore/detail/cazadescuentos/miadcmhlfknbjhlknpaidjnelinghpdf';
+  }
+
+  private openFirefoxApp() {
+    window.location.href = 'https://addons.mozilla.org/firefox/addon/cazadescuentos/';
   }
 }
