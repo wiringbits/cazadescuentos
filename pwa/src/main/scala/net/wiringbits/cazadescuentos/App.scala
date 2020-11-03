@@ -55,6 +55,17 @@ object App {
           ),
           router.Route(
             RouteProps()
+              .setExact(true)
+              .setPath("/advanced")
+              .setRender { route =>
+                div(
+                  menu(route.location.pathname),
+                  AdvancedComponent.component(AdvancedComponent.Props(props.api))
+                )
+              }
+          ),
+          router.Route(
+            RouteProps()
               .setRender { _ =>
                 router.Redirect("/")
               }
