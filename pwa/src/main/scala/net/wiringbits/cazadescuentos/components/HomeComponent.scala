@@ -5,11 +5,10 @@ import net.wiringbits.cazadescuentos.api.http.models.GetTrackedProductsResponse
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.models.AppInfo
 import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
-import net.wiringbits.cazadescuentos.ui.models.DataState
+import net.wiringbits.cazadescuentos.ui.hooks.GenericHooks
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.core.facade.Hooks
 import slinky.web.html._
 import typings.csstype.csstypeStrings.auto
 import typings.detectBrowser.mod.Browser
@@ -20,7 +19,6 @@ import typings.materialUiStyles.mod.makeStyles
 import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
 
 @react object HomeComponent {
 
@@ -38,59 +36,31 @@ import scala.util.{Failure, Success}
   case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
-    val (dataState, setDataState) = Hooks.useState(DataState.loading[Data])
-
-    def refreshData(): Unit = {
-      setDataState(DataState.loading[Data])
-      props.api.productService.getAllSummaryV2().onComplete {
-        case Success(response) => setDataState(_.loaded(response.data))
-        case Failure(exception) => setDataState(_.failed(exception.getMessage))
+    val (timesReloadingData, forceRefresh) = GenericHooks.useForceRefresh
+    def delete(item: StoreProduct): Unit = {
+      props.api.productService.delete(item).foreach { _ =>
+        forceRefresh()
       }
     }
 
-    def delete(item: StoreProduct): Unit = {
-      setDataState(
-        cur =>
-          cur match {
-            case DataState.Loaded(data) =>
-              val newData = data.filter(_.storeProduct != item)
-              DataState.Loaded(newData)
-            case x => x
-          }
-      )
-      props.api.productService.delete(item)
-    }
-
-    Hooks.useEffect(refreshData, "")
-
     val classes = useStyles(())
-    val data = dataState match {
-      case DataState.Loading() =>
-        div(
-          mui.CircularProgress()
-        )
-
-      case DataState.Failed(msg) =>
-        div(
-          mui
-            .Typography()
-            .color(typings.materialUiCore.mod.PropTypes.Color.secondary)
-            .variant(typographyTypographyMod.Style.h6)(msg)
-        )
-
-      case DataState.Loaded(data) =>
-        div(
-          AddNewItemFloatingButton.component(AddNewItemFloatingButton.Props(props.api, refreshData)),
+    val data = MyProductsSummaryDataLoader.component(
+      MyProductsSummaryDataLoader.Props(
+        fetch = () => props.api.productService.getAllSummaryV2(),
+        render = data => {
           MyProductsSummaryComponent.component(
             MyProductsSummaryComponent.Props(
-              data,
+              data.data,
               delete,
               new MyProductsSummaryComponent.Texts {}, // TODO: i18n
               new MyProductsSummaryComponent.Icons {}
             )
           )
-        )
-    }
+        },
+        retryLabel = "Reintentar",
+        timesReloadingData = timesReloadingData
+      )
+    )
 
     val installButton = if (props.appInfo.isAndroidApp) {
       div()
@@ -116,6 +86,7 @@ import scala.util.{Failure, Success}
     }
 
     mui.Paper.className(classes("root"))(
+      AddNewItemFloatingButton.component(AddNewItemFloatingButton.Props(props.api, forceRefresh)),
       data,
       installButton,
       mui
