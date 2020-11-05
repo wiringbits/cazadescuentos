@@ -30,7 +30,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .jsSettings(
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
-    libraryDependencies ++= Seq("org.scala-js" %%% "scalajs-java-time" % "1.0.0"),
+    libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % "2.0.0"),
     Compile / npmDependencies in Compile ++= Seq(
       )
   )
@@ -92,7 +92,7 @@ lazy val ui = (project in file("ui"))
       "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2"
     ),
-    libraryDependencies ++= Seq("org.scala-js" %%% "scalajs-java-time" % "1.0.0")
+    libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % "2.0.0")
   )
 
 lazy val root = (project in file("."))
