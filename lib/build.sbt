@@ -28,6 +28,8 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
+    stUseScalaJsDom := true,
+    Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq("org.scala-js" %%% "scalajs-java-time" % "1.0.0"),
     Compile / npmDependencies in Compile ++= Seq(
       )
@@ -51,6 +53,8 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
+    stUseScalaJsDom := true,
+    Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq(),
     Compile / npmDependencies in Compile ++= Seq(
       )
@@ -78,6 +82,8 @@ lazy val ui = (project in file("ui"))
     ),
     stFlavour := Flavour.Slinky,
     stReactEnableTreeShaking := Selection.All,
+    stUseScalaJsDom := true,
+    Compile / stMinimize := Selection.All,
     Compile / npmDependencies ++= Seq(
       "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
       "@material-ui/styles" -> "3.0.0-alpha.10", // note: version 4 is not supported yet
