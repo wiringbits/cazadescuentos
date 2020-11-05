@@ -148,6 +148,8 @@ lazy val root = (project in file("."))
     webpackDevServerPort := 8080,
     stFlavour := Flavour.Slinky,
     stReactEnableTreeShaking := Selection.All,
+    stUseScalaJsDom := true,
+    Compile / stMinimize := Selection.All,
     Compile / npmDependencies ++= Seq(
       "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
       "@material-ui/styles" -> "3.0.0-alpha.10", // note: version 4 is not supported yet
