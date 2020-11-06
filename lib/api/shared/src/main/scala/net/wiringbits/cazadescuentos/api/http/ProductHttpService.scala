@@ -8,6 +8,7 @@ import io.circe.parser.parse
 import io.circe.syntax._
 import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
 import net.wiringbits.cazadescuentos.api.http.models.{
+  GetDiscountsResponse,
   GetTrackedProductsResponse,
   NotificationsSubscription,
   ProductDetails
@@ -25,6 +26,7 @@ trait ProductHttpService {
   def create(storeProduct: StoreProduct): Future[ProductDetails]
   def delete(storeProduct: StoreProduct): Future[Unit]
   def subscribe(subscription: NotificationsSubscription): Future[Unit]
+  def bestDiscounts(): Future[GetDiscountsResponse]
 }
 
 object ProductHttpService {
@@ -147,6 +149,16 @@ object ProductHttpService {
       prepareRequest[Unit]
         .put(uri)
         .body(body.toString())
+        .send()
+        .map(_.body)
+        .expectSuccess
+    }
+
+    override def bestDiscounts(): Future[GetDiscountsResponse] = {
+      val path = ServerAPI.path ++ Seq("best-discounts")
+      val uri = ServerAPI.path(path)
+      prepareRequest[GetDiscountsResponse]
+        .get(uri)
         .send()
         .map(_.body)
         .expectSuccess
