@@ -45,6 +45,17 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
+              .setPath("/buenfin")
+              .setRender { route =>
+                div(
+                  menu(route.location.pathname),
+                  DiscountsComponent.component(DiscountsComponent.Props(props.api))
+                )
+              }
+          ),
+          router.Route(
+            RouteProps()
+              .setExact(true)
               .setPath("/guia")
               .setRender { route =>
                 div(
@@ -82,6 +93,11 @@ object App {
         mui.ListItem
           .button(true)
           .selected(path == "/")(mui.ListItemIcon(muiIcons.Home()), mui.ListItemText.primary("App"))
+      ),
+      router.Link[String](to = "/buenfin")(
+        mui.ListItem
+          .button(true)
+          .selected(path == "/buenfin")(mui.ListItemIcon(muiIcons.Home()), mui.ListItemText.primary("El buen fin 2020"))
       ),
       router.Link[String](to = "/guia")(
         mui.ListItem

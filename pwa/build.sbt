@@ -32,7 +32,10 @@ lazy val baseSettings: Project => Project =
       scalaJSLinkerConfig := scalaJSLinkerConfig.value.withSourceMap(false),
       /* for slinky */
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
-      libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % "2.0.0"),
+      libraryDependencies ++= Seq(
+        "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+        "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0"
+      ),
       scalacOptions += "-Ymacro-annotations",
       fork in Test := true,
       requireJsDomEnv in Test := true
