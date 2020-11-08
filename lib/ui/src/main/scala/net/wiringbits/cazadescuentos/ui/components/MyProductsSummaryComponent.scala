@@ -22,7 +22,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   trait Texts {
     def noProducts: String = "No hay productos"
     def addItemsToFindDiscounts: String = "Agrega algunos productos para ayudarte a buscar descuentos"
-    def store: String = "Tiend"
+    def store: String = "Tienda"
     def item: String = "Producto"
     def price: String = "Precio"
     def discount: String = "Descuento"
