@@ -11,12 +11,16 @@ import net.cazadescuentos.background.services.http.{HttpMigrationService, Produc
 import net.cazadescuentos.background.services.storage.{ProductStorageService, StorageMigrationService, StorageService}
 import net.cazadescuentos.background.services.{DataMigrationService, ProductUpdaterService}
 import net.cazadescuentos.common.I18NMessages
+import net.wiringbits.cazadescuentos.api.PushNotificationService
+import org.scalajs.dom
+import org.scalajs.dom.experimental.serviceworkers.toServiceWorkerNavigator
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Try
 import scala.util.control.NonFatal
+import scala.util.{Failure, Success, Try}
 
 class Runner(
+    serverApi: String,
     dataMigrationService: DataMigrationService,
     commandProcessor: CommandProcessor,
     productUpdaterAlarm: ProductUpdaterAlarm
@@ -29,7 +33,43 @@ class Runner(
       .foreach { buyerId =>
         processExternalMessages(buyerId)
         productUpdaterAlarm.register(buyerId)
+
+        val result = for {
+          _ <- registerServiceWorker()
+            .recover {
+              case NonFatal(ex) =>
+                println(s"Failed to register service worker: ${ex.getMessage}")
+                throw ex
+            }
+          _ <- enablePushNotifications(buyerId)
+        } yield ()
+
+        result.onComplete {
+          case Success(_) =>
+            println("Push notifications enabled")
+
+          case Failure(ex) =>
+            println(s"Failed to enable push notifications: ${ex.getMessage}")
+        }
       }
+  }
+
+  private def enablePushNotifications(buyerId: UUID): Future[Unit] = {
+    val productHttpServiceConfig =
+      net.wiringbits.cazadescuentos.api.http.ProductHttpService.Config(serverApi, buyerId)
+
+    implicit val sttpBackend = sttp.client.FetchBackend()
+    val productHttpService =
+      new net.wiringbits.cazadescuentos.api.http.ProductHttpService.DefaultImpl(productHttpServiceConfig)
+    val pushNotificationService = PushNotificationService(productHttpService)
+    pushNotificationService.enableNotifications()
+  }
+
+  private def registerServiceWorker(): Future[Unit] = {
+    dom.window.navigator.serviceWorker
+      .register("/service-worker.js")
+      .toFuture
+      .map(_ => ())
   }
 
   private def processExternalMessages(buyerId: UUID): Unit = {
@@ -84,6 +124,6 @@ object Runner {
     val httpMigrationService = new HttpMigrationService(http)
     val dataMigrationService =
       new DataMigrationService(storageMigrationService, httpMigrationService, legacyStorageService)
-    new Runner(dataMigrationService, commandProcessor, productUpdaterAlarm)
+    new Runner(config.httpConfig.serverUrl, dataMigrationService, commandProcessor, productUpdaterAlarm)
   }
 }
