@@ -2,6 +2,9 @@
   "extensionName": {
     "message": "cazadescuentos"
   },
+  "applicationCorrupted": {
+    "message" : "The application seems to be corrupted, reinstalling it should solve the problem"
+  },
   "questionBeforeFollowingItem": {
     "message": "Would you like to follow this item? If you do, we'll let you know when it gets a discount"
   },
@@ -31,6 +34,19 @@
       }
     }
   },
+  "priceWithDiscount": {
+    "message": "From $INITIALPRICE$ to $CURRENTPRICE$",
+    "placeholders": {
+      "initialPrice": {
+        "content": "$1",
+        "example": "$20.00"
+      },
+      "currentPrice": {
+        "content": "$2",
+        "example": "$10.00"
+      }
+    }
+  },
   "dropListEmpty": {
     "message": "The drop list is empty"
   },
@@ -57,6 +73,15 @@
   },
   "labelActions": {
     "message": "Actions"
+  },
+  "labelDelete": {
+    "message": "Remove"
+  },
+  "labelShow": {
+    "message": "Display"
+  },
+  "labelRetry": {
+    "message": "Retry"
   },
   "followedItemsLimitReachedMessage": {
     "message": "Your drop list is full, delete some items in order to track others, or, contact cazadescuentos@wiringbits.net if you need to increase the limit"

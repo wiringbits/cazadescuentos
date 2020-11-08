@@ -11,7 +11,4 @@ import scala.scalajs.js.annotation.JSGlobal
 object CommonsFacade extends js.Object {
 
   def notify(title: String, message: String, iconUrl: String): Unit = js.native
-
-  def isPopUpMobileResolution(): Boolean = js.native
-
 }

@@ -1,0 +1,96 @@
+package net.cazadescuentos.popup.components
+
+import net.cazadescuentos.common.{I18NMessages, ResourceProvider}
+import net.cazadescuentos.popup.API
+import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
+import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
+import net.wiringbits.cazadescuentos.ui.hooks.GenericHooks
+import org.scalablytyped.runtime.StringDictionary
+import slinky.core.FunctionalComponent
+import slinky.core.annotations.react
+import typings.csstype.csstypeStrings.auto
+import typings.materialUiCore.createMuiThemeMod.Theme
+import typings.materialUiCore.{components => mui}
+import typings.materialUiStyles.makeStylesMod.StylesHook
+import typings.materialUiStyles.mod.makeStyles
+import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
+import scala.util.control.NonFatal
+
+@react object HomeComponent {
+
+  private lazy val useStyles: StylesHook[Styles[Theme, Unit, String]] = {
+    /* If you don't need direct access to theme, this could be `StyleRules[Props, String]` */
+    val stylesCallback: StyleRulesCallback[Theme, Unit, String] = theme =>
+      StringDictionary(
+        "root" -> CSSProperties().setWidth("100%").setOverflowX(auto)
+      )
+
+    makeStyles(stylesCallback, WithStylesOptions())
+  }
+
+  case class Props(api: API)
+
+  private val icons = new MyProductsSummaryComponent.Icons {
+    override def forStore(store: OnlineStore): String = {
+      s"/img/storeLogo/${store.storeLogo}"
+    }
+
+    override def logo: String = ResourceProvider.appIcon96
+  }
+
+  private def texts(messages: I18NMessages) = new MyProductsSummaryComponent.Texts {
+    override def noProducts: String = messages.dropListEmpty
+    override def addItemsToFindDiscounts: String = messages.dropListEmptyDetailedMessage
+    override def store: String = messages.labelStore
+    override def item: String = messages.labelProduct
+    override def price: String = messages.labelPrice
+    override def discount: String = messages.labelDiscount
+    override def available: String = messages.labelAvailable
+    override def initialPrice: String = messages.labelInitialPrice
+    override def actions: String = messages.labelActions
+    override def remove: String = messages.labelDelete
+    override def show: String = messages.labelShow
+    override def priceSummary(initialPrice: String, currentPrice: String): String = {
+      messages.priceSummary(initialPrice, currentPrice)
+    }
+  }
+
+  val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val (timesReloadingData, forceRefresh) = GenericHooks.useForceRefresh
+    def delete(item: StoreProduct): Unit = {
+      props.api.backgroundAPI
+        .deleteStoredProduct(item)
+        .onComplete {
+          case Success(_) => forceRefresh()
+          case Failure(ex) =>
+            println(s"Failed to delete item, item = $item, error = ${ex.getMessage}")
+        }
+    }
+
+    val classes = useStyles(())
+    val data = MyProductsSummaryDataLoader.component(
+      MyProductsSummaryDataLoader.Props(
+        fetch = () => props.api.productHttpService.getAllSummaryV2(),
+        render = data => {
+          MyProductsSummaryComponent.component(
+            MyProductsSummaryComponent.Props(
+              data.data,
+              delete,
+              texts(props.api.messages),
+              icons
+            )
+          )
+        },
+        retryLabel = props.api.messages.labelRetry,
+        timesReloadingData = timesReloadingData
+      )
+    )
+
+    mui.Paper.className(classes("root"))(
+      data
+    )
+  }
+}

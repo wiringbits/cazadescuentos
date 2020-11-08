@@ -29,6 +29,8 @@ class I18NMessages {
   def dropListEmptyDetailedMessage: String =
     getMessage("dropListEmptyDetailedMessage")
 
+  def applicationCorrupted: String = getMessage("applicationCorrupted")
+
   def labelStore: String = getMessage("labelStore")
   def labelProduct: String = getMessage("labelProduct")
   def labelPrice: String = getMessage("labelPrice")
@@ -36,6 +38,13 @@ class I18NMessages {
   def labelDiscount: String = getMessage("labelDiscount")
   def labelInitialPrice: String = getMessage("labelInitialPrice")
   def labelActions: String = getMessage("labelActions")
+  def labelDelete: String = getMessage("labelDelete")
+  def labelShow: String = getMessage("labelShow")
+  def labelRetry: String = getMessage("labelRetry")
+
+  def priceSummary(initialPrice: String, currentPrice: String): String = {
+    getMessage("priceWithDiscount", initialPrice, currentPrice)
+  }
 
   def followedItemsLimitReachedMessage: String = getMessage("followedItemsLimitReachedMessage")
 

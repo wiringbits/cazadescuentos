@@ -2,6 +2,7 @@ import com.alexitc.ChromeSbtPlugin
 
 lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
 lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
+lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 
 lazy val isProductionBuild = sys.env.getOrElse("PROD", "false") == "true"
 lazy val appName = "cazadescuentos"
@@ -36,10 +37,6 @@ lazy val bundlerSettings: Project => Project = {
     // webpack settings.
     scalaJSLinkerConfig := scalaJSLinkerConfig.value.withSourceMap(false),
     version in webpack := "4.8.1",
-    webpackConfigFile := {
-      val file = if (isProductionBuild) "production.webpack.config.js" else "dev.webpack.config.js"
-      Some(baseDirectory.value / file)
-    },
     // scala-js-chrome
     scalaJSLinkerConfig := scalaJSLinkerConfig.value.withRelativizeSourceMapBase(
       Some((Compile / fastOptJS / artifactPath).value.toURI)
@@ -72,34 +69,68 @@ lazy val buildInfoSettings: Project => Project = {
     )
 }
 
+lazy val withCssLoading: Project => Project = {
+  _.settings(
+    /* custom webpack file to include css */
+    webpackConfigFile := {
+      val file = "custom.webpack.config.js"
+      Some(baseDirectory.value / file)
+    },
+    Compile / npmDevDependencies ++= Seq(
+      "webpack-merge" -> "4.2.2",
+      "css-loader" -> "3.4.2",
+      "style-loader" -> "1.1.3",
+      "file-loader" -> "5.1.0",
+      "url-loader" -> "3.0.0"
+    )
+  )
+}
+
+// specify versions for all of reacts dependencies
+lazy val reactNpmDeps: Project => Project = {
+  _.settings(
+    stTypescriptVersion := "3.9.3",
+    Compile / npmDependencies ++= Seq(
+      "react" -> "16.13.1",
+      "react-dom" -> "16.13.1",
+      "@types/react" -> "16.9.42",
+      "@types/react-dom" -> "16.9.8",
+      "csstype" -> "2.6.11",
+      "@types/prop-types" -> "15.7.3",
+      "react-router-dom" -> "5.1.2",
+      "@types/react-router-dom" -> "5.1.2"
+    )
+  )
+}
+
 lazy val root = (project in file("."))
-  .dependsOn(commonJsLib, apiJsLib)
+  .dependsOn(commonJsLib, apiJsLib, uiJsLib)
   .enablePlugins(ChromeSbtPlugin, ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin)
-  .configure(baseSettings, bundlerSettings, buildInfoSettings)
+  .configure(baseSettings, bundlerSettings, buildInfoSettings, reactNpmDeps, withCssLoading)
   .settings(
     chromeManifest := AppManifest.generate(appName, Keys.version.value),
     stFlavour := Flavour.Slinky,
     stReactEnableTreeShaking := Selection.All,
+    stTypescriptVersion := "3.9.3",
+    stUseScalaJsDom := true,
+    Compile / stMinimize := Selection.All,
     Compile / npmDependencies ++= Seq(
       "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
       "@material-ui/styles" -> "3.0.0-alpha.10", // note: version 4 is not supported yet
       "@material-ui/icons" -> "3.0.2",
-      "@types/classnames" -> "2.2.10",
-      "react-router-dom" -> "5.1.2",
-      "@types/react-router-dom" -> "5.1.2"
+      "@types/classnames" -> "2.2.10"
     ),
     libraryDependencies ++= Seq(
+      "com.alexitc" %%% "scala-js-chrome" % "0.7.0",
+      "org.scala-js" %%% "scalajs-dom" % "1.0.0",
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
       "io.circe" %%% "circe-parser" % circe,
-      "com.softwaremill.sttp.client" %%% "core" % sttp
+      "com.softwaremill.sttp.client" %%% "core" % sttp,
+      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0"
     ),
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % "3.1.1" % Test
-    ),
-    libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "1.0.0",
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.0.0",
-    libraryDependencies += "com.alexitc" %%% "scala-js-chrome" % "0.7.0",
-    libraryDependencies += "com.softwaremill.sttp.client" %%% "core" % sttp,
-    libraryDependencies += "org.lrng.binding" %%% "html" % "1.0.3"
+    )
   )

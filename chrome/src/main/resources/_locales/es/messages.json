@@ -2,6 +2,9 @@
   "extensionName": {
     "message": "cazadescuentos"
   },
+  "applicationCorrupted": {
+    "message" : "La app parece estar corrupta, reinstalarla lo arreglara"
+  },
   "questionBeforeFollowingItem": {
       "message": "¿Quieres saber cuando este producto tenga un descuento?"
   },
@@ -31,6 +34,19 @@
       }
     }
   },
+  "priceWithDiscount": {
+    "message": "De $INITIALPRICE$ a $CURRENTPRICE$",
+    "placeholders": {
+      "initialPrice": {
+        "content": "$1",
+        "example": "$20.00"
+      },
+      "currentPrice": {
+        "content": "$2",
+        "example": "$10.00"
+      }
+    }
+  },
   "dropListEmpty": {
     "message": "No hay productos"
   },
@@ -57,6 +73,15 @@
   },
   "labelActions": {
     "message": "Acciones"
+  },
+  "labelDelete": {
+    "message": "Quitar"
+  },
+  "labelShow": {
+    "message": "Ver"
+  },
+  "labelRetry": {
+    "message": "Reintentar"
   },
   "followedItemsLimitReachedMessage": {
     "message": "Tu lista esta llena, borra algunos productos si quieres seguir otros, o contactanos en cazadescuentos@wiringbits.net si necesitas incrementar el limite"
