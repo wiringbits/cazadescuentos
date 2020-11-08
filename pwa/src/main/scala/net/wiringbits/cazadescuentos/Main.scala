@@ -1,5 +1,6 @@
 package net.wiringbits.cazadescuentos
 
+import net.wiringbits.cazadescuentos.api.PushNotificationService
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalajs.dom
 import org.scalajs.dom.experimental.URLSearchParams
@@ -8,7 +9,9 @@ import slinky.hot
 import slinky.web.ReactDOM
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
 import scala.scalajs.LinkingInfo
+import scala.util.{Failure, Success}
 
 object Main {
 
@@ -27,10 +30,20 @@ object Main {
         App.component(App.Props(apis, appInfo))
     }
 
-    val pushNotificationService = PushNotificationService(apis.productService)
     ReactDOM.render(app, container())
-    registerServiceWorker()
-    pushNotificationService.enableNotifications()
+    registerServiceWorker().onComplete {
+      case Success(_) =>
+        println("Service worker registered, trying to enable push notifications")
+        val pushNotificationService = PushNotificationService(apis.productService)
+        pushNotificationService
+          .enableNotifications()
+          .onComplete {
+            case Success(_) => println("Push notifications enabled")
+            case Failure(ex) => println(s"Failed to enable push notifications: ${ex.getMessage}")
+          }
+
+      case Failure(ex) => println(s"Failed to register service worker, push notifications disabled: ${ex.getMessage}")
+    }
   }
 
   private def container(): dom.Element = {
@@ -42,9 +55,17 @@ object Main {
     }
   }
 
-  private def registerServiceWorker(): Unit = {
+  private def registerServiceWorker(): Future[Unit] = {
+    val promise = Promise[Unit]()
     dom.window.addEventListener("load", (_: dom.Event) => {
-      dom.window.navigator.serviceWorker.register("/service-worker.js")
+      val f = dom.window.navigator.serviceWorker
+        .register("/service-worker.js")
+        .toFuture
+        .map(_ => ())
+
+      promise.completeWith(f)
     })
+
+    promise.future
   }
 }

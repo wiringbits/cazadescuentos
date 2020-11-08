@@ -1,8 +1,7 @@
-package net.wiringbits.cazadescuentos
+package net.wiringbits.cazadescuentos.api
 
 import java.util.Base64
 
-import net.wiringbits.cazadescuentos.PushNotificationService._
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import net.wiringbits.cazadescuentos.api.http.models.NotificationsSubscription
 import org.scalajs.dom
@@ -14,18 +13,16 @@ import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.typedarray._
 
-class PushNotificationService(config: Config, productHttpService: ProductHttpService) {
+class PushNotificationService(config: PushNotificationService.Config, productHttpService: ProductHttpService) {
 
-  def enableNotifications(): Unit = {
+  def enableNotifications(): Future[Unit] = {
     for {
       registration <- dom.window.navigator.serviceWorker.ready.toFuture
       subscription <- getOrCreateSubscription(registration)
       _ = dom.console.log("Apparent subscription to be sent to the server", subscription)
       // Send the subscription details to the server
       _ <- productHttpService.subscribe(subscription)
-    } yield {
-      println("subscribed!!!")
-    }
+    } yield ()
   }
 
   private def getOrCreateSubscription(
