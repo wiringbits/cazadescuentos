@@ -97,7 +97,7 @@ object OnlineStore {
         "sanborns",
         "Sanborns",
         "https://www.sanborns.com.mx/",
-        "sansborns.png",
+        "sanborns.jpg",
         raw"[\w\W]*producto\/\d+\/[\w\W]*".r // should match "producto/69877/paquete-2-peliculas-bluray-spider-man/", TODO: Improve regex
       )
 
