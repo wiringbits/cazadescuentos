@@ -161,7 +161,7 @@ object OnlineStore {
         "Costco",
         "https://www.costco.com.mx/",
         "costcoMx.png",
-        raw"[\w\W]+(\/p\/\w*\d+)$$".r // should match "Linea-Blanca/Refrigeradores-y-Congeladores/Congeladores/Refrigerdador-KitchenAid-bajo-el-mostrador-de-24-acero-inoxidable-negro/p/656082", TODO: Improve regex
+        raw"[\w\W]+(\/p\/\w*\d+.*)$$".r // should match "Linea-Blanca/Refrigeradores-y-Congeladores/Congeladores/Refrigerdador-KitchenAid-bajo-el-mostrador-de-24-acero-inoxidable-negro/p/656082", potentially "656082-2", TODO: Improve regex
       )
 
   final case object HomeDepotMx
