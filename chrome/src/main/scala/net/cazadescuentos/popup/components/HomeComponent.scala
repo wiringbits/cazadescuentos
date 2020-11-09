@@ -80,7 +80,8 @@ import scala.util.control.NonFatal
               data.data,
               delete,
               texts(props.api.messages),
-              icons
+              icons,
+              disableMobileUI = true // the extension doesn't work on mobile anyway
             )
           )
         },

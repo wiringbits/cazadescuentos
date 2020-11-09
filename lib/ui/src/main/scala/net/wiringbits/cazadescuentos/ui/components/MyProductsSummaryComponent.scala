@@ -55,11 +55,19 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   }
 
   type Data = List[GetTrackedProductsResponse.TrackedProduct]
-  case class Props(data: Data, delete: StoreProduct => Unit, texts: Texts, icons: Icons)
+  case class Props(
+      data: Data,
+      delete: StoreProduct => Unit,
+      texts: Texts,
+      icons: Icons,
+      disableMobileUI: Boolean = false
+  )
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
-    val drawTable = typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
+    val drawTable = props.disableMobileUI ||
+      typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
+
     mui.Paper.className(classes("root"))(
       if (props.data.isEmpty) renderEmptyValues(props)
       else if (drawTable) renderNonEmptyValues(props)
