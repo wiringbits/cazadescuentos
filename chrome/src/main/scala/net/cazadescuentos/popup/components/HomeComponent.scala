@@ -17,7 +17,6 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
-import scala.util.control.NonFatal
 
 @react object HomeComponent {
 
