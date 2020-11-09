@@ -1,7 +1,6 @@
 package net.wiringbits.cazadescuentos.components
 
 import net.wiringbits.cazadescuentos.API
-import net.wiringbits.cazadescuentos.api.http.models.GetTrackedProductsResponse
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.models.AppInfo
 import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
@@ -32,7 +31,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
     makeStyles(stylesCallback, WithStylesOptions())
   }
 
-  type Data = List[GetTrackedProductsResponse.TrackedProduct]
   case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
