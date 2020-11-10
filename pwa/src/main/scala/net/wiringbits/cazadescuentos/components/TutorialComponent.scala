@@ -1,34 +1,82 @@
 package net.wiringbits.cazadescuentos.components
 
 import net.wiringbits.cazadescuentos.API
-import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.models.AppInfo
-import org.scalablytyped.runtime.StringDictionary
-import org.scalajs.dom.raw.HTMLInputElement
-import slinky.core.FunctionalComponent
+import slinky.core.{FunctionalComponent, _}
 import slinky.core.annotations.react
-import slinky.core.facade.Hooks
 import slinky.web.html._
-import slinky.core._
-import typings.materialUiCore.{typographyTypographyMod => muiTypography}
-import typings.csstype.csstypeStrings.auto
-import typings.materialUiCore.createMuiThemeMod.Theme
-import typings.materialUiCore.mod.PropTypes
+import typings.detectBrowser.mod.Browser
 import typings.materialUiCore.{components => mui}
-import typings.materialUiIcons.{components => muiIcons}
-import typings.materialUiStyles.makeStylesMod.StylesHook
-import typings.materialUiStyles.mod.makeStyles
-import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
 
 @react object TutorialComponent {
 
   case class Props(api: API, appInfo: AppInfo)
 
+  private val firefoxLink = {
+    a(href := "https://addons.mozilla.org/firefox/addon/cazadescuentos/", target := "_blank")(
+      img(
+        height := "40",
+        src := "https://findicons.com/files/icons/783/mozilla_pack/128/firefox.png"
+      )
+    )
+  }
+
+  private val chromeLink = {
+    a(
+      href := "https://chrome.google.com/webstore/detail/cazadescuentos/miadcmhlfknbjhlknpaidjnelinghpdf",
+      target := "_blank"
+    )(
+      img(
+        height := "40",
+        src := "https://icons.iconarchive.com/icons/dtafalonso/android-l/256/Chrome-icon.png"
+      )
+    )
+  }
+
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val extensionLinks = if (props.appInfo.browser.exists(_.name == Browser.firefox)) {
+      div(firefoxLink)
+    } else if (props.appInfo.browser.exists(_.name == Browser.chrome)) {
+      div(
+        chromeLink
+      )
+    } else {
+      div(
+        firefoxLink,
+        chromeLink
+      )
+    }
     div(
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |El propósito Cazadescuentos, ayudarte a ahorrar mientras compras por Internet:
+            |""".stripMargin
+        ),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |- Si deseas comprar un producto, pero el precio no te convence, agrégalo a nuestra app y esta te notificara cuando baje de precio.
+            |""".stripMargin
+        ),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |- Si acabas de comprar un producto, pagando con una tarjeta que ofrece garantía de precios, agrégalo a nuestra app y esta te notificara si baja de precio para que te puedan reembolsar la diferencia de precios.
+            |""".stripMargin
+        ),
+      br(),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |Solo visita el producto que te interesa en alguna de las tiendas soportadas, copia la URL y agregalo a cazadescuentos, la app lo seguirá por ti, notificandote cuando este baja de precio.
+            |""".stripMargin
+        ),
+      br(),
       mui
         .Typography()
         .component("p")(
@@ -50,8 +98,105 @@ import scala.util.{Failure, Success}
         )
       ),
       br(),
-      androidVideo
+      androidVideo,
+      br(),
+      br(),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |Tambien puedes usarla en tu computadora para una mejor experiencia, mira esta
+            |""".stripMargin,
+          a(href := "https://www.facebook.com/105001477592284/videos/260223735388890")("demo"),
+          ". Instala desde ",
+          extensionLinks
+        ),
+      br(),
+      br(),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |Tiendas soportadas:
+            |""".stripMargin
+        ),
+      div(storesComponent.map(x => div(x, br()))),
+      br(),
+      br(),
+      br(),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |Valoramos tu privacidad, y esto hacemos para cuidarla:
+            |""".stripMargin
+        ),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |- No necesitas registrarte, no pedimos tu email o teléfono.
+            |""".stripMargin
+        ),
+      mui
+        .Typography()
+        .component("p")(
+          """
+            |- Solo solicitamos los permisos que realmente necesitamos para que la app funcione.
+            |""".stripMargin
+        )
     )
+  }
+
+  private val stores = List(
+    "Globales" ->
+      """
+        |https://www2.hm.com
+        |https://m2.hm.com/m/
+        |https://www.zara.com/
+        |https://www.ebay.com""".stripMargin.trim.split("\n"),
+    "Mexico" ->
+      """
+        |https://www.liverpool.com.mx
+        |https://www.coppel.com
+        |https://www.officedepot.com.mx
+        |https://www.sanborns.com.mx
+        |https://www.sams.com.mx
+        |https://www.mercadolibre.com.mx
+        |https://www.elektra.com.mx
+        |https://www.costco.com.mx
+        |https://www.homedepot.com.mx
+        |https://www.walmart.com.mx
+        |https://www.bestbuy.com.mx
+        |https://www.elpalaciodehierro.com""".stripMargin.trim.split("\n"),
+    "USA" ->
+      """
+        |https://www.officedepot.com
+        |https://www.samsclub.com
+        |https://shop.nordstrom.com
+        |https://www.bestbuy.com""".stripMargin.trim.split("\n")
+  )
+
+  private val storesComponent = stores.map {
+    case (tag, list) =>
+      val items = list.map { item =>
+        div(
+          mui
+            .Typography()
+            .component("p")(
+              " -",
+              a(href := item)(item)
+            )
+        )()
+      }
+      div(
+        mui
+          .Typography()
+          .component("p")(
+            s"* $tag"
+          ),
+        div(items: _*)
+      )
   }
 
   private def androidVideo = {
