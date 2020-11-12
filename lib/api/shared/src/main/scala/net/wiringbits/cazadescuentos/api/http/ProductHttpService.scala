@@ -7,12 +7,7 @@ import io.circe.generic.auto._
 import io.circe.parser.parse
 import io.circe.syntax._
 import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
-import net.wiringbits.cazadescuentos.api.http.models.{
-  GetDiscountsResponse,
-  GetTrackedProductsResponse,
-  NotificationsSubscription,
-  ProductDetails
-}
+import net.wiringbits.cazadescuentos.api.http.models._
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import sttp.client._
 import sttp.model.MediaType
@@ -27,6 +22,8 @@ trait ProductHttpService {
   def delete(storeProduct: StoreProduct): Future[Unit]
   def subscribe(subscription: NotificationsSubscription): Future[Unit]
   def bestDiscounts(): Future[GetDiscountsResponse]
+  def notifications(): Future[GetNotificationsResponse]
+  def notificationRead(id: UUID): Future[Unit]
 }
 
 object ProductHttpService {
@@ -159,6 +156,26 @@ object ProductHttpService {
       val uri = ServerAPI.path(path)
       prepareRequest[GetDiscountsResponse]
         .get(uri)
+        .send()
+        .map(_.body)
+        .expectSuccess
+    }
+
+    override def notifications(): Future[GetNotificationsResponse] = {
+      val path = ServerAPI.path ++ Seq("notifications")
+      val uri = ServerAPI.path(path)
+      prepareRequest[GetNotificationsResponse]
+        .get(uri)
+        .send()
+        .map(_.body)
+        .expectSuccess
+    }
+
+    override def notificationRead(id: UUID): Future[Unit] = {
+      val path = ServerAPI.path ++ Seq("notifications", id.toString)
+      val uri = ServerAPI.path(path)
+      prepareRequest[Unit]
+        .delete(uri)
         .send()
         .map(_.body)
         .expectSuccess
