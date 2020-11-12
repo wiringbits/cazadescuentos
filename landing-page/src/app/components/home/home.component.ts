@@ -30,13 +30,13 @@ export class HomeComponent implements OnInit {
 
       switch (isComputer && browser.name) {
         case 'firefox':
-          this.openFirefoxApp();
+          this.openBuenFinApp();
           break;
         case 'chrome':
-          this.openChromeApp();
+          this.openBuenFinApp();
           break;
         default:
-          this.openPWA();
+          this.openBuenFinApp();
           break;
       }
     }
@@ -46,11 +46,11 @@ export class HomeComponent implements OnInit {
     const browser = detect();
     switch (browser && browser.os) {
       case 'Android OS':
-        this.openAndroidApp();
+        this.openBuenFinApp();
         return true;
 
       case 'iOS':
-        this.openPWA();
+        this.openBuenFinApp();
         return true;
 
       default:
@@ -72,6 +72,10 @@ export class HomeComponent implements OnInit {
       default:
         return;
     }
+  }
+
+  private openBuenFinApp() {
+    window.location.href = 'https://app.cazadescuentos.net/buenfin';
   }
 
   private openAndroidApp() {
