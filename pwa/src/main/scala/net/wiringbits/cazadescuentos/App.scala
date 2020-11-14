@@ -49,7 +49,7 @@ object App {
               .setRender { route =>
                 div(
                   menu(route.location.pathname),
-                  DiscountsComponent.component(DiscountsComponent.Props(props.api))
+                  DiscountsComponent.component(DiscountsComponent.Props(props.api, props.appInfo))
                 )
               }
           ),

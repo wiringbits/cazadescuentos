@@ -3,6 +3,7 @@ package net.wiringbits.cazadescuentos.components
 import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.api.http.models.GetDiscountsResponse
 import net.wiringbits.cazadescuentos.common.models.OnlineStore
+import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom
 import slinky.core.FunctionalComponent
@@ -36,14 +37,14 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   }
 
   type Data = List[GetDiscountsResponse.Discount]
-  case class Props(api: API)
+  case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
     val drawTable = typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
     val data = DiscountsDataLoader.component(
       DiscountsDataLoader.Props(
-        fetch = () => props.api.productService.bestDiscounts(),
+        fetch = () => props.api.productService.bestDiscounts(props.appInfo.buyerId),
         render = data => {
           mui.Paper.className(classes("root"))(
             renderDiscounts(classes, data.data, drawTable)

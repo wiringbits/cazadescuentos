@@ -36,7 +36,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val (timesReloadingData, forceRefresh) = GenericHooks.useForceRefresh
     def delete(item: StoreProduct): Unit = {
-      props.api.productService.delete(item).foreach { _ =>
+      props.api.productService.delete(props.appInfo.buyerId, item).foreach { _ =>
         forceRefresh()
       }
     }
@@ -44,7 +44,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
     val classes = useStyles(())
     val data = MyProductsSummaryDataLoader.component(
       MyProductsSummaryDataLoader.Props(
-        fetch = () => props.api.productService.getAllSummaryV2(),
+        fetch = () => props.api.productService.getAllSummaryV2(props.appInfo.buyerId),
         render = data => {
           MyProductsSummaryComponent.component(
             MyProductsSummaryComponent.Props(
@@ -84,7 +84,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
     }
 
     mui.Paper.className(classes("root"))(
-      AddNewItemFloatingButton.component(AddNewItemFloatingButton.Props(props.api, forceRefresh)),
+      AddNewItemFloatingButton.component(AddNewItemFloatingButton.Props(props.api, props.appInfo, forceRefresh)),
       data,
       installButton,
       mui

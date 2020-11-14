@@ -2,6 +2,7 @@ package net.wiringbits.cazadescuentos.components
 
 import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
+import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom.raw.HTMLInputElement
 import slinky.core.FunctionalComponent
@@ -33,10 +34,10 @@ import scala.util.{Failure, Success}
     makeStyles(stylesCallback, WithStylesOptions())
   }
 
-  case class Props(api: API, onItemAdded: () => Unit)
+  case class Props(api: API, appInfo: AppInfo, onItemAdded: () => Unit)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] {
-    case Props(api, onItemAdded) =>
+    case Props(api, appInfo, onItemAdded) =>
       val (dialogOpened, setDialogOpened) = Hooks.useState(false)
       val (newItemStr, setNewItemStr) = Hooks.useState("")
       val (addingItem, setAddingItem) = Hooks.useState(false)
@@ -58,7 +59,7 @@ import scala.util.{Failure, Success}
           case Some(storeProduct) =>
             setAddingItem(true)
             api.productService
-              .create(storeProduct)
+              .create(appInfo.buyerId, storeProduct)
               .onComplete {
                 case Success(_) =>
                   handleDialogClosed()

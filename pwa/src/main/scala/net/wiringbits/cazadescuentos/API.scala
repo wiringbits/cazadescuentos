@@ -1,9 +1,6 @@
 package net.wiringbits.cazadescuentos
 
-import java.util.UUID
-
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
-import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 import net.wiringbits.cazadescuentos.common.storage.StorageService
 
 import scala.concurrent.ExecutionContext
@@ -24,23 +21,11 @@ object API {
     println(s"Server API expected at: $serverApi")
 
     val storageService = new StorageService
-    val buyerId = findBuyerId(storageService)
-    val productHttpServiceConfig = ProductHttpService.Config(serverApi, buyerId)
+    val productHttpServiceConfig = ProductHttpService.Config(serverApi)
 
     implicit val sttpBackend = sttp.client.FetchBackend()
     val productHttpService = new ProductHttpService.DefaultImpl(productHttpServiceConfig)
 
     API(productHttpService, storageService)
-  }
-
-  private def findBuyerId(storageService: StorageService): UUID = {
-    storageService.load() match {
-      case Some(value) => value.buyerId
-      case None =>
-        val newBuyerId = UUID.randomUUID()
-        val storedData = StoredData(newBuyerId, List.empty)
-        storageService.unsafeSet(storedData)
-        newBuyerId
-    }
   }
 }

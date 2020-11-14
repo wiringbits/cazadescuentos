@@ -1,6 +1,10 @@
 package net.wiringbits.cazadescuentos
 
+import java.util.UUID
+
 import net.wiringbits.cazadescuentos.api.PushNotificationService
+import net.wiringbits.cazadescuentos.api.storage.models.StoredData
+import net.wiringbits.cazadescuentos.common.storage.StorageService
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalajs.dom
 import org.scalajs.dom.experimental.URLSearchParams
@@ -20,8 +24,9 @@ object Main {
       hot.initialize()
     }
 
-    val appInfo = AppInfo(new URLSearchParams(dom.window.location.search))
     val apis = API()
+    val buyerId = findBuyerId(apis.storageService)
+    val appInfo = AppInfo(buyerId, new URLSearchParams(dom.window.location.search))
     val app = appInfo.sharedUrl match {
       case Some(_) =>
         SharedItemApp.component(SharedItemApp.Props(apis, appInfo))
@@ -36,7 +41,7 @@ object Main {
         println("Service worker registered, trying to enable push notifications")
         val pushNotificationService = PushNotificationService(apis.productService)
         pushNotificationService
-          .enableNotifications()
+          .enableNotifications(buyerId)
           .onComplete {
             case Success(_) => println("Push notifications enabled")
             case Failure(ex) => println(s"Failed to enable push notifications: ${ex.getMessage}")
@@ -67,5 +72,16 @@ object Main {
     })
 
     promise.future
+  }
+
+  private def findBuyerId(storageService: StorageService): UUID = {
+    storageService.load() match {
+      case Some(value) => value.buyerId
+      case None =>
+        val newBuyerId = UUID.randomUUID()
+        val storedData = StoredData(newBuyerId, List.empty)
+        storageService.unsafeSet(storedData)
+        newBuyerId
+    }
   }
 }

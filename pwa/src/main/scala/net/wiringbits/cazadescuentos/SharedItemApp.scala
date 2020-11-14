@@ -34,7 +34,7 @@ import scala.util.{Failure, Success}
         StoreProduct.parse(props.appInfo.sharedUrl.getOrElse("")) match {
           case Some(value) =>
             props.api.productService
-              .create(value)
+              .create(props.appInfo.buyerId, value)
               .onComplete {
                 case Success(_) => setState(State.Done)
                 case Failure(exception) => setState(State.Failed(exception.getMessage))
