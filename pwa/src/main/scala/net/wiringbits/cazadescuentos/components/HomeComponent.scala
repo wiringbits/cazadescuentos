@@ -3,7 +3,7 @@ package net.wiringbits.cazadescuentos.components
 import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 import net.wiringbits.cazadescuentos.models.AppInfo
-import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
+import net.wiringbits.cazadescuentos.ui.components.{MyProductsSummaryComponent, Notifications}
 import net.wiringbits.cazadescuentos.ui.hooks.GenericHooks
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
@@ -82,6 +82,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
     }
 
     mui.Paper.className(classes("root"))(
+      Notifications.component(
+        Notifications.Props(
+          texts = new Notifications.Texts {
+            override val retry = "Reintentar"
+          },
+          buyerId = props.appInfo.buyerId,
+          httpService = props.api.productService
+        )
+      ),
       AddNewItemFloatingButton.component(AddNewItemFloatingButton.Props(props.api, props.appInfo, forceRefresh)),
       data,
       installButton,
