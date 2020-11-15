@@ -6,10 +6,13 @@ import net.wiringbits.cazadescuentos.common.models.OnlineStore
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom
+import org.scalajs.dom.raw.HTMLInputElement
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
+import slinky.core.facade.Hooks
 import slinky.web.html._
 import typings.csstype.csstypeStrings.auto
+import typings.csstype.mod.FlexWrapProperty
 import typings.materialUiCore.createMuiThemeMod.Theme
 import typings.materialUiCore.mod.PropTypes
 import typings.materialUiCore.{typographyTypographyMod, components => mui, materialUiCoreStrings => muiStrings}
@@ -30,7 +33,9 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
       StringDictionary(
         "root" -> CSSProperties().setWidth("100%").setOverflowX(auto),
         "table" -> CSSProperties().setMinWidth(tableMinWidth),
-        "card" -> CSSProperties().setMaxWidth(345)
+        "card" -> CSSProperties().setMaxWidth(345),
+        "container" -> CSSProperties().setDisplay("flex").setFlexWrap(FlexWrapProperty.wrap),
+        "input" -> CSSProperties().setMargin(theme.spacing.unit)
       )
 
     makeStyles(stylesCallback, WithStylesOptions())
@@ -42,15 +47,40 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
     val drawTable = typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
+    val (remoteData, setRemoteData) = Hooks.useState[Data](List.empty)
+    val (filteredData, setFilteredData) = Hooks.useState[Data](List.empty)
+
+    def onSearchUpdated(text: String): Unit = {
+      val newData = if (text.isEmpty) {
+        remoteData
+      } else {
+        remoteData.filter { item =>
+          item.name.toLowerCase contains text.toLowerCase
+        }
+      }
+      setFilteredData(newData)
+    }
+
     val data = DiscountsDataLoader.component(
       DiscountsDataLoader.Props(
         fetch = () => props.api.productService.bestDiscounts(props.appInfo.buyerId),
-        render = data => {
+        render = _ => {
           mui.Paper.className(classes("root"))(
-            renderDiscounts(classes, data.data, drawTable)
+            div(className := classes("container"))(
+              mui
+                .Input()
+                .className(classes("input"))
+                .placeholder("Buscar")
+                .onChange(e => onSearchUpdated(e.target.asInstanceOf[HTMLInputElement].value.trim))
+            ),
+            renderDiscounts(classes, filteredData, drawTable)
           )
         },
-        retryLabel = "Reintentar"
+        retryLabel = "Reintentar",
+        onDataLoaded = data => {
+          setRemoteData(data.data)
+          setFilteredData(data.data)
+        }
       )
     )
 
