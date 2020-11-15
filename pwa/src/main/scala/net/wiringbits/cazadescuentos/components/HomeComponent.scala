@@ -74,12 +74,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
     val disclaimer = if (notificationsUnsupported) {
       """Desafortunadamente las notificaciones no funcionan en iPhone/Safari todavia.
         |
-        |Agradecemos tu paciencia, recuerda que si quieres usar la versión completa de la aplicación,
-        |esta puede ser instalada en tu computadora desde https://cazadescuentos.net
+        |Para una mejor experiencia, instala la app en tu computadora desde https://cazadescuentos.net
         |""".stripMargin
     } else {
-      """Recuerda que si quieres usar la versión completa de la aplicación,
-        |esta puede ser instalada en tu computadora desde https://cazadescuentos.net
+      """Para una mejor experiencia, instala la app en tu computadora desde https://cazadescuentos.net
         |""".stripMargin
     }
 
