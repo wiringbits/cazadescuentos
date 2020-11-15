@@ -29,12 +29,14 @@ trait RemoteDataLoaderBase[D] {
    * @param retryLabel the label to use in the button that retries the operation
    * @param timesReloadingData a helper to force reloading the data, useful when the parent component,
    *                           or rendered component needs to reload the data.
+   * @param onDataLoaded a function invoked when the remote data has been loaded.
    */
   case class Props(
       fetch: () => Future[D],
       render: D => ReactElement,
       retryLabel: String = "Retry",
-      timesReloadingData: Int = 0
+      timesReloadingData: Int = 0,
+      onDataLoaded: D => Unit = _ => ()
   )
 
   val theComponent: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
@@ -49,7 +51,10 @@ trait RemoteDataLoaderBase[D] {
       }
       setDataState(f _)
       props.fetch().onComplete {
-        case Success(value) => setDataState(_.loaded(value))
+        case Success(value) =>
+          setDataState(_.loaded(value))
+          props.onDataLoaded(value)
+
         case Failure(ex) => setDataState(_.failed(ex.getMessage))
       }
     }
