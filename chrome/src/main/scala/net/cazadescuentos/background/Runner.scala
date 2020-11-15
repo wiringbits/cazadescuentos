@@ -6,12 +6,13 @@ import io.circe.syntax._
 import net.cazadescuentos.Config
 import net.cazadescuentos.background.alarms.ProductUpdaterAlarm
 import net.cazadescuentos.background.models.{Command, Event}
+import net.cazadescuentos.background.services.DataMigrationService
 import net.cazadescuentos.background.services.browser.BrowserNotificationService
-import net.cazadescuentos.background.services.http.{HttpMigrationService, ProductHttpService}
+import net.cazadescuentos.background.services.http.HttpMigrationService
 import net.cazadescuentos.background.services.storage.{ProductStorageService, StorageMigrationService, StorageService}
-import net.cazadescuentos.background.services.{DataMigrationService, ProductUpdaterService}
 import net.cazadescuentos.common.I18NMessages
 import net.wiringbits.cazadescuentos.api.PushNotificationService
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import org.scalajs.dom
 import org.scalajs.dom.experimental.serviceworkers.toServiceWorkerNavigator
 
@@ -20,7 +21,7 @@ import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
 class Runner(
-    serverApi: String,
+    pushNotificationService: PushNotificationService,
     dataMigrationService: DataMigrationService,
     commandProcessor: CommandProcessor,
     productUpdaterAlarm: ProductUpdaterAlarm
@@ -41,7 +42,7 @@ class Runner(
                 println(s"Failed to register service worker: ${ex.getMessage}")
                 throw ex
             }
-          _ <- enablePushNotifications(buyerId)
+          _ <- pushNotificationService.enableNotifications(buyerId)
         } yield ()
 
         result.onComplete {
@@ -52,17 +53,6 @@ class Runner(
             println(s"Failed to enable push notifications: ${ex.getMessage}")
         }
       }
-  }
-
-  private def enablePushNotifications(buyerId: UUID): Future[Unit] = {
-    val productHttpServiceConfig =
-      net.wiringbits.cazadescuentos.api.http.ProductHttpService.Config(serverApi, buyerId)
-
-    implicit val sttpBackend = sttp.client.FetchBackend()
-    val productHttpService =
-      new net.wiringbits.cazadescuentos.api.http.ProductHttpService.DefaultImpl(productHttpServiceConfig)
-    val pushNotificationService = PushNotificationService(productHttpService)
-    pushNotificationService.enableNotifications()
   }
 
   private def registerServiceWorker(): Future[Unit] = {
@@ -109,21 +99,28 @@ object Runner {
   def apply(config: Config)(implicit ec: ExecutionContext): Runner = {
     val legacyStorageService = new ProductStorageService()
     val storageService = new StorageService()
-    val http = ProductHttpService(config.httpConfig)
+
+    implicit val sttpBackend = sttp.client.FetchBackend()
+    val http = new ProductHttpService.DefaultImpl(config.httpConfig)
+
+    val pushNotificationService = PushNotificationService(http)
     val messages = new I18NMessages
     val browserNotificationService = new BrowserNotificationService(messages)
 
-    val productUpdater = new ProductUpdaterService(http, storageService, browserNotificationService, messages)
     val productUpdaterAlarm = new ProductUpdaterAlarm(
-      config.productUpdaterConfig,
-      productUpdater
+      config.productUpdaterConfig
     )
 
-    val commandProcessor = new CommandProcessor(storageService, http, browserNotificationService, productUpdater)
+    val commandProcessor = new CommandProcessor(storageService, http, browserNotificationService)
     val storageMigrationService = new StorageMigrationService(storageService, legacyStorageService)
     val httpMigrationService = new HttpMigrationService(http)
     val dataMigrationService =
       new DataMigrationService(storageMigrationService, httpMigrationService, legacyStorageService)
-    new Runner(config.httpConfig.serverUrl, dataMigrationService, commandProcessor, productUpdaterAlarm)
+    new Runner(
+      pushNotificationService,
+      dataMigrationService,
+      commandProcessor,
+      productUpdaterAlarm
+    )
   }
 }

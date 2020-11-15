@@ -4,14 +4,11 @@ import java.util.UUID
 
 import chrome.alarms.bindings.AlarmInfo
 import net.cazadescuentos.background.alarms.ProductUpdaterAlarm._
-import net.cazadescuentos.background.services.ProductUpdaterService
 
 import scala.concurrent.ExecutionContext
-import scala.util.{Failure, Success}
 
 private[background] class ProductUpdaterAlarm(
-    config: Config,
-    productUpdaterService: ProductUpdaterService
+    config: Config
 )(implicit ec: ExecutionContext) {
 
   def register(buyerId: UUID): Unit = {
@@ -24,12 +21,12 @@ private[background] class ProductUpdaterAlarm(
   }
 
   private def run(buyerId: UUID): Unit = {
-    val result = productUpdaterService.updateThemAll(buyerId)
-
-    result.onComplete {
-      case Failure(ex) => log(s"Failed to update products: ${ex.getMessage}")
-      case Success(_) => ()
-    }
+//    val result = productUpdaterService.updateThemAll(buyerId)
+//
+//    result.onComplete {
+//      case Failure(ex) => log(s"Failed to update products: ${ex.getMessage}")
+//      case Success(_) => ()
+//    }
   }
 
   private def log(msg: String): Unit = {

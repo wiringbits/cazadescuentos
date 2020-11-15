@@ -3,18 +3,16 @@ package net.cazadescuentos.background
 import java.util.UUID
 
 import net.cazadescuentos.background.models.{Command, Event}
-import net.cazadescuentos.background.services.ProductUpdaterService
 import net.cazadescuentos.background.services.browser.BrowserNotificationService
-import net.cazadescuentos.background.services.http.ProductHttpService
 import net.cazadescuentos.background.services.storage.StorageService
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 private[background] class CommandProcessor(
     storageService: StorageService,
     productHttpService: ProductHttpService,
-    browserNotificationService: BrowserNotificationService,
-    productUpdaterService: ProductUpdaterService
+    browserNotificationService: BrowserNotificationService
 )(implicit ec: ExecutionContext) {
 
   def process(buyerId: UUID, command: Command): Future[Event] = command match {
@@ -27,26 +25,24 @@ private[background] class CommandProcessor(
     case Command.TrackProduct(product) =>
       for {
         details <- productHttpService.create(buyerId, product)
-        _ <- storageService.add(details)
-      } yield Event.ProductTracked(product)
+      } yield Event.ProductTracked(details)
 
     case Command.FindStoredProduct(id) =>
-      storageService
-        .find(id)
+      // TODO: Use API to check for specific item instead
+      productHttpService
+        .getAll(buyerId)
+        .map(_.find(_.storeProduct == id))
         .map(Event.FoundStoredProduct.apply)
 
     case Command.DeleteProduct(id) =>
       for {
         _ <- productHttpService.delete(buyerId, id)
-        _ <- storageService.delete(id)
       } yield Event.StoredProductDeleted(id)
 
     case Command.GetStoredProductsSummary() =>
       for {
-        remoteProducts <- productHttpService.getAllSummary(buyerId)
-        _ <- productUpdaterService.updateThemAll(remoteProducts)
-        data <- storageService.load().map(_.map(_.products).getOrElse(List.empty))
-      } yield Event.GotStoredProducts(data)
+        products <- productHttpService.getAllSummary(buyerId)
+      } yield Event.GotStoredProducts(products)
 
     case Command.SendBrowserNotification(title, message) =>
       browserNotificationService.notify(title, message)

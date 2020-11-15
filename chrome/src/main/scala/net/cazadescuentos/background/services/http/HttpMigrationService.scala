@@ -1,5 +1,6 @@
 package net.cazadescuentos.background.services.http
 
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 
 import scala.concurrent.{ExecutionContext, Future}

@@ -4,7 +4,7 @@ import java.util.UUID
 
 import io.circe.syntax._
 import net.cazadescuentos.background.models.{Command, Event}
-import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
+import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -29,7 +29,7 @@ class BackgroundAPI(implicit ec: ExecutionContext) {
     }
   }
 
-  def findStoredProduct(id: StoreProduct): Future[Option[StoredProduct]] = {
+  def findStoredProduct(id: StoreProduct): Future[Option[ProductDetails]] = {
     val command: Command = Command.FindStoredProduct(id)
     process(command).collect {
       case e: Event.FoundStoredProduct => e.result
@@ -50,7 +50,7 @@ class BackgroundAPI(implicit ec: ExecutionContext) {
     }
   }
 
-  def getStoredProductsSummary(): Future[List[StoredProduct]] = {
+  def getStoredProductsSummary(): Future[List[ProductDetails]] = {
     val command: Command = Command.GetStoredProductsSummary()
     process(command).collect {
       case Event.GotStoredProducts(products) => products

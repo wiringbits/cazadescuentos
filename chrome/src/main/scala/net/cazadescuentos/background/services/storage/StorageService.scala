@@ -3,9 +3,7 @@ package net.cazadescuentos.background.services.storage
 import io.circe.parser.parse
 import io.circe.syntax._
 import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
-import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
-import net.wiringbits.cazadescuentos.api.storage.models.{StoredData, StoredProduct}
-import net.wiringbits.cazadescuentos.common.models.StoreProduct
+import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js
@@ -13,60 +11,6 @@ import scala.scalajs.js
 private[background] class StorageService(implicit ec: ExecutionContext) {
 
   import StorageService._
-
-  def add(product: ProductDetails): Future[Unit] = {
-    val candidate = StoredProduct(
-      product.store,
-      price = product.price,
-      name = product.name,
-      productId = product.productId,
-      originalPrice = product.price,
-      currencySymbol = product.currencySymbol,
-      status = StoredProduct.Status.Available
-    )
-
-    for {
-      dataMaybe <- load()
-      data = dataMaybe.getOrElse(throw new RuntimeException("Missing setup, can't store products"))
-      existing = data.products
-      newAll = candidate :: existing
-      newData = data.copy(products = newAll)
-      _ <- unsafeSet(newData)
-    } yield ()
-  }
-
-  def find(id: StoreProduct): Future[Option[StoredProduct]] = {
-    load().map { maybe =>
-      maybe.flatMap(_.products.find(_.storeProduct == id))
-    }
-  }
-
-  def delete(id: StoreProduct): Future[Unit] = {
-    for {
-      dataMaybe <- load()
-      data = dataMaybe.getOrElse(throw new RuntimeException("Missing data, can't delete product"))
-      products = data.products
-      newProducts = products.filter(_.storeProduct != id)
-      newData = data.copy(products = newProducts)
-      _ <- unsafeSet(newData)
-    } yield ()
-  }
-
-  def batchUpdate(updatedData: List[StoredProduct]): Future[Unit] = {
-    if (updatedData.isEmpty) {
-      Future.unit
-    } else {
-      load().flatMap { maybe =>
-        val data = maybe.getOrElse(throw new RuntimeException("Can't update, missing data"))
-        val products = data.products
-        val newProducts = products.map { c =>
-          updatedData.find(_.storeProduct == c.storeProduct).getOrElse(c)
-        }
-        val newData = data.copy(products = newProducts)
-        unsafeSet(newData)
-      }
-    }
-  }
 
   def load(): Future[Option[StoredData]] = {
     chrome.storage.Storage.local

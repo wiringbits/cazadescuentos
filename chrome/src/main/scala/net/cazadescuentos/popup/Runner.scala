@@ -1,5 +1,6 @@
 package net.cazadescuentos.popup
 
+import net.cazadescuentos.Config
 import net.cazadescuentos.background.BackgroundAPI
 import net.cazadescuentos.common.I18NMessages
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
@@ -9,7 +10,7 @@ import slinky.web.ReactDOM
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
-class Runner(serverUrl: String, messages: I18NMessages, backgroundAPI: BackgroundAPI) {
+class Runner(productHttpService: ProductHttpService, messages: I18NMessages, backgroundAPI: BackgroundAPI) {
 
   def run(): Unit = {
     dom.document.onreadystatechange = _ => {
@@ -24,11 +25,9 @@ class Runner(serverUrl: String, messages: I18NMessages, backgroundAPI: Backgroun
     import scala.concurrent.ExecutionContext.Implicits.global
     backgroundAPI.findBuyerId().onComplete {
       case Success(buyerId) =>
-        val productHttpServiceConfig = ProductHttpService.Config(serverUrl = serverUrl, buyerId = buyerId)
-        implicit val sttpBackend = sttp.client.FetchBackend()
-        val productHttpService = new ProductHttpService.DefaultImpl(productHttpServiceConfig)
         val api = API(backgroundAPI, productHttpService, messages)
-        val app = App.component(App.Props(api))
+        val appInfo = AppInfo(buyerId)
+        val app = App.component(App.Props(api, appInfo))
         ReactDOM.render(app, container())
 
       case Failure(ex) =>
@@ -56,9 +55,12 @@ class Runner(serverUrl: String, messages: I18NMessages, backgroundAPI: Backgroun
 
 object Runner {
 
-  def apply(serverUrl: String)(implicit ec: ExecutionContext): Runner = {
+  def apply(config: Config)(implicit ec: ExecutionContext): Runner = {
     val messages = new I18NMessages
     val backgroundAPI = new BackgroundAPI()
-    new Runner(serverUrl, messages, backgroundAPI)
+
+    implicit val sttpBackend = sttp.client.FetchBackend()
+    val http = new ProductHttpService.DefaultImpl(config.httpConfig)
+    new Runner(http, messages, backgroundAPI)
   }
 }

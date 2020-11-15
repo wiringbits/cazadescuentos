@@ -1,7 +1,7 @@
 package net.cazadescuentos.popup.components
 
 import net.cazadescuentos.common.{I18NMessages, ResourceProvider}
-import net.cazadescuentos.popup.API
+import net.cazadescuentos.popup.{API, AppInfo}
 import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
 import net.wiringbits.cazadescuentos.ui.components.MyProductsSummaryComponent
 import net.wiringbits.cazadescuentos.ui.hooks.GenericHooks
@@ -30,7 +30,7 @@ import scala.util.{Failure, Success}
     makeStyles(stylesCallback, WithStylesOptions())
   }
 
-  case class Props(api: API)
+  case class Props(api: API, appInfo: AppInfo)
 
   private val icons = new MyProductsSummaryComponent.Icons {
     override def forStore(store: OnlineStore): String = {
@@ -72,7 +72,7 @@ import scala.util.{Failure, Success}
     val classes = useStyles(())
     val data = MyProductsSummaryDataLoader.component(
       MyProductsSummaryDataLoader.Props(
-        fetch = () => props.api.productHttpService.getAllSummaryV2(),
+        fetch = () => props.api.productHttpService.getAllSummaryV2(props.appInfo.buyerId),
         render = data => {
           MyProductsSummaryComponent.component(
             MyProductsSummaryComponent.Props(

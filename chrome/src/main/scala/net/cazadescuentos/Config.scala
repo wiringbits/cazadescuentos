@@ -2,7 +2,7 @@ package net.cazadescuentos
 
 import net.cazadescuentos.activetab.ActiveTabConfig
 import net.cazadescuentos.background.alarms.ProductUpdaterAlarm
-import net.cazadescuentos.background.services.http.ProductHttpService
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 
 case class Config(
     serverUrl: String,
