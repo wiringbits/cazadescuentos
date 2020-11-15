@@ -105,7 +105,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
       def open(): Unit = dom.window.open(item.url, "_blank")
       mui
         .Card()
-        .withKey(item.url)
+        .withKey(item.id.toString)
         .className(classes("card"))(
           mui.CardContent(
             img(
@@ -131,7 +131,7 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
 
   private def render(number: Int, item: GetDiscountsResponse.Discount, open: () => Unit) = {
     // table-tr-dark if status is unavailable
-    mui.TableRow.withKey(item.url)(
+    mui.TableRow.withKey(item.id.toString)(
       mui.TableCell.align(muiStrings.right)(number),
       mui.TableCell
         .set("component", "th")
