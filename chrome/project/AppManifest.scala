@@ -68,7 +68,7 @@ object AppManifest {
             "https://www.elpalaciodehierro.com/*",
             "https://www.amazon.com.mx/*"
           ),
-          css = List("css/cazadescuentosActiveTab.css"),
+          css = List(),
           js = commonScripts ::: List("external-scripts/sidenavCzd.js", "scripts/active-tab-script.js")
         )
       )
