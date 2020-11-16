@@ -2,6 +2,7 @@ package net.cazadescuentos.background
 
 import java.util.UUID
 
+import io.circe.generic.auto._
 import io.circe.syntax._
 import net.cazadescuentos.Config
 import net.cazadescuentos.background.alarms.ProductUpdaterAlarm
@@ -79,7 +80,7 @@ class Runner(
           .map(_.asJson.noSpaces)
 
         /**
-         * NOTE: When replying on futures, the method returnins an async response is the only reliable one
+         * NOTE: When replying on futures, the method returning an async response is the only reliable one
          * otherwise, the sender is getting no response, the way use the async method is to pass a response
          * in case of failures even if that case was already handled with the CommandRejected event.
          */

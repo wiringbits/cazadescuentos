@@ -2,6 +2,7 @@ package net.cazadescuentos.background
 
 import java.util.UUID
 
+import io.circe.generic.auto._
 import io.circe.syntax._
 import net.cazadescuentos.background.models.{Command, Event}
 import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
@@ -68,7 +69,7 @@ class BackgroundAPI(implicit ec: ExecutionContext) {
       if (retriesLeft <= 0) {
         Future.successful(Event.CommandRejected(lastError))
       } else {
-        val promise = Promise[Event]
+        val promise = Promise[Event]()
         val _ = org.scalajs.dom.window.setTimeout(() => promise.completeWith(processInternal(command)), timeoutMs)
 
         promise.future
@@ -88,7 +89,7 @@ class BackgroundAPI(implicit ec: ExecutionContext) {
   }
 
   private def processInternal(command: Command): Future[Event] = {
-    val promise = Promise[Event]
+    val promise = Promise[Event]()
     val callback: js.Function1[js.Object, Unit] = (x: js.Object) => {
       // On exceptional cases, the receiver isn't ready, leading to undefined object on the callback
       // One way this happens is when the extension browser-action is opened in a tab when the browser
