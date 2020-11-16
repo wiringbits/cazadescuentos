@@ -79,7 +79,7 @@ object Main {
       case Some(value) => value.buyerId
       case None =>
         val newBuyerId = UUID.randomUUID()
-        val storedData = StoredData(newBuyerId, List.empty)
+        val storedData = StoredData(newBuyerId)
         storageService.unsafeSet(storedData)
         newBuyerId
     }

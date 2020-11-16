@@ -2,15 +2,12 @@ package net.cazadescuentos.background.services
 
 import java.util.UUID
 
-import net.cazadescuentos.background.services.http.HttpMigrationService
-import net.cazadescuentos.background.services.storage.{ProductStorageService, StorageMigrationService}
+import net.cazadescuentos.background.services.storage.StorageMigrationService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class DataMigrationService(
-    storageMigrationService: StorageMigrationService,
-    httpMigrationService: HttpMigrationService,
-    legacyStorageService: ProductStorageService
+    storageMigrationService: StorageMigrationService
 )(
     implicit ec: ExecutionContext
 ) {
@@ -18,8 +15,6 @@ class DataMigrationService(
   def migrate(): Future[UUID] = {
     for {
       data <- storageMigrationService.migrate()
-      _ <- httpMigrationService.migrate(data)
-      _ <- legacyStorageService.clear()
     } yield data.buyerId
   }
 }

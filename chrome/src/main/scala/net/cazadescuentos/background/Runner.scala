@@ -8,7 +8,6 @@ import net.cazadescuentos.background.alarms.ProductUpdaterAlarm
 import net.cazadescuentos.background.models.{Command, Event}
 import net.cazadescuentos.background.services.DataMigrationService
 import net.cazadescuentos.background.services.browser.BrowserNotificationService
-import net.cazadescuentos.background.services.http.HttpMigrationService
 import net.cazadescuentos.background.services.storage.{ProductStorageService, StorageMigrationService, StorageService}
 import net.cazadescuentos.common.I18NMessages
 import net.wiringbits.cazadescuentos.api.PushNotificationService
@@ -113,9 +112,7 @@ object Runner {
 
     val commandProcessor = new CommandProcessor(storageService, http, browserNotificationService)
     val storageMigrationService = new StorageMigrationService(storageService, legacyStorageService)
-    val httpMigrationService = new HttpMigrationService(http)
-    val dataMigrationService =
-      new DataMigrationService(storageMigrationService, httpMigrationService, legacyStorageService)
+    val dataMigrationService = new DataMigrationService(storageMigrationService)
     new Runner(
       pushNotificationService,
       dataMigrationService,

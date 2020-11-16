@@ -24,8 +24,8 @@ class StorageMigrationService(storageService: StorageService, legacyStorageServi
           println("migrating data")
           legacyStorageService
             .getAll()
-            .flatMap { products =>
-              val data = StoredData(buyerId, products)
+            .flatMap { _ =>
+              val data = StoredData(buyerId)
               storageService.unsafeSet(data).map(_ => data)
             }
       }
