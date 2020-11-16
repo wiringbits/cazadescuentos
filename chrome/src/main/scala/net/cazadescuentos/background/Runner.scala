@@ -108,7 +108,9 @@ object Runner {
     val browserNotificationService = new BrowserNotificationService(messages)
 
     val productUpdaterAlarm = new ProductUpdaterAlarm(
-      config.productUpdaterConfig
+      config.productUpdaterConfig,
+      browserNotificationService,
+      http
     )
 
     val commandProcessor = new CommandProcessor(storageService, http, browserNotificationService)

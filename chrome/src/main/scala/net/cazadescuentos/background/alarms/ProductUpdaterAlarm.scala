@@ -4,11 +4,16 @@ import java.util.UUID
 
 import chrome.alarms.bindings.AlarmInfo
 import net.cazadescuentos.background.alarms.ProductUpdaterAlarm._
+import net.cazadescuentos.background.services.browser.BrowserNotificationService
+import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 
 import scala.concurrent.ExecutionContext
+import scala.util.{Failure, Success}
 
 private[background] class ProductUpdaterAlarm(
-    config: Config
+    config: Config,
+    notificationService: BrowserNotificationService,
+    productHttpService: ProductHttpService
 )(implicit ec: ExecutionContext) {
 
   def register(buyerId: UUID): Unit = {
@@ -21,12 +26,15 @@ private[background] class ProductUpdaterAlarm(
   }
 
   private def run(buyerId: UUID): Unit = {
-//    val result = productUpdaterService.updateThemAll(buyerId)
-//
-//    result.onComplete {
-//      case Failure(ex) => log(s"Failed to update products: ${ex.getMessage}")
-//      case Success(_) => ()
-//    }
+    productHttpService
+      .notifications(buyerId)
+      .onComplete {
+        case Failure(ex) => log(s"Failed to update products: ${ex.getMessage}")
+        case Success(response) =>
+          response.data.headOption.foreach { lastNotification =>
+            notificationService.notify(lastNotification.message)
+          }
+      }
   }
 
   private def log(msg: String): Unit = {
