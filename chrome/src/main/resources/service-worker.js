@@ -8,9 +8,7 @@ self.addEventListener('activate', (evt) => {
   console.log('[ServiceWorker] Activate');
 });
 
-self.addEventListener('fetch', (evt) => {
-  console.log('[ServiceWorker] Fetch', evt.request.url);
-});
+self.addEventListener('fetch', (evt) => {});
 
 // Respond to a server push with a user notification
 self.addEventListener('push', function (event) {
