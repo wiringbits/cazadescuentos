@@ -3,6 +3,17 @@ package net.wiringbits.cazadescuentos.ui.components
 import java.time.Instant
 import java.util.UUID
 
+import com.alexitc.materialui.facade.csstype.csstypeStrings.auto
+import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiStyles.makeStylesMod.StylesHook
+import com.alexitc.materialui.facade.materialUiStyles.mod.makeStyles
+import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
+  CSSProperties,
+  StyleRulesCallback,
+  Styles,
+  WithStylesOptions
+}
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import net.wiringbits.cazadescuentos.api.http.models.GetNotificationsResponse
 import net.wiringbits.cazadescuentos.ui.hooks.GenericHooks
@@ -10,12 +21,6 @@ import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html._
-import typings.csstype.csstypeStrings.auto
-import typings.materialUiCore.createMuiThemeMod.Theme
-import typings.materialUiCore.{components => mui}
-import typings.materialUiStyles.makeStylesMod.StylesHook
-import typings.materialUiStyles.mod.makeStyles
-import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 

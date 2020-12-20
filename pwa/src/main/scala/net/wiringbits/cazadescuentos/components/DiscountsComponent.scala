@@ -1,5 +1,24 @@
 package net.wiringbits.cazadescuentos.components
 
+import com.alexitc.materialui.facade.csstype.csstypeStrings.auto
+import com.alexitc.materialui.facade.csstype.mod.FlexWrapProperty
+import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
+import com.alexitc.materialui.facade.materialUiCore.mod.PropTypes
+import com.alexitc.materialui.facade.materialUiCore.{
+  typographyTypographyMod,
+  components => mui,
+  materialUiCoreStrings => muiStrings
+}
+import com.alexitc.materialui.facade.materialUiIcons.{components => muiIcons}
+import com.alexitc.materialui.facade.materialUiStyles.makeStylesMod.StylesHook
+import com.alexitc.materialui.facade.materialUiStyles.mod.makeStyles
+import com.alexitc.materialui.facade.materialUiStyles.withStylesMod
+import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
+  CSSProperties,
+  StyleRulesCallback,
+  Styles,
+  WithStylesOptions
+}
 import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.api.http.models.GetDiscountsResponse
 import net.wiringbits.cazadescuentos.common.models.OnlineStore
@@ -11,16 +30,6 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html._
-import typings.csstype.csstypeStrings.auto
-import typings.csstype.mod.FlexWrapProperty
-import typings.materialUiCore.createMuiThemeMod.Theme
-import typings.materialUiCore.mod.PropTypes
-import typings.materialUiCore.{typographyTypographyMod, components => mui, materialUiCoreStrings => muiStrings}
-import typings.materialUiIcons.{components => muiIcons}
-import typings.materialUiStyles.makeStylesMod.StylesHook
-import typings.materialUiStyles.mod.makeStyles
-import typings.materialUiStyles.withStylesMod
-import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
 
 @react object DiscountsComponent {
 
@@ -46,7 +55,8 @@ import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
-    val drawTable = typings.materialUiCore.useMediaQueryMod.unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
+    val drawTable = com.alexitc.materialui.facade.materialUiCore.useMediaQueryMod
+      .unstableUseMediaQuery(s"(min-width:${tableMinWidth}px)")
     val (remoteData, setRemoteData) = Hooks.useState[Data](List.empty)
     val (filteredData, setFilteredData) = Hooks.useState[Data](List.empty)
 

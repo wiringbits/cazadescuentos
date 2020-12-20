@@ -4,7 +4,7 @@ import net.wiringbits.cazadescuentos.ui.models.DataState
 import slinky.core.FunctionalComponent
 import slinky.core.facade.{Hooks, ReactElement}
 import slinky.web.html._
-import typings.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -76,7 +76,7 @@ trait RemoteDataLoaderBase[D] {
         div(
           mui
             .Typography()
-            .color(typings.materialUiCore.mod.PropTypes.Color.secondary)(msg),
+            .color(com.alexitc.materialui.facade.materialUiCore.mod.PropTypes.Color.secondary)(msg),
           mui.Button.onClick(_ => reload())(props.retryLabel)
         )
     }

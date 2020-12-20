@@ -6,7 +6,7 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html.div
-import typings.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}

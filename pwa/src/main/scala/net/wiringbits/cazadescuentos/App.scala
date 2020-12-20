@@ -5,12 +5,12 @@ import net.wiringbits.cazadescuentos.models.AppInfo
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html.div
-import typings.materialUiCore.createMuiThemeMod.{Theme, ThemeOptions}
-import typings.materialUiCore.createTypographyMod.TypographyOptions
-import typings.materialUiCore.stylesMod.createMuiTheme
-import typings.materialUiCore.{components => mui}
-import typings.materialUiIcons.{components => muiIcons}
-import typings.materialUiStyles.components.ThemeProvider
+import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.{Theme, ThemeOptions}
+import com.alexitc.materialui.facade.materialUiCore.createTypographyMod.TypographyOptions
+import com.alexitc.materialui.facade.materialUiCore.stylesMod.createMuiTheme
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiIcons.{components => muiIcons}
+import com.alexitc.materialui.facade.materialUiStyles.components.ThemeProvider
 import typings.reactRouter.mod.RouteProps
 import typings.reactRouterDom.{components => router}
 

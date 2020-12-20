@@ -6,7 +6,7 @@ import slinky.core.{FunctionalComponent, _}
 import slinky.core.annotations.react
 import slinky.web.html._
 import typings.detectBrowser.mod.Browser
-import typings.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 
 @react object TutorialComponent {
 

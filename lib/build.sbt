@@ -70,7 +70,8 @@ lazy val ui = (project in file("ui"))
     scalacOptions += "-Ymacro-annotations",
     requireJsDomEnv in Test := true,
     stTypescriptVersion := "3.9.3",
-    stIgnore += "react-proxy",
+    // material-ui is provided by a pre-packaged library
+    stIgnore ++= List("react-proxy", "@material-ui/core", "@material-ui/styles", "@material-ui/icons"),
     Compile / npmDependencies ++= Seq(
       "react" -> "16.13.1",
       "react-dom" -> "16.13.1",
@@ -92,7 +93,10 @@ lazy val ui = (project in file("ui"))
       "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2"
     ),
-    libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % "2.0.0")
+    libraryDependencies ++= Seq(
+      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.2"
+    )
   )
 
 lazy val root = (project in file("."))

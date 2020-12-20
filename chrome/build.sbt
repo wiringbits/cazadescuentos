@@ -113,6 +113,8 @@ lazy val root = (project in file("."))
     stReactEnableTreeShaking := Selection.All,
     stTypescriptVersion := "3.9.3",
     stUseScalaJsDom := true,
+    // material-ui is provided by a pre-packaged library
+    stIgnore ++= List("@material-ui/core", "@material-ui/styles", "@material-ui/icons"),
     Compile / stMinimize := Selection.All,
     Compile / npmDependencies ++= Seq(
       "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
@@ -128,7 +130,8 @@ lazy val root = (project in file("."))
       "io.circe" %%% "circe-parser" % circe,
       "com.softwaremill.sttp.client" %%% "core" % sttp,
       "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
-      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0"
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0",
+      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.2"
     ),
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % "3.1.1" % Test

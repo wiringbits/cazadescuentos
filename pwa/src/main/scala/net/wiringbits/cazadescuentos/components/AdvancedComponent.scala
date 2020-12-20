@@ -4,7 +4,7 @@ import net.wiringbits.cazadescuentos.API
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html._
-import typings.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 
 @react object AdvancedComponent {
 

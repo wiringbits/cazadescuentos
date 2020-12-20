@@ -1,9 +1,9 @@
 package net.wiringbits.cazadescuentos.components
 
 import org.scalablytyped.runtime.StringDictionary
-import typings.materialUiStyles.makeStylesMod.StylesHook
-import typings.materialUiStyles.mod.makeStyles
-import typings.materialUiStyles.withStylesMod._
+import com.alexitc.materialui.facade.materialUiStyles.makeStylesMod.StylesHook
+import com.alexitc.materialui.facade.materialUiStyles.mod.makeStyles
+import com.alexitc.materialui.facade.materialUiStyles.withStylesMod._
 
 import scala.scalajs.js
 

@@ -1,5 +1,16 @@
 package net.cazadescuentos.popup.components
 
+import com.alexitc.materialui.facade.csstype.csstypeStrings.auto
+import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
+import com.alexitc.materialui.facade.materialUiCore.{components => mui}
+import com.alexitc.materialui.facade.materialUiStyles.makeStylesMod.StylesHook
+import com.alexitc.materialui.facade.materialUiStyles.mod.makeStyles
+import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
+  CSSProperties,
+  StyleRulesCallback,
+  Styles,
+  WithStylesOptions
+}
 import net.cazadescuentos.common.{I18NMessages, ResourceProvider}
 import net.cazadescuentos.popup.{API, AppInfo}
 import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
@@ -8,12 +19,6 @@ import net.wiringbits.cazadescuentos.ui.hooks.GenericHooks
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import typings.csstype.csstypeStrings.auto
-import typings.materialUiCore.createMuiThemeMod.Theme
-import typings.materialUiCore.{components => mui}
-import typings.materialUiStyles.makeStylesMod.StylesHook
-import typings.materialUiStyles.mod.makeStyles
-import typings.materialUiStyles.withStylesMod.{CSSProperties, StyleRulesCallback, Styles, WithStylesOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
