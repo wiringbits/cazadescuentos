@@ -42,7 +42,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - chrome-cache-v1-
 
-      - run: cd chrome && sbt test:compile
+      - run: cd chrome && sbt compile
 
       - save_cache:
           paths:
