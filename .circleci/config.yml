@@ -52,7 +52,7 @@ jobs:
           key: chrome-cache-v1-{{ checksum "chrome/build.sbt" }}-{{ checksum "chrome/project/plugins.sbt" }}
 
       # run tests!
-      - run: cd chrome && sbt test
+      # - run: cd chrome && sbt test
 
       # package
       - run: cd chrome && sbt chromePackage
