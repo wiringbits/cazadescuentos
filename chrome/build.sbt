@@ -76,6 +76,12 @@ lazy val withCssLoading: Project => Project = {
       val file = "custom.webpack.config.js"
       Some(baseDirectory.value / file)
     },
+    // running `sbt test` fails if the webpack config is specified, it seems to happen because
+    // the default webpack config from scalajs-bundler isn't written, making `sbt test` depend on
+    // the chromeUnpackedFast task ensures that such config is generated, there might be a better
+    // solution but this works for now.
+    Test / test := (Test / test).dependsOn(chromeUnpackedFast).value,
+    webpackConfigFile in Test := Some(baseDirectory.value / "test.webpack.config.js"),
     Compile / npmDevDependencies ++= Seq(
       "webpack-merge" -> "4.2.2",
       "css-loader" -> "3.4.2",
