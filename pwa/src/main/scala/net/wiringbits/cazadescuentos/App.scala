@@ -1,17 +1,17 @@
 package net.wiringbits.cazadescuentos
 
-import net.wiringbits.cazadescuentos.components._
-import net.wiringbits.cazadescuentos.models.AppInfo
-import slinky.core.FunctionalComponent
-import slinky.core.annotations.react
-import slinky.web.html.div
 import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.{Theme, ThemeOptions}
 import com.alexitc.materialui.facade.materialUiCore.createTypographyMod.TypographyOptions
 import com.alexitc.materialui.facade.materialUiCore.stylesMod.createMuiTheme
 import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 import com.alexitc.materialui.facade.materialUiIcons.{components => muiIcons}
 import com.alexitc.materialui.facade.materialUiStyles.components.ThemeProvider
-import typings.reactRouter.mod.RouteProps
+import net.wiringbits.cazadescuentos.components._
+import net.wiringbits.cazadescuentos.models.AppInfo
+import slinky.core.FunctionalComponent
+import slinky.core.annotations.react
+import slinky.web.html.div
+import typings.reactRouter.mod.{RouteComponentProps, RouteProps}
 import typings.reactRouterDom.{components => router}
 
 @react
@@ -31,11 +31,14 @@ object App {
       mui.CssBaseline(),
       router.BrowserRouter.basename("")(
         router.Switch(
+          // NOTE: For some reason the compiler started complaining while invoking the setPath method
+          // fortunately, the setPathVarargs solved it, also, the setRender function started requiring
+          // a explicit type.
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPath("/")
-              .setRender { route =>
+              .setPathVarargs("/")
+              .setRender { route: RouteComponentProps[_, _, _] =>
                 div(
                   menu(route.location.pathname),
                   HomeComponent.component(HomeComponent.Props(props.api, props.appInfo))
@@ -45,8 +48,8 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPath("/buenfin")
-              .setRender { route =>
+              .setPathVarargs("/buenfin")
+              .setRender { route: RouteComponentProps[_, _, _] =>
                 div(
                   menu(route.location.pathname),
                   DiscountsComponent.component(DiscountsComponent.Props(props.api, props.appInfo))
@@ -56,8 +59,8 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPath("/guia")
-              .setRender { route =>
+              .setPathVarargs("/guia")
+              .setRender { route: RouteComponentProps[_, _, _] =>
                 div(
                   menu(route.location.pathname),
                   TutorialComponent.component(TutorialComponent.Props(props.api, props.appInfo))
@@ -67,8 +70,8 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPath("/advanced")
-              .setRender { route =>
+              .setPathVarargs("/advanced")
+              .setRender { route: RouteComponentProps[_, _, _] =>
                 div(
                   menu(route.location.pathname),
                   AdvancedComponent.component(AdvancedComponent.Props(props.api))
@@ -77,7 +80,7 @@ object App {
           ),
           router.Route(
             RouteProps()
-              .setRender { _ =>
+              .setRender { _: RouteComponentProps[_, _, _] =>
                 router.Redirect("/")
               }
           )
