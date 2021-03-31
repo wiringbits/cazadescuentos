@@ -1,6 +1,4 @@
 .idea/
 target/
 build/
-yarn.lock
-
 .bsp/

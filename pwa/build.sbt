@@ -162,6 +162,8 @@ lazy val root = (project in file("."))
       "recharts" -> "1.8.5",
       "@types/recharts" -> "1.8.10",
       "@types/classnames" -> "2.2.10",
+      "react-router" -> "5.1.2",
+      "@types/react-router" -> "5.1.2",
       "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2",
       "detect-browser" -> "5.2.0"

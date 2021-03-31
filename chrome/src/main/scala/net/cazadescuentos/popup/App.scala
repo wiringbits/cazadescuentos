@@ -10,7 +10,7 @@ import net.wiringbits.cazadescuentos.ui.components.Notifications
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html.div
-import typings.reactRouter.mod.{RouteComponentProps, RouteProps}
+import typings.reactRouter.mod.RouteProps
 import typings.reactRouterDom.{components => router}
 
 @react
@@ -31,10 +31,8 @@ object App {
       router.BrowserRouter.basename("")(
         router.Switch(
           router.Route(
-            // NOTE: For some reason the compiler started complaining while invoking the setRender
-            // function without specifying the argument type.
             RouteProps()
-              .setRender { _: RouteComponentProps[_, _, _] =>
+              .setRender { _ =>
                 div(
                   Notifications.component(
                     Notifications.Props(

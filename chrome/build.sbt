@@ -103,6 +103,8 @@ lazy val reactNpmDeps: Project => Project = {
       "@types/react-dom" -> "16.9.8",
       "csstype" -> "2.6.11",
       "@types/prop-types" -> "15.7.3",
+      "react-router" -> "5.1.2",
+      "@types/react-router" -> "5.1.2",
       "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2"
     )

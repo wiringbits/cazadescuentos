@@ -11,7 +11,7 @@ import net.wiringbits.cazadescuentos.models.AppInfo
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html.div
-import typings.reactRouter.mod.{RouteComponentProps, RouteProps}
+import typings.reactRouter.mod.RouteProps
 import typings.reactRouterDom.{components => router}
 
 @react
@@ -31,14 +31,11 @@ object App {
       mui.CssBaseline(),
       router.BrowserRouter.basename("")(
         router.Switch(
-          // NOTE: For some reason the compiler started complaining while invoking the setPath method
-          // fortunately, the setPathVarargs solved it, also, the setRender function started requiring
-          // a explicit type.
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPathVarargs("/")
-              .setRender { route: RouteComponentProps[_, _, _] =>
+              .setPath("/")
+              .setRender { route =>
                 div(
                   menu(route.location.pathname),
                   HomeComponent.component(HomeComponent.Props(props.api, props.appInfo))
@@ -48,8 +45,8 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPathVarargs("/buenfin")
-              .setRender { route: RouteComponentProps[_, _, _] =>
+              .setPath("/buenfin")
+              .setRender { route =>
                 div(
                   menu(route.location.pathname),
                   DiscountsComponent.component(DiscountsComponent.Props(props.api, props.appInfo))
@@ -59,8 +56,8 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPathVarargs("/guia")
-              .setRender { route: RouteComponentProps[_, _, _] =>
+              .setPath("/guia")
+              .setRender { route =>
                 div(
                   menu(route.location.pathname),
                   TutorialComponent.component(TutorialComponent.Props(props.api, props.appInfo))
@@ -70,8 +67,8 @@ object App {
           router.Route(
             RouteProps()
               .setExact(true)
-              .setPathVarargs("/advanced")
-              .setRender { route: RouteComponentProps[_, _, _] =>
+              .setPath("/advanced")
+              .setRender { route =>
                 div(
                   menu(route.location.pathname),
                   AdvancedComponent.component(AdvancedComponent.Props(props.api))
@@ -80,7 +77,7 @@ object App {
           ),
           router.Route(
             RouteProps()
-              .setRender { _: RouteComponentProps[_, _, _] =>
+              .setRender { _ =>
                 router.Redirect("/")
               }
           )
