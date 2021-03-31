@@ -42,7 +42,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - chrome-cache-v1-
 
-      # sometimes this fails due to memory issues while retrying succeeds
+      # sometimes this fails due to memory issues while retrying succeeds, also, compiling the lib modules independetly should help
+      - run: cd lib && sbt commonJVM/compile && sbt apiJVM/compile && sbt commonJS/compile && sbt apiJS/compile && (sbt ui/compile || sbt ui/compile)
       - run: cd chrome && (sbt compile || sbt compile || sbt compile)
 
       - save_cache:
