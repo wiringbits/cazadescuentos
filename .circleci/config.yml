@@ -100,5 +100,6 @@ workflows:
   build:
     jobs:
       - build-landing-page
-      - build-chrome
+      # disabled because circleci runs out of memory
+      # - build-chrome
       - build-pwa
