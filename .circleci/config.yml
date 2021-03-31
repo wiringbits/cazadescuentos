@@ -42,7 +42,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - chrome-cache-v1-
 
-      - run: cd chrome && sbt compile
+      # sometimes this fails due to memory issues while retrying succeeds
+      - run: cd chrome && (sbt compile || sbt compile || sbt compile)
 
       - save_cache:
           paths:
