@@ -1,6 +1,7 @@
 package net.wiringbits.cazadescuentos.components
 
 import com.alexitc.materialui.facade.csstype.csstypeStrings.auto
+import com.alexitc.materialui.facade.csstype.mod.PositionProperty
 import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
 import com.alexitc.materialui.facade.materialUiCore.mod.PropTypes
 import com.alexitc.materialui.facade.materialUiCore.{components => mui}
@@ -29,10 +30,14 @@ import scala.util.{Failure, Success}
 @react object AddNewItemFloatingButton {
 
   private lazy val useStyles: StylesHook[Styles[Theme, Unit, String]] = {
-    /* If you don't need direct access to theme, this could be `StyleRules[Props, String]` */
     val stylesCallback: StyleRulesCallback[Theme, Unit, String] = theme =>
       StringDictionary(
-        "fab" -> CSSProperties().setMargin(theme.spacing.unit),
+        "fab" -> CSSProperties()
+          .setPosition(PositionProperty.fixed)
+          .setWidth(64)
+          .setHeight(64)
+          .setBottom(80)
+          .setRight("calc(50vw - 32px)"),
         "root" -> CSSProperties().setWidth("100%").setOverflowX(auto)
       )
 
@@ -84,15 +89,13 @@ import scala.util.{Failure, Success}
       val classes = useStyles(())
       dialogOpened match {
         case false =>
-          mui.Paper.className(classes("root"))(
-            mui.Fab
-              .className(classes("fab"))
-              .`aria-label`("Agregar")
-              .onClick(_ => handleAddClicked())
-              .color(PropTypes.Color.primary)(
-                muiIcons.Add()
-              )
-          )
+          mui.Fab
+            .className(classes("fab"))
+            .`aria-label`("Agregar")
+            .onClick(_ => handleAddClicked())
+            .color(PropTypes.Color.primary)(
+              muiIcons.Add()
+            )
 
         case true =>
           val msg = Option(errorMsg)
