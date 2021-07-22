@@ -1,6 +1,5 @@
-package net.wiringbits.cazadescuentos.components
+package net.wiringbits.cazadescuentos.components.widgets
 
-import slinky.core.annotations.react
 import com.alexitc.materialui.facade.csstype.mod.{
   BoxSizingProperty,
   FlexDirectionProperty,
@@ -22,14 +21,16 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
   WithStylesOptions
 }
 import net.wiringbits.cazadescuentos.API
+import net.wiringbits.cazadescuentos.api.http.models.GetDiscountsResponse
 import net.wiringbits.cazadescuentos.api.http.models.GetDiscountsResponse.Discount
-import net.wiringbits.cazadescuentos.components.Discounts.DiscountStatus.DiscountStatus
+import net.wiringbits.cazadescuentos.components.widgets.Discounts.DiscountStatus.DiscountStatus
 import net.wiringbits.cazadescuentos.models.AppInfo
-import net.wiringbits.cazadescuentos.ui.components.{DiscountCard, ErrorMessage, Loader}
-import net.wiringbits.cazadescuentos.ui.hooks.MediaQueryHooks
+import net.wiringbits.cazadescuentos.ui.components.{DiscountCard, ErrorMessage, Loader, RemoteDataLoader}
+import net.wiringbits.cazadescuentos.ui.hooks.{GenericHooks, MediaQueryHooks}
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
-import slinky.core.facade.{Fragment, Hooks}
+import slinky.core.annotations.react
+import slinky.core.facade.Hooks
 import slinky.web.html._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -71,61 +72,17 @@ import scala.util.{Failure, Success}
     val classes = useStyles(())
     val (state, setState) = Hooks.useState(initialState)
     val isMobileOrTablet = MediaQueryHooks.useIsMobileOrTablet()
+    val (timesReloadingData, forceRefresh) = GenericHooks.useForceRefresh
 
-    def setData(data: Option[List[Discount]]): Unit = {
-      setState(state.copy(data = data, status = DiscountStatus.Done))
-    }
-
-    def setError(ex: Throwable): Unit = {
-      setState(state.copy(error = Some(ex), status = DiscountStatus.Error))
-    }
-
-    def fechData(): Unit = {
-      setState(state.copy(status = DiscountStatus.Loading, error = None))
-      props.api.productService.bestDiscounts(props.appInfo.buyerId).onComplete {
-        case Success(res) => setData(Some(res.data))
-        case Failure(ex) => setError(ex)
-      }
-    }
-
-    def renderItems(items: List[Discount]) = {
-      if (props.filterText.isEmpty) {
-        items.map { item =>
+    RemoteDataLoader[GetDiscountsResponse](
+      fetch = () => props.api.productService.bestDiscounts(props.appInfo.buyerId),
+      render = response => {
+        response.data map { item =>
           DiscountCard(item).withKey(item.id.toString)
         }
-      } else {
-        items.withFilter(x => x.name.toLowerCase contains props.filterText.toLowerCase).map { item =>
-          DiscountCard(item).withKey(item.id.toString)
-        }
-      }
-    }
-
-    def render(items: List[Discount]) = {
-      if (isMobileOrTablet) {
-        div(className := classes("discounts"))(mui.List()(renderItems(items)))
-      } else {
-        div(className := classes("discounts"))(div(className := classes("itemsGrid"))(renderItems(items)))
-      }
-    }
-
-    Hooks.useEffect(fechData, List(0))
-
-    state.status match {
-      case DiscountStatus.Initial => div("none")
-      case DiscountStatus.Error =>
-        ErrorMessage(
-          message = state.error.toString,
-          buttonText = Some("Reintentar"),
-          onButtonClick = Some(() => {
-            println("click")
-          })
-        )
-      case DiscountStatus.Loading => Loader()
-      case DiscountStatus.Done =>
-        state.data match {
-          case None => div("empty")
-          case Some(items) => render(items)
-        }
-    }
+      },
+      progressIndicator = () => Loader(),
+      watchedObjects = List(timesReloadingData)
+    )
   }
 }

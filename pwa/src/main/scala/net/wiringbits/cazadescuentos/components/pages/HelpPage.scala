@@ -1,18 +1,17 @@
-package net.wiringbits.cazadescuentos.components
+package net.wiringbits.cazadescuentos.components.pages
 
-import com.alexitc.materialui.facade.csstype.mod.FlexDirectionProperty
-import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
-import net.wiringbits.cazadescuentos.API
-import net.wiringbits.cazadescuentos.models.AppInfo
-import slinky.core.FunctionalComponent
-import slinky.core.annotations.react
-import slinky.web.html._
-import typings.detectBrowser.mod.Browser
-import com.alexitc.materialui.facade.materialUiCore.{
-  typographyTypographyMod,
-  components => mui,
-  materialUiCoreStrings => muiStrings
+import com.alexitc.materialui.facade.csstype.mod.{
+  BoxSizingProperty,
+  FlexDirectionProperty,
+  FlexWrapProperty,
+  ObjectFitProperty,
+  PositionProperty,
+  TextAlignProperty
 }
+import com.alexitc.materialui.facade.materialUiCore.mod.PropTypes
+import com.alexitc.materialui.facade.materialUiCore.{components => mui, materialUiCoreStrings => muiStrings}
+import com.alexitc.materialui.facade.materialUiIcons.{components => muiIcons}
+import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
 import com.alexitc.materialui.facade.materialUiStyles.makeStylesMod.StylesHook
 import com.alexitc.materialui.facade.materialUiStyles.mod.makeStyles
 import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
@@ -21,11 +20,17 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
   Styles,
   WithStylesOptions
 }
-import net.wiringbits.cazadescuentos.ui.components.{Subtitle, TextLine, Title, YoutubeVideo}
+import net.wiringbits.cazadescuentos.API
+import net.wiringbits.cazadescuentos.components.TutorialComponent.{globalStores, mexicoStores, usaStores}
+import net.wiringbits.cazadescuentos.components.{AndroidLinkButton, SupportedStoreList}
+import net.wiringbits.cazadescuentos.models.AppInfo
+import net.wiringbits.cazadescuentos.ui.components.{Scaffold, ScaffoldAppBar, Subtitle, TextLine, YoutubeVideo}
 import org.scalablytyped.runtime.StringDictionary
-import slinky.core.facade.Fragment
+import slinky.core.FunctionalComponent
+import slinky.core.annotations.react
+import slinky.web.html._
 
-@react object TutorialComponent {
+@react object HelpPage {
   case class Props(api: API, appInfo: AppInfo)
 
   private lazy val useStyles: StylesHook[Styles[Theme, Unit, String]] = {
@@ -42,6 +47,7 @@ import slinky.core.facade.Fragment
 
   private val globalStores =
     List("https://www2.hm.com", "https://m2.hm.com/m", "https://www.zara.com", "https://www.ebay.com")
+
   private val mexicoStores =
     List(
       "https://www.liverpool.com.mx",
@@ -57,6 +63,7 @@ import slinky.core.facade.Fragment
       "https://www.bestbuy.com.mx",
       "https://www.elpalaciodehierro.com"
     )
+
   private val usaStores = List(
     "https://www.officedepot.com",
     "https://www.samsclub.com",
@@ -67,8 +74,7 @@ import slinky.core.facade.Fragment
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
 
-    Fragment(
-      Title("Ayuda"),
+    Scaffold(
       mui.Paper(className := classes("tutorial"))(
         Subtitle("Acerca de"),
         TextLine("El propósito Cazadescuentos, ayudarte a ahorrar mientras compras por Internet:"),
@@ -95,7 +101,8 @@ import slinky.core.facade.Fragment
         SupportedStoreList("Globales", globalStores),
         SupportedStoreList("México", mexicoStores),
         SupportedStoreList("USA", usaStores)
-      )
+      ),
+      appBar = Some(ScaffoldAppBar("Ayuda"))
     )
   }
 }

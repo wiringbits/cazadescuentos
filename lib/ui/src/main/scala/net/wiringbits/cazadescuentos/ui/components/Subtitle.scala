@@ -1,4 +1,4 @@
-package net.wiringbits.cazadescuentos.components
+package net.wiringbits.cazadescuentos.ui.components
 
 import com.alexitc.materialui.facade.csstype.csstypeStrings.auto
 import com.alexitc.materialui.facade.csstype.mod.{FlexWrapProperty, TextAlignProperty}
@@ -32,8 +32,7 @@ import slinky.core.annotations.react
         "subtitle" -> CSSProperties()
           .setTextAlign(TextAlignProperty.center)
           .setMargin("0 0 16px 0")
-          .setFontSize("2em")
-          .set("font-wright", "500")
+          .setFontSize("1.5em")
       )
 
     makeStyles(stylesCallback, WithStylesOptions())
