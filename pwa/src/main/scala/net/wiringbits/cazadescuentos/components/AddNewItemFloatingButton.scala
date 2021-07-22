@@ -36,7 +36,7 @@ import scala.util.{Failure, Success}
           .setPosition(PositionProperty.fixed)
           .setWidth(64)
           .setHeight(64)
-          .setBottom(80)
+          .setBottom(88)
           .setRight("calc(50vw - 32px)"),
         "root" -> CSSProperties().setWidth("100%").setOverflowX(auto)
       )

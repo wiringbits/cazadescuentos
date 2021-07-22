@@ -12,6 +12,7 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
   Styles,
   WithStylesOptions
 }
+import net.wiringbits.cazadescuentos.components.widgets.BottomNavbar
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core._
 import slinky.web.html._

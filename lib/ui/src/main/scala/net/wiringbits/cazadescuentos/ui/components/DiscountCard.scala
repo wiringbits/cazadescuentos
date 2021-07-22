@@ -110,12 +110,6 @@ import slinky.web.html._
             div(className := classes("discountRow"))(
               mui
                 .IconButton()
-                .onClick(_ => {})(muiIcons.Favorite()),
-              mui
-                .IconButton()
-                .onClick(_ => {})(muiIcons.Share()),
-              mui
-                .IconButton()
                 .onClick(_ => dom.window.open(props.discount.url, "_blank"))(muiIcons.OpenInNew())
             ),
             div(className := classes("discountColumn"))(
