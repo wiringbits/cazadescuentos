@@ -44,7 +44,7 @@ import slinky.core.facade.Fragment
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
 
-    def goToStore(store: String) { dom.window.open(store, "_blank") }
+    def goToStore(store: String): Unit = { dom.window.open(store, "_blank") }
 
     val items = props.stores.map { store =>
       mui

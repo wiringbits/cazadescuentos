@@ -11,11 +11,13 @@ case class API(
 )
 
 object API {
-  private val serverApi = if (BuildInfo.production) {
-    "https://cazadescuentos.net/api"
-  } else {
-    "http://localhost:9000"
-  }
+//  private val serverApi = if (BuildInfo.production) {
+//    "https://cazadescuentos.net/api"
+//  } else {
+//    "http://localhost:9000"
+//  }
+
+  private val serverApi = "https://cazadescuentos.net/api"
 
   def apply()(implicit ec: ExecutionContext): API = {
     println(s"Server API expected at: $serverApi")

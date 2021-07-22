@@ -148,7 +148,7 @@ lazy val root = (project in file("."))
   .configure(baseSettings, browserProject, reactNpmDeps, withCssLoading, bundlerSettings, buildInfoSettings)
   .settings(
     useYarn := true,
-    webpackDevServerPort := 8080,
+    webpackDevServerPort := 8888,
     stFlavour := Flavour.Slinky,
     stReactEnableTreeShaking := Selection.All,
     stUseScalaJsDom := true,

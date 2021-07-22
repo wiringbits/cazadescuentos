@@ -1,9 +1,17 @@
-package net.wiringbits.cazadescuentos.components
+package net.wiringbits.cazadescuentos.components.widgets
 
-import com.alexitc.materialui.facade.csstype.mod._
-import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
+import com.alexitc.materialui.facade.csstype.mod.{
+  BoxSizingProperty,
+  FlexDirectionProperty,
+  FlexWrapProperty,
+  ObjectFitProperty,
+  PositionProperty,
+  TextAlignProperty
+}
+import com.alexitc.materialui.facade.materialUiCore.mod.PropTypes
 import com.alexitc.materialui.facade.materialUiCore.{components => mui, materialUiCoreStrings => muiStrings}
 import com.alexitc.materialui.facade.materialUiIcons.{components => muiIcons}
+import com.alexitc.materialui.facade.materialUiCore.createMuiThemeMod.Theme
 import com.alexitc.materialui.facade.materialUiStyles.makeStylesMod.StylesHook
 import com.alexitc.materialui.facade.materialUiStyles.mod.makeStyles
 import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
@@ -14,9 +22,10 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
 }
 import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom
-import slinky.core._
+import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
-import slinky.core.facade._
+import slinky.core.facade.{Hooks, ReactElement}
+import slinky.web.html._
 import typings.reactRouterDom.mod.useHistory
 
 @react object BottomNavbar {
