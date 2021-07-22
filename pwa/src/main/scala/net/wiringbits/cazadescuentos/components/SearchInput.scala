@@ -1,4 +1,4 @@
-package net.wiringbits.cazadescuentos.components.widgets
+package net.wiringbits.cazadescuentos.components
 
 import com.alexitc.materialui.facade.csstype.csstypeStrings.auto
 import com.alexitc.materialui.facade.csstype.mod.{BoxSizingProperty, FlexWrapProperty, TextAlignProperty}

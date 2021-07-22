@@ -27,9 +27,8 @@ object GetTrackedProductsResponse {
     def formattedLastPrice: String = s"${currency.string}%.2f".format(lastPrice.toDouble)
     def formattedInitialPrice: String = s"${currency.string}%.2f".format(initialPrice.toDouble)
 
-    def discountPercent: Double = 100 - (lastPrice * 100 / initialPrice).toDouble
-    def formattedDiscountPercent: String = s"%.2f".format(discountPercent)
-
-    def hasDiscount: Boolean = discountPercent > 0
+    def discountPercent: Int = {
+      100 - (lastPrice * 100 / initialPrice).toInt
+    }
   }
 }

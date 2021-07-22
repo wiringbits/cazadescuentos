@@ -21,7 +21,7 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
   Styles,
   WithStylesOptions
 }
-import net.wiringbits.cazadescuentos.ui.components.{Subtitle, TextLine, Title, YoutubeVideo}
+import net.wiringbits.cazadescuentos.ui.components.{TextLine, Title, YoutubeVideo}
 import org.scalablytyped.runtime.StringDictionary
 import slinky.core.facade.Fragment
 

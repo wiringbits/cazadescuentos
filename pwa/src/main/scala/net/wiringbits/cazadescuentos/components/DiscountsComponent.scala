@@ -22,7 +22,6 @@ import net.wiringbits.cazadescuentos.API
 import net.wiringbits.cazadescuentos.api.http.models.GetDiscountsResponse
 import net.wiringbits.cazadescuentos.api.http.models.GetDiscountsResponse.Discount
 import net.wiringbits.cazadescuentos.common.models.OnlineStore
-import net.wiringbits.cazadescuentos.components.widgets.{Discounts, SearchInput}
 import net.wiringbits.cazadescuentos.models.AppInfo
 import net.wiringbits.cazadescuentos.ui.components.{DiscountCard, MessageCard, Title}
 import org.scalablytyped.runtime.StringDictionary
