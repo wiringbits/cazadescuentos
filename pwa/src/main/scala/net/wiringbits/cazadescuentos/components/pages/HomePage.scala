@@ -37,8 +37,8 @@ import slinky.web.html._
     Scaffold(
       appBar = Some(
         ScaffoldAppBar(
-          "Home"
-//        , Some(InstallCard()) TODO: Finish Install Card
+          "Home",
+          Some(InstallCard())
         )
       ),
       child = Fragment(

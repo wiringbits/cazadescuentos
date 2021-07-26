@@ -1,6 +1,7 @@
 package net.wiringbits.cazadescuentos
 
 import net.wiringbits.cazadescuentos.models.AppInfo
+import net.wiringbits.cazadescuentos.providers.InstallPromptProvider
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Fragment
@@ -10,7 +11,9 @@ import slinky.core.facade.Fragment
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     AppTheme(
-      AppRouter(props.api, props.appInfo)
+      InstallPromptProvider(
+        AppRouter(props.api, props.appInfo)
+      )
     )
   }
 }

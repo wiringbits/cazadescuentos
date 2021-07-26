@@ -59,9 +59,7 @@ import typings.detectBrowser.mod.Browser
     }
 
     mui.Paper(className := classes("disclaimer"))(
-      mui.Typography().variant(typographyTypographyMod.Style.h6)(disclaimer),
-      br(),
-      InstallButton(props.api)
+      mui.Typography().variant(typographyTypographyMod.Style.h6)(disclaimer)
     )
   }
 }

@@ -20,10 +20,16 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
   Styles,
   WithStylesOptions
 }
+import net.wiringbits.cazadescuentos.providers.InstallPromptProvider.useInstallPrompt
 import org.scalablytyped.runtime.StringDictionary
+import org.scalajs.dom
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
+import slinky.core.facade.Fragment
 import slinky.web.html._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js
 
 @react object InstallCard {
   type Props = Unit
@@ -32,12 +38,13 @@ import slinky.web.html._
     val stylesCallback: StyleRulesCallback[Theme, Unit, String] = theme =>
       StringDictionary(
         "installCard" -> CSSProperties()
+          .setMaxWidth(400)
           .setDisplay("flex")
           .setFlexDirection(FlexDirectionProperty.column)
           .setAlignItems("center")
           .setJustifyContent("center")
           .setPadding(16)
-          .setMargin("0 16px")
+          .setMargin("0 auto")
           .set("text-align", "center")
       )
 
@@ -46,18 +53,41 @@ import slinky.web.html._
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
+    val (installPrompt) = useInstallPrompt()
 
-    mui
-      .Paper(
+    dom.console.log(installPrompt.asInstanceOf[js.Dynamic])
+
+    def handleInstall(): Unit = {
+      installPrompt.foreach { e =>
+        val event = e.asInstanceOf[js.Dynamic]
+        event.prompt()
+        event.userChoice.asInstanceOf[js.Promise[js.Dynamic]].toFuture.foreach { choice =>
+          println(s"User choice: ${choice.outcome}") // accepted / dismissed
+        }
+//        setDeferredInstallPrompt(None)
+      }
+    }
+
+    installPrompt match {
+      case Some(event) =>
         mui
-          .Typography("Para una mejor experiencia, instala la app en tu computadora desde https://cazadescuentos.net")
-          .variant(muiStrings.body2),
-        br(),
-        mui
-          .Button("Instalar")
-          .variant(muiStrings.contained)
-          .color(muiStrings.primary)
-      )
-      .className(classes("installCard"))
+          .Paper(
+            mui
+              .Typography(
+                "Para una mejor experiencia, instala la app en tu computadora desde https://cazadescuentos.net"
+              )
+              .variant(muiStrings.body2),
+            br(),
+            mui
+              .Button("Instalar")
+              .variant(muiStrings.contained)
+              .color(muiStrings.primary)
+              .onClick(_ => handleInstall())
+          )
+          .className(classes("installCard"))
+
+      case None => Fragment()
+    }
+
   }
 }
