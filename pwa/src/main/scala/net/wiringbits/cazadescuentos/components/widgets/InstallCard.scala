@@ -44,7 +44,7 @@ import scala.scalajs.js
           .setAlignItems("center")
           .setJustifyContent("center")
           .setPadding(16)
-          .setMargin("0 auto")
+          .setMargin("16px auto")
           .set("text-align", "center")
       )
 
@@ -53,9 +53,7 @@ import scala.scalajs.js
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
     val classes = useStyles(())
-    val (installPrompt) = useInstallPrompt()
-
-    dom.console.log(installPrompt.asInstanceOf[js.Dynamic])
+    val installPrompt = useInstallPrompt()
 
     def handleInstall(): Unit = {
       installPrompt.foreach { e =>
@@ -64,7 +62,6 @@ import scala.scalajs.js
         event.userChoice.asInstanceOf[js.Promise[js.Dynamic]].toFuture.foreach { choice =>
           println(s"User choice: ${choice.outcome}") // accepted / dismissed
         }
-//        setDeferredInstallPrompt(None)
       }
     }
 

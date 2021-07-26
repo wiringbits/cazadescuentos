@@ -46,10 +46,7 @@ import slinky.web.html._
           .setHeight(32)
           .setColor("#FFF")
           .setDisplay("flex")
-          .setAlignItems("center"),
-        "scaffoldAppBarChild" -> CSSProperties()
-          .setMargin(16)
-          .setWidth("100%")
+          .setAlignItems("center")
       )
 
     makeStyles(stylesCallback, WithStylesOptions())
@@ -64,7 +61,7 @@ import slinky.web.html._
       .variant(muiStrings.h5)
 
     val child = props.child match {
-      case Some(child) => Fragment(div(className := classes("scaffoldAppBarChild"))(child))
+      case Some(child) => Fragment(child)
       case None => Fragment()
     }
 
