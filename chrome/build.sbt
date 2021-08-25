@@ -33,6 +33,7 @@ lazy val baseSettings: Project => Project =
 
 lazy val bundlerSettings: Project => Project = {
   _.settings(
+    useYarn := true,
     // NOTE: source maps are disabled to avoid a file not found error which occurs when using the current
     // webpack settings.
     scalaJSLinkerConfig := scalaJSLinkerConfig.value.withSourceMap(false),
