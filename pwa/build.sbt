@@ -31,10 +31,10 @@ lazy val baseSettings: Project => Project =
       /* disabled because it somehow triggers many warnings */
       scalaJSLinkerConfig := scalaJSLinkerConfig.value.withSourceMap(false),
       /* for slinky */
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.6"),
+      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8"),
       libraryDependencies ++= Seq(
         "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
-        "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0"
+        "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0"
       ),
       scalacOptions += "-Ymacro-annotations",
       fork in Test := true,
@@ -173,7 +173,7 @@ lazy val root = (project in file("."))
       "io.circe" %%% "circe-generic" % circe,
       "io.circe" %%% "circe-parser" % circe,
       "com.softwaremill.sttp.client" %%% "core" % sttp,
-      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.2"
+      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
     ),
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % "3.1.1" % Test

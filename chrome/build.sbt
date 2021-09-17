@@ -132,15 +132,15 @@ lazy val root = (project in file("."))
       "@types/classnames" -> "2.2.10"
     ),
     libraryDependencies ++= Seq(
-      "com.alexitc" %%% "scala-js-chrome" % "0.7.0",
+      "com.alexitc" %%% "scala-js-chrome" % "0.7.5",
       "org.scala-js" %%% "scalajs-dom" % "1.0.0",
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
       "io.circe" %%% "circe-parser" % circe,
       "com.softwaremill.sttp.client" %%% "core" % sttp,
-      "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
-      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0",
-      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.2"
+      "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0",
+      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
     ),
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % "3.1.1" % Test
