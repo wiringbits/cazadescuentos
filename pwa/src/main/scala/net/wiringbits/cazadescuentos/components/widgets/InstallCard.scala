@@ -24,6 +24,9 @@ import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html._
+import typings.reactI18next.mod.useTranslation
+
+import scala.scalajs.js
 
 @react object InstallCard {
   type Props = Unit
@@ -45,16 +48,17 @@ import slinky.web.html._
   }
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val js.Tuple3(t, _, _) = useTranslation()
     val classes = useStyles(())
 
     mui
       .Paper(
         mui
-          .Typography("Para una mejor experiencia, instala la app en tu computadora desde https://cazadescuentos.net")
+          .Typography(t("installCardDescription"))
           .variant(muiStrings.body2),
         br(),
         mui
-          .Button("Instalar")
+          .Button(t("install"))
           .variant(muiStrings.contained)
           .color(muiStrings.primary)
       )

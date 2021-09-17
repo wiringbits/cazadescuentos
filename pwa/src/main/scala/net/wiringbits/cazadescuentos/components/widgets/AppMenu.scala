@@ -26,8 +26,10 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html._
+import typings.reactI18next.mod.useTranslation
 import typings.reactRouterDom.mod.useHistory
 
+import scala.scalajs.js
 import scala.scalajs.js.timers.RawTimers.setTimeout
 
 @react object AppMenu {
@@ -57,6 +59,7 @@ import scala.scalajs.js.timers.RawTimers.setTimeout
   }
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val js.Tuple3(t, _, _) = useTranslation()
     val classes = useStyles(())
     val history = useHistory()
     val (path, setPath) = Hooks.useState("/")
@@ -77,19 +80,19 @@ import scala.scalajs.js.timers.RawTimers.setTimeout
             mui
               .BottomNavigationAction()
               .iconReactElement(mui.Icon(muiIcons.LocalOffer()))
-              .label("Home")
+              .label(t("home"))
               .showLabel(true)
               .value("/"),
             mui
               .BottomNavigationAction()
               .iconReactElement(mui.Icon(muiIcons.ShoppingCart()))
-              .label("Buen Fin")
+              .label(t("discounts"))
               .showLabel(true)
               .value("/buenfin"),
             mui
               .BottomNavigationAction()
               .iconReactElement(mui.Icon(muiIcons.Help()))
-              .label("Ayuda")
+              .label(t("help"))
               .showLabel(true)
               .value("/guia")
           )

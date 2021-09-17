@@ -24,6 +24,9 @@ import org.scalajs.dom.raw.HTMLInputElement
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.{Fragment, Hooks}
+import typings.reactI18next.mod.useTranslation
+
+import scala.scalajs.js
 
 @react object SearchInput {
   case class Props(initialValue: String, onChange: String => Unit)
@@ -50,6 +53,7 @@ import slinky.core.facade.{Fragment, Hooks}
   }
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val js.Tuple3(t, _, _) = useTranslation()
     val classes = useStyles(())
 
     val (value, setValue) = Hooks.useState(props.initialValue)
@@ -70,7 +74,7 @@ import slinky.core.facade.{Fragment, Hooks}
           .Input()
           .disableUnderline(true)
           .fullWidth(true)
-          .placeholder("Buscar")
+          .placeholder(t("search"))
           .value(value)
           .onChange(e => onValueChange(e.target.asInstanceOf[HTMLInputElement].value)),
         clearButton
