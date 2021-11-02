@@ -6,7 +6,7 @@ import typings.i18next.mod.{InitOptions, InterpolationOptions, TFunction, defaul
 import typings.i18nextBrowserLanguagedetector.mod.{default => LanguageDetector}
 import typings.reactI18next.mod.initReactI18next
 
-import scala.scalajs.js
+import scala.scalajs.{LinkingInfo, js}
 import scala.scalajs.js.Promise
 
 object I18n {
@@ -80,9 +80,10 @@ object I18n {
             )
           )
           .setFallbackLng(en)
-          .setDebug(true)
+          .setDebug(LinkingInfo.developmentMode)
           .setDefaultNS(namespace)
           .setKeySeparator(`false`)
+          .setNonExplicitWhitelist(true)
           .setInterpolation(InterpolationOptions().setEscapeValue(false))
       )
 }
