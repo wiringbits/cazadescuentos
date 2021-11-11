@@ -166,7 +166,10 @@ lazy val root = (project in file("."))
       "@types/react-router" -> "5.1.2",
       "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2",
-      "detect-browser" -> "5.2.0"
+      "detect-browser" -> "5.2.0",
+      "i18next" -> "19.8.4",
+      "i18next-browser-languagedetector" -> "6.0.1",
+      "react-i18next" -> "11.8.5"
     ),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circe,

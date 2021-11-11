@@ -29,16 +29,21 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Fragment
 import slinky.web.html._
+import typings.reactI18next.mod.useTranslation
+
+import scala.scalajs.js
 
 @react object HomePage {
   case class Props(api: API, appInfo: AppInfo)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val js.Tuple3(t, _, _) = useTranslation()
+
     Scaffold(
       appBar = Some(
         ScaffoldAppBar(
-          "Home"
-//        , Some(InstallCard()) TODO: Finish Install Card
+          t("home").toString,
+          Some(InstallCard()) //TODO: Finish Install Card
         )
       ),
       child = Fragment(

@@ -29,6 +29,9 @@ import org.scalablytyped.runtime.StringDictionary
 import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html._
+import typings.reactI18next.mod.useTranslation
+
+import scala.scalajs.js
 
 @react object HelpPage {
   case class Props(api: API, appInfo: AppInfo)
@@ -72,37 +75,30 @@ import slinky.web.html._
   )
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val js.Tuple3(t, _, _) = useTranslation()
     val classes = useStyles(())
 
     Scaffold(
-      mui.Paper(className := classes("tutorial"))(
-        Subtitle("Acerca de"),
-        TextLine("El propósito Cazadescuentos, ayudarte a ahorrar mientras compras por Internet:"),
-        TextLine(
-          "Si deseas comprar un producto, pero el precio no te convence, agrégalo a nuestra app y esta te notificara cuando baje de precio."
-        ),
+      appBar = Some(ScaffoldAppBar(t("help").toString)),
+      child = mui.Paper(className := classes("tutorial"))(
+        Subtitle(t("about").toString),
+        TextLine(t("helpTextLine1").toString),
+        TextLine(t("helpTextLine2").toString),
         br(),
-        TextLine(
-          "Si acabas de comprar un producto, pagando con una tarjeta que ofrece garantía de precios, agrégalo a nuestra app y esta te notificara si baja de precio para que te puedan reembolsar la diferencia de precios."
-        ),
+        TextLine(t("helpTextLine3").toString),
         br(),
-        TextLine(
-          "Solo visita el producto que te interesa en alguna de las tiendas soportadas, copia la URL y agregalo a cazadescuentos, la app lo seguirá por ti, notificandote cuando este baja de precio."
-        ),
+        TextLine(t("helpTextLine4").toString),
         br(),
-        TextLine(
-          "Se recomienda instalar la app de Android, y compartir los productos que te interesan con esta app"
-        ),
-        TextLine("Puedes ver el siguiente video para entender como:"),
+        TextLine(t("helpTextLine5").toString),
+        TextLine(t("helpTextLine6").toString),
         YoutubeVideo("42FoH_zhvyI"),
         AndroidLinkButton(),
         br(),
-        Subtitle("Tiendas soportadas"),
-        SupportedStoreList("Globales", globalStores),
-        SupportedStoreList("México", mexicoStores),
-        SupportedStoreList("USA", usaStores)
-      ),
-      appBar = Some(ScaffoldAppBar("Ayuda"))
+        Subtitle(t("supportedStores").toString),
+        SupportedStoreList(t("globals").toString, globalStores),
+        SupportedStoreList(t("mexico").toString, mexicoStores),
+        SupportedStoreList(t("usa").toString, usaStores)
+      )
     )
   }
 }

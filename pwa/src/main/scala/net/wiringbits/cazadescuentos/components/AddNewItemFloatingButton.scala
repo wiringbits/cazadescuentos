@@ -23,8 +23,10 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.Hooks
 import slinky.web.html.div
+import typings.reactI18next.mod.useTranslation
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 @react object AddNewItemFloatingButton {
@@ -48,6 +50,8 @@ import scala.util.{Failure, Success}
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] {
     case Props(api, appInfo, onItemAdded) =>
+      val js.Tuple3(t, _, _) = useTranslation()
+
       val (dialogOpened, setDialogOpened) = Hooks.useState(false)
       val (newItemStr, setNewItemStr) = Hooks.useState("")
       val (addingItem, setAddingItem) = Hooks.useState(false)
@@ -81,7 +85,7 @@ import scala.util.{Failure, Success}
               }
 
           case None =>
-            setErrorMsg("La URL del producto no es correcta, o no es una tienda soportada actualmente")
+            setErrorMsg(t("urlErrorText").toString)
         }
       }
       def handleDialogClosed(): Unit = setDialogOpened(false)
@@ -91,7 +95,7 @@ import scala.util.{Failure, Success}
         case false =>
           mui.Fab
             .className(classes("fab"))
-            .`aria-label`("Agregar")
+            .`aria-label`(t("add"))
             .onClick(_ => handleAddClicked())
             .color(PropTypes.Color.primary)(
               muiIcons.Add()
@@ -101,28 +105,28 @@ import scala.util.{Failure, Success}
           val msg = Option(errorMsg)
             .filter(_.nonEmpty)
             .map(s => s"ERROR: $s")
-            .getOrElse("Pega la URL del producto que te interesa")
+            .getOrElse(t("pasteUrlText").toString)
 
           mui.Paper.className(classes("root"))(
             mui
               .Dialog(true)
               .onClose(_ => handleDialogClosed())(
-                mui.DialogTitle("Nuevo producto"),
+                mui.DialogTitle(t("newProduct")),
                 mui.DialogContent(msg),
                 mui.TextField
                   .StandardTextFieldProps()
                   .autoFocus(true)
                   .margin(PropTypes.Margin.dense)
-                  .label("URL del producto")
+                  .label(t("productUrl"))
                   .onChange(e => handleItemStrUpdated(e.target.asInstanceOf[HTMLInputElement].value))
                   .fullWidth(true),
                 mui.DialogActions(
                   if (addingItem) {
                     div(mui.CircularProgress())
                   } else {
-                    div(mui.Button().color(PropTypes.Color.primary).onClick(_ => handleAddItem())("Agregar"))
+                    div(mui.Button().color(PropTypes.Color.primary).onClick(_ => handleAddItem())(t("add")))
                   },
-                  mui.Button().color(PropTypes.Color.secondary).onClick(_ => handleDialogClosed())("Cancelar")
+                  mui.Button().color(PropTypes.Color.secondary).onClick(_ => handleDialogClosed())(t("cancel"))
                 )
               )
           )

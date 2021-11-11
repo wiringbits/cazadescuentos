@@ -29,6 +29,9 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.core.facade.{Fragment, Hooks}
 import slinky.web.html._
+import typings.reactI18next.mod.useTranslation
+
+import scala.scalajs.js
 
 @react object DiscountsPage {
   case class Props(api: API, appInfo: AppInfo)
@@ -36,6 +39,7 @@ import slinky.web.html._
   private val initialState = State("", None)
 
   val component: FunctionalComponent[Props] = FunctionalComponent[Props] { props =>
+    val js.Tuple3(t, _, _) = useTranslation()
     val (state, setState) = Hooks.useState(initialState)
 
     def setSearchText(searchText: String): Unit = {
@@ -46,7 +50,7 @@ import slinky.web.html._
       Discounts(props.api, props.appInfo, state.searchText),
       appBar = Some(
         ScaffoldAppBar(
-          "Buen Fin",
+          t("discounts").toString,
           Some(
             SearchInput(initialValue = initialState.searchText, onChange = setSearchText)
           )

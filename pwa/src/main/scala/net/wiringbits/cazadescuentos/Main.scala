@@ -35,6 +35,7 @@ object Main {
         App.component(App.Props(apis, appInfo))
     }
 
+    I18n.initialize()
     ReactDOM.render(app, container())
     registerServiceWorker().onComplete {
       case Success(_) =>
