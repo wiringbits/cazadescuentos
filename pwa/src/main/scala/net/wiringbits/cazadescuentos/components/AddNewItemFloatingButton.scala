@@ -25,7 +25,7 @@ import slinky.core.facade.Hooks
 import slinky.web.html.div
 import typings.reactI18next.mod.useTranslation
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.scalajs.js
 import scala.util.{Failure, Success}
 

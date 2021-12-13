@@ -32,7 +32,7 @@ import slinky.core.FunctionalComponent
 import slinky.core.facade.{Fragment, Hooks}
 import slinky.web.html._
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.util.{Failure, Success}
 
 @react object Discounts {

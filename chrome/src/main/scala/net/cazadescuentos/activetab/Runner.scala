@@ -7,13 +7,12 @@ import net.cazadescuentos.facades.sidenavCzd
 import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
 import org.scalajs.dom
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.scalajs.js
 import scala.util.{Failure, Success}
 
-class Runner(config: ActiveTabConfig, backgroundAPI: BackgroundAPI, messages: I18NMessages)(
-    implicit ec: ExecutionContext
-) {
+class Runner(config: ActiveTabConfig, backgroundAPI: BackgroundAPI, messages: I18NMessages) {
 
   private var lastUrl = ""
 
@@ -118,7 +117,7 @@ class Runner(config: ActiveTabConfig, backgroundAPI: BackgroundAPI, messages: I1
 
 object Runner {
 
-  def apply(config: Config)(implicit ec: ExecutionContext): Runner = {
+  def apply(config: Config): Runner = {
     val backgroundAPI = new BackgroundAPI
     val messages = new I18NMessages
     new Runner(config.activeTabConfig, backgroundAPI, messages)

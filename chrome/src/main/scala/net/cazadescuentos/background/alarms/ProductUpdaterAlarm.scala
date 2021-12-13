@@ -7,14 +7,14 @@ import net.cazadescuentos.background.alarms.ProductUpdaterAlarm._
 import net.cazadescuentos.background.services.browser.BrowserNotificationService
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 
-import scala.concurrent.ExecutionContext
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.util.{Failure, Success}
 
 private[background] class ProductUpdaterAlarm(
     config: Config,
     notificationService: BrowserNotificationService,
     productHttpService: ProductHttpService
-)(implicit ec: ExecutionContext) {
+) {
 
   def register(buyerId: UUID): Unit = {
     val alarmName = "CAZADESCUENTOS_TIME_TO_UPDATE_PRODUCTS"

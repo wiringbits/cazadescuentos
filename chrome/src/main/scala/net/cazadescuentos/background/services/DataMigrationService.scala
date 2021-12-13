@@ -4,12 +4,11 @@ import java.util.UUID
 
 import net.cazadescuentos.background.services.storage.StorageMigrationService
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 
 class DataMigrationService(
     storageMigrationService: StorageMigrationService
-)(
-    implicit ec: ExecutionContext
 ) {
 
   def migrate(): Future[UUID] = {

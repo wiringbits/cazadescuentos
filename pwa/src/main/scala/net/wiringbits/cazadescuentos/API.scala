@@ -3,7 +3,7 @@ package net.wiringbits.cazadescuentos
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import net.wiringbits.cazadescuentos.common.storage.StorageService
 
-import scala.concurrent.ExecutionContext
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 
 case class API(
     productService: ProductHttpService,
@@ -17,7 +17,7 @@ object API {
     "http://localhost:9000"
   }
 
-  def apply()(implicit ec: ExecutionContext): API = {
+  def apply(): API = {
     println(s"Server API expected at: $serverApi")
 
     val storageService = new StorageService

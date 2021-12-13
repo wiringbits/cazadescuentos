@@ -7,10 +7,11 @@ import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
 import net.wiringbits.cazadescuentos.api.storage.models.StoredProduct
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.scalajs.js
 
-private[background] class ProductStorageService(implicit ec: ExecutionContext) {
+private[background] class ProductStorageService {
 
   import ProductStorageService._
 

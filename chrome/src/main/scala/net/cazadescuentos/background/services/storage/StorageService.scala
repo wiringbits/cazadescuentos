@@ -5,10 +5,11 @@ import io.circe.syntax._
 import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
 import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.scalajs.js
 
-private[background] class StorageService(implicit ec: ExecutionContext) {
+private[background] class StorageService {
 
   import StorageService._
 

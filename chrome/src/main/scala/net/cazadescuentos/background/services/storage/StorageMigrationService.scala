@@ -4,11 +4,10 @@ import java.util.UUID
 
 import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 
-class StorageMigrationService(storageService: StorageService, legacyStorageService: ProductStorageService)(
-    implicit ec: ExecutionContext
-) {
+class StorageMigrationService(storageService: StorageService, legacyStorageService: ProductStorageService) {
 
   def migrate(): Future[StoredData] = {
     storageService
