@@ -6,7 +6,7 @@ import slinky.core.facade.{Hooks, ReactElement}
 import slinky.web.html._
 import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 

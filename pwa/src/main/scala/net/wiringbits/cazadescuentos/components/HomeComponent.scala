@@ -22,7 +22,7 @@ import slinky.core.annotations.react
 import slinky.web.html._
 import typings.detectBrowser.mod.Browser
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 
 @react object HomeComponent {
 

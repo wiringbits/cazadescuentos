@@ -7,7 +7,7 @@ import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import org.scalajs.dom
 import slinky.web.ReactDOM
 
-import scala.concurrent.ExecutionContext
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.util.{Failure, Success}
 
 class Runner(productHttpService: ProductHttpService, messages: I18NMessages, backgroundAPI: BackgroundAPI) {
@@ -22,7 +22,6 @@ class Runner(productHttpService: ProductHttpService, messages: I18NMessages, bac
 
   def inject(): Unit = {
     log("This was run by the popup script")
-    import scala.concurrent.ExecutionContext.Implicits.global
     backgroundAPI.findBuyerId().onComplete {
       case Success(buyerId) =>
         val api = API(backgroundAPI, productHttpService, messages)
@@ -55,7 +54,7 @@ class Runner(productHttpService: ProductHttpService, messages: I18NMessages, bac
 
 object Runner {
 
-  def apply(config: Config)(implicit ec: ExecutionContext): Runner = {
+  def apply(config: Config): Runner = {
     val messages = new I18NMessages
     val backgroundAPI = new BackgroundAPI()
 

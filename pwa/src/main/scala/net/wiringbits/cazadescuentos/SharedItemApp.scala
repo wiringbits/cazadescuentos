@@ -8,7 +8,7 @@ import slinky.core.facade.Hooks
 import slinky.web.html.div
 import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.util.{Failure, Success}
 
 /**

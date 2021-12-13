@@ -16,7 +16,8 @@ import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import org.scalajs.dom
 import org.scalajs.dom.experimental.serviceworkers.toServiceWorkerNavigator
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
@@ -25,7 +26,7 @@ class Runner(
     dataMigrationService: DataMigrationService,
     commandProcessor: CommandProcessor,
     productUpdaterAlarm: ProductUpdaterAlarm
-)(implicit ec: ExecutionContext) {
+) {
 
   def run(): Unit = {
     log("This was run by the background script")
@@ -96,7 +97,7 @@ class Runner(
 
 object Runner {
 
-  def apply(config: Config)(implicit ec: ExecutionContext): Runner = {
+  def apply(config: Config): Runner = {
     val legacyStorageService = new ProductStorageService()
     val storageService = new StorageService()
 

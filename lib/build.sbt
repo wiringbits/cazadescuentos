@@ -97,6 +97,7 @@ lazy val ui = (project in file("ui"))
     ),
     libraryDependencies ++= Seq(
       "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
+      "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
       "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
     )
   )

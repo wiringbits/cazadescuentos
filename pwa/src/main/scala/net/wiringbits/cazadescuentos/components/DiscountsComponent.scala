@@ -33,9 +33,6 @@ import slinky.core.annotations.react
 import slinky.core.facade.{Fragment, Hooks}
 import slinky.web.html._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
-
 @react object DiscountsComponent {
   case class Props(api: API, appInfo: AppInfo)
 

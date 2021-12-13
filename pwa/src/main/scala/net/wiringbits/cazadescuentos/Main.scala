@@ -12,7 +12,7 @@ import org.scalajs.dom.experimental.serviceworkers._
 import slinky.hot
 import slinky.web.ReactDOM
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.LinkingInfo
 import scala.util.{Failure, Success}

@@ -8,11 +8,12 @@ import net.cazadescuentos.background.models.{Command, Event}
 import net.wiringbits.cazadescuentos.api.http.models.ProductDetails
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
 
-import scala.concurrent.{ExecutionContext, Future, Promise}
+import scala.concurrent.{Future, Promise}
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.scalajs.js
 import scala.util.{Failure, Success, Try}
 
-class BackgroundAPI(implicit ec: ExecutionContext) {
+class BackgroundAPI {
 
   import BackgroundAPI._
 

@@ -7,13 +7,14 @@ import net.cazadescuentos.background.services.browser.BrowserNotificationService
 import net.cazadescuentos.background.services.storage.StorageService
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 
 private[background] class CommandProcessor(
     storageService: StorageService,
     productHttpService: ProductHttpService,
     browserNotificationService: BrowserNotificationService
-)(implicit ec: ExecutionContext) {
+) {
 
   def process(buyerId: UUID, command: Command): Future[Event] = command match {
     case Command.FindBuyerId() =>

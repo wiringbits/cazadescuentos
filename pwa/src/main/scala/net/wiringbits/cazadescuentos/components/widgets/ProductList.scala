@@ -29,7 +29,7 @@ import slinky.core.FunctionalComponent
 import slinky.core.annotations.react
 import slinky.web.html._
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 
 @react object ProductList {
   case class Props(api: API, appInfo: AppInfo)
