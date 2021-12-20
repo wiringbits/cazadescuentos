@@ -1,7 +1,7 @@
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 
-val circe = "0.13.0"
+val circe = "0.14.1"
 val sttp = "2.1.5"
 
 lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
