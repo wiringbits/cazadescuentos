@@ -8,14 +8,14 @@ lazy val isProductionBuild = sys.env.getOrElse("PROD", "false") == "true"
 lazy val appName = "cazadescuentos"
 
 val circe = "0.14.1"
-val sttp = "2.1.2"
+val sttp = "2.1.5"
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
     .settings(
       name := appName,
       version := "1.28",
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.7",
       scalacOptions ++= Seq(
         "-language:implicitConversions",
         "-language:existentials",
@@ -144,6 +144,6 @@ lazy val root = (project in file("."))
       "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
     ),
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.1.1" % Test
+      "org.scalatest" %%% "scalatest" % "3.1.4" % Test
     )
   )

@@ -2,7 +2,7 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 
 val circe = "0.14.1"
-val sttp = "2.1.2"
+val sttp = "2.1.5"
 
 lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
 lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
@@ -18,7 +18,7 @@ lazy val baseSettings: Project => Project =
     .settings(
       name := "cazadescuentos-app",
       organization := "net.wiringbits",
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.7",
       scalacOptions ++= Seq(
         "-deprecation", // Emit warning and location for usages of deprecated APIs.
         "-encoding",
@@ -33,7 +33,7 @@ lazy val baseSettings: Project => Project =
       /* for slinky */
       libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8"),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
+        "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
         "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0"
       ),
       scalacOptions += "-Ymacro-annotations",
@@ -180,7 +180,7 @@ lazy val root = (project in file("."))
       "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
     ),
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.1.1" % Test
+      "org.scalatest" %%% "scalatest" % "3.1.4" % Test
     )
   )
 
