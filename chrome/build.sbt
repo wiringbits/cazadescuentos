@@ -8,7 +8,7 @@ lazy val isProductionBuild = sys.env.getOrElse("PROD", "false") == "true"
 lazy val appName = "cazadescuentos"
 
 val circe = "0.13.0"
-val sttp = "2.1.2"
+val sttp = "2.1.5"
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
