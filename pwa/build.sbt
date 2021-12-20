@@ -18,7 +18,7 @@ lazy val baseSettings: Project => Project =
     .settings(
       name := "cazadescuentos-app",
       organization := "net.wiringbits",
-      scalaVersion := "2.13.3",
+      scalaVersion := "2.13.7",
       scalacOptions ++= Seq(
         "-deprecation", // Emit warning and location for usages of deprecated APIs.
         "-encoding",

@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.3"
+ThisBuild / scalaVersion := "2.13.7"
 ThisBuild / organization := "net.wiringbits"
 
 val circe = "0.13.0"
