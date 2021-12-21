@@ -180,7 +180,7 @@ lazy val root = (project in file("."))
       "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
     ),
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.1.4" % Test
+      "org.scalatest" %%% "scalatest" % "3.2.10" % Test
     )
   )
 
