@@ -2,7 +2,7 @@ ThisBuild / scalaVersion := "2.13.7"
 ThisBuild / organization := "net.wiringbits"
 
 val circe = "0.14.1"
-val sttp = "2.1.5"
+val sttp = "2.2.10"
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
