@@ -177,7 +177,7 @@ lazy val root = (project in file("."))
       "io.circe" %%% "circe-parser" % circe,
       "com.softwaremill.sttp.client" %%% "core" % sttp,
       "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
-      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
+      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.6"
     ),
     libraryDependencies ++= Seq(
       "org.scalatest" %%% "scalatest" % "3.2.10" % Test
