@@ -19,8 +19,11 @@ import scala.concurrent.Future
 import java.util.UUID
 
 class AppTest extends AnyFunSuite {
+  val BUYER_ID: UUID = UUID.fromString("2145bd98-c968-11ec-9d64-0242ac120002")
+
   test("Renders without crashing") {
     val storageService = new StorageService
+
     val productHttpService = new ProductHttpService {
       override def bestDiscounts(buyerId: UUID): Future[GetDiscountsResponse] = {
         Future.successful(GetDiscountsResponse(List.empty))
@@ -36,7 +39,9 @@ class AppTest extends AnyFunSuite {
 
       override def getAllSummary(buyerId: UUID): Future[List[ProductDetails]] = Future.successful(List.empty)
 
-      override def getAllSummaryV2(buyerId: UUID): Future[GetTrackedProductsResponse] = ???
+      override def getAllSummaryV2(buyerId: UUID): Future[GetTrackedProductsResponse] = Future.successful(
+        GetTrackedProductsResponse(List.empty)
+      )
 
       override def subscribe(buyerId: UUID, subscription: NotificationsSubscription): Future[Unit] = Future.unit
 
@@ -48,9 +53,9 @@ class AppTest extends AnyFunSuite {
     }
 
     val apis = API(productHttpService, storageService)
-
     val div = document.createElement("div")
-    val appInfo = AppInfo(UUID.randomUUID(), None, false, None)
+    val appInfo = AppInfo(buyerId = BUYER_ID, sharedUrl = None, isAndroidApp = false, browser = None)
+
     ReactDOM.render(App.component(App.Props(apis, appInfo)), div)
     ReactDOM.unmountComponentAtNode(div)
   }
