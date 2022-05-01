@@ -1,28 +1,25 @@
 package net.wiringbits.cazadescuentos
 
 import java.util.UUID
-
 import net.wiringbits.cazadescuentos.api.PushNotificationService
 import net.wiringbits.cazadescuentos.api.storage.models.StoredData
 import net.wiringbits.cazadescuentos.common.storage.StorageService
 import net.wiringbits.cazadescuentos.models.AppInfo
 import org.scalajs.dom
-import org.scalajs.dom.experimental.URLSearchParams
-import org.scalajs.dom.experimental.serviceworkers._
-import slinky.hot
+import org.scalajs.dom.URLSearchParams
 import slinky.web.ReactDOM
-
 import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
+
 import scala.concurrent.{Future, Promise}
-import scala.scalajs.LinkingInfo
 import scala.util.{Failure, Success}
 
 object Main {
 
   def main(argv: Array[String]): Unit = {
-    if (LinkingInfo.developmentMode) {
-      hot.initialize()
-    }
+//    TODO: hot.initialize() is missing in slinky.hot, breaking changes?
+//    if (LinkingInfo.developmentMode) {
+//      hot.initialize()
+//    }
 
     val apis = API()
     val buyerId = findBuyerId(apis.storageService)
@@ -63,14 +60,17 @@ object Main {
 
   private def registerServiceWorker(): Future[Unit] = {
     val promise = Promise[Unit]()
-    dom.window.addEventListener("load", (_: dom.Event) => {
-      val f = dom.window.navigator.serviceWorker
-        .register("/service-worker.js")
-        .toFuture
-        .map(_ => ())
+    dom.window.addEventListener(
+      "load",
+      (_: dom.Event) => {
+        val f = dom.window.navigator.serviceWorker
+          .register("/service-worker.js")
+          .toFuture
+          .map(_ => ())
 
-      promise.completeWith(f)
-    })
+        promise.completeWith(f)
+      }
+    )
 
     promise.future
   }

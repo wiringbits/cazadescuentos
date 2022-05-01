@@ -149,17 +149,13 @@ import slinky.web.html._
           ),
           mui.CardContent(
             mui
-              .IconButton()
+              .IconButton(muiIcons.Delete())
               .`aria-label`(props.texts.remove)
-              .onClick(_ => delete())(
-                muiIcons.Delete()
-              ),
+              .onClick(_ => delete()),
             mui
-              .IconButton()
+              .IconButton(muiIcons.Link())
               .`aria-label`(props.texts.show)
-              .onClick(_ => open())(
-                muiIcons.Link()
-              )
+              .onClick(_ => open())
           )
         )
     }

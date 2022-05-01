@@ -1,7 +1,6 @@
 package net.wiringbits.cazadescuentos.api.http
 
 import java.util.UUID
-
 import io.circe.Decoder
 import io.circe.generic.auto._
 import io.circe.parser.parse
@@ -9,7 +8,8 @@ import io.circe.syntax._
 import net.wiringbits.cazadescuentos.api.codecs.CirceCodecs._
 import net.wiringbits.cazadescuentos.api.http.models._
 import net.wiringbits.cazadescuentos.common.models.StoreProduct
-import sttp.client._
+import sttp.capabilities
+import sttp.client3._
 import sttp.model.MediaType
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -56,8 +56,8 @@ object ProductHttpService {
     }
   }
 
-  class DefaultImpl(config: ProductHttpService.Config)(
-      implicit backend: SttpBackend[Future, Nothing, Nothing],
+  class DefaultImpl(config: ProductHttpService.Config)(implicit
+      backend: SttpBackend[Future, capabilities.WebSockets],
       ec: ExecutionContext
   ) extends ProductHttpService {
 
@@ -77,7 +77,7 @@ object ProductHttpService {
       val uri = ServerAPI.path(path)
       prepareRequest[List[ProductDetails]](buyerId)
         .get(uri)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -88,7 +88,7 @@ object ProductHttpService {
 
       prepareRequest[List[ProductDetails]](buyerId)
         .get(uri)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -98,7 +98,7 @@ object ProductHttpService {
       val uri = ServerAPI.path(path)
       prepareRequest[GetTrackedProductsResponse](buyerId: UUID)
         .get(uri)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -113,7 +113,7 @@ object ProductHttpService {
       prepareRequest[ProductDetails](buyerId)
         .post(uri)
         .body(body)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -128,7 +128,7 @@ object ProductHttpService {
       prepareRequest[Unit](buyerId: UUID)
         .put(uri)
         .body(body)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -144,7 +144,7 @@ object ProductHttpService {
       prepareRequest[Unit](buyerId)
         .put(uri)
         .body(body.toString())
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -154,7 +154,7 @@ object ProductHttpService {
       val uri = ServerAPI.path(path)
       prepareRequest[GetDiscountsResponse](buyerId)
         .get(uri)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -164,7 +164,7 @@ object ProductHttpService {
       val uri = ServerAPI.path(path)
       prepareRequest[GetNotificationsResponse](buyerId)
         .get(uri)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
@@ -174,7 +174,7 @@ object ProductHttpService {
       val uri = ServerAPI.path(path)
       prepareRequest[Unit](buyerId)
         .delete(uri)
-        .send()
+        .send(backend)
         .map(_.body)
         .expectSuccess
     }
