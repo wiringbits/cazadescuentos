@@ -1,8 +1,12 @@
-ThisBuild / scalaVersion := "2.13.7"
+ThisBuild / scalaVersion := "2.13.8"
 ThisBuild / organization := "net.wiringbits"
 
 val circe = "0.14.1"
-val sttp = "2.2.10"
+val sttp = "3.5.2"
+
+val scalaDomVersion = "2.1.0"
+val slinkyVersion = "0.7.2"
+val muiFacadeVersion = "0.2.0"
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
@@ -31,8 +35,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % "2.3.0"),
-    Compile / npmDependencies in Compile ++= Seq(
-      )
+    Compile / npmDependencies ++= Seq()
   )
 
 // shared apis
@@ -45,7 +48,7 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
       "io.circe" %%% "circe-parser" % circe,
-      "com.softwaremill.sttp.client" %%% "core" % sttp
+      "com.softwaremill.sttp.client3" %%% "core" % sttp
     )
   )
   .jvmSettings(
@@ -56,8 +59,7 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq(),
-    Compile / npmDependencies in Compile ++= Seq(
-      )
+    Compile / npmDependencies ++= Seq()
   )
 
 // shared on the ui only
@@ -68,37 +70,42 @@ lazy val ui = (project in file("ui"))
   .settings(
     name := "cazadescuentos-ui",
     scalacOptions += "-Ymacro-annotations",
-    requireJsDomEnv in Test := true,
+    Test / requireJsDomEnv := true,
     stTypescriptVersion := "3.9.3",
     // material-ui is provided by a pre-packaged library
     stIgnore ++= List("react-proxy", "@material-ui/core", "@material-ui/styles", "@material-ui/icons"),
-    Compile / npmDependencies ++= Seq(
-      "react" -> "16.13.1",
-      "react-dom" -> "16.13.1",
-      "@types/react" -> "16.9.42",
-      "@types/react-dom" -> "16.9.8",
-      "csstype" -> "2.6.11",
-      "@types/prop-types" -> "15.7.3",
-      "react-proxy" -> "1.1.8"
-    ),
     stFlavour := Flavour.Slinky,
     stReactEnableTreeShaking := Selection.All,
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     Compile / npmDependencies ++= Seq(
+      // react
+      "react" -> "16.12.0",
+      "react-dom" -> "16.12.0",
+      "react-router" -> "5.1.2",
+      "react-router-dom" -> "5.1.2",
+      // material
       "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
       "@material-ui/styles" -> "3.0.0-alpha.10", // note: version 4 is not supported yet
       "@material-ui/icons" -> "3.0.2",
-      "@types/classnames" -> "2.2.10",
-      "react-router" -> "5.1.2",
+      // others
+      "history" -> "4.9.0",
+      "csstype" -> "3.0.11"
+    ),
+    Compile / npmDevDependencies ++= Seq(
+      "@types/react-dom" -> "16.9.8",
       "@types/react-router" -> "5.1.2",
-      "react-router-dom" -> "5.1.2",
-      "@types/react-router-dom" -> "5.1.2"
+      "@types/react-router-dom" -> "5.1.2",
+      "@types/prop-types" -> "15.7.5",
+      "@types/history" -> "4.7.9"
     ),
     libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % scalaDomVersion,
+      "me.shadaj" %%% "slinky-web" % slinkyVersion, // core React functionality, no React DOM
+      "me.shadaj" %%% "slinky-core" % slinkyVersion, // React DOM, HTML and SVG tags
       "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
       "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
-      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
+      "com.alexitc" %%% "sjs-material-ui-facade" % muiFacadeVersion // material-ui bindings
     )
   )
 

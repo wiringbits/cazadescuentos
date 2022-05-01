@@ -2,15 +2,18 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 
 val circe = "0.14.1"
-val sttp = "2.2.10"
+val sttp = "3.5.2"
+
+val scalaDomVersion = "2.1.0"
+val slinkyVersion = "0.7.2"
+val muiFacadeVersion = "0.2.0"
 
 lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
 lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
 lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 
-/**
- * Say just `build` or `sbt build` to make a production bundle in `build`
- */
+/** Say just `build` or `sbt build` to make a production bundle in `build`
+  */
 lazy val build = TaskKey[File]("build")
 
 lazy val baseSettings: Project => Project =
@@ -18,7 +21,7 @@ lazy val baseSettings: Project => Project =
     .settings(
       name := "cazadescuentos-app",
       organization := "net.wiringbits",
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.8",
       scalacOptions ++= Seq(
         "-deprecation", // Emit warning and location for usages of deprecated APIs.
         "-encoding",
@@ -31,20 +34,19 @@ lazy val baseSettings: Project => Project =
       /* disabled because it somehow triggers many warnings */
       scalaJSLinkerConfig := scalaJSLinkerConfig.value.withSourceMap(false),
       /* for slinky */
-      libraryDependencies ++= Seq("me.shadaj" %%% "slinky-hot" % "0.6.8"),
       libraryDependencies ++= Seq(
+        "me.shadaj" %%% "slinky-web" % slinkyVersion, // core React functionality, no React DOM
+        "me.shadaj" %%% "slinky-core" % slinkyVersion, // React DOM, HTML and SVG tags
         "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
         "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0"
       ),
       scalacOptions += "-Ymacro-annotations",
-      fork in Test := true,
-      requireJsDomEnv in Test := true
+      Test / fork := true,
+      Test / requireJsDomEnv := true
     )
 
-/**
- * Implement the  `build` task define above.
- * Most of this is really just to copy the index.html file around.
- */
+/** Implement the `build` task define above. Most of this is really just to copy the index.html file around.
+  */
 lazy val browserProject: Project => Project =
   _.settings(
     build := {
@@ -67,15 +69,13 @@ lazy val browserProject: Project => Project =
       Files
         .walk(jsFolder.toPath)
         .filter(x => !Files.isDirectory(x))
-        .forEach(
-          source => {
-            source.toFile.relativeTo(jsFolder).foreach { relativeSource =>
-              val dest = distFolder / relativeSource.toString
-              dest.getParentFile.mkdirs()
-              Files.copy(source, dest.toPath, REPLACE_EXISTING)
-            }
+        .forEach(source => {
+          source.toFile.relativeTo(jsFolder).foreach { relativeSource =>
+            val dest = distFolder / relativeSource.toString
+            dest.getParentFile.mkdirs()
+            Files.copy(source, dest.toPath, REPLACE_EXISTING)
           }
-        )
+        })
 
       // link the proper js bundle
       val indexFrom = baseDirectory.value / "src/main/js/index.html"
@@ -101,13 +101,20 @@ lazy val reactNpmDeps: Project => Project =
     stTypescriptVersion := "3.9.3",
     stIgnore += "react-proxy",
     Compile / npmDependencies ++= Seq(
-      "react" -> "16.13.1",
-      "react-dom" -> "16.13.1",
-      "@types/react" -> "16.9.42",
+      // react
+      "react" -> "16.12.0",
+      "react-dom" -> "16.12.0",
+      "react-router" -> "5.1.2",
+      "react-router-dom" -> "5.1.2",
+      "react-proxy" -> "1.1.8",
+      // Others
+      "history" -> "4.9.0",
+      "csstype" -> "3.0.11"
+    ),
+    Compile / npmDevDependencies ++= Seq(
       "@types/react-dom" -> "16.9.8",
-      "csstype" -> "2.6.11",
-      "@types/prop-types" -> "15.7.3",
-      "react-proxy" -> "1.1.8"
+      "@types/react-router" -> "5.1.2",
+      "@types/react-router-dom" -> "5.1.2"
     )
   )
 
@@ -156,31 +163,53 @@ lazy val root = (project in file("."))
     // material-ui is provided by a pre-packaged library
     stIgnore ++= List("@material-ui/core", "@material-ui/styles", "@material-ui/icons"),
     Compile / npmDependencies ++= Seq(
+      // react
+      "react" -> "16.12.0",
+      "react-dom" -> "16.12.0",
+      "react-router" -> "5.1.2",
+      "react-router-dom" -> "5.1.2",
+      "react-proxy" -> "1.1.8",
+      // Material
       "@material-ui/core" -> "3.9.4", // note: version 4 is not supported yet
       "@material-ui/styles" -> "3.0.0-alpha.10", // note: version 4 is not supported yet
       "@material-ui/icons" -> "3.0.2",
-      "recharts" -> "1.8.5",
-      "@types/recharts" -> "1.8.10",
-      "@types/classnames" -> "2.2.10",
-      "react-router" -> "5.1.2",
+      // i18n
+      "i18next" -> "21.6.16",
+      "i18next-browser-languagedetector" -> "6.1.4",
+      "react-i18next" -> "11.16.7",
+      // Others
+      "recharts" -> "2.1.9",
+      "detect-browser" -> "5.3.0",
+      "history" -> "4.9.0",
+      "csstype" -> "3.0.11"
+    ),
+    Compile / npmDevDependencies ++= Seq(
+      // react
+      "@types/react-dom" -> "16.9.8",
       "@types/react-router" -> "5.1.2",
-      "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2",
-      "detect-browser" -> "5.2.0",
-      "i18next" -> "19.8.4",
-      "i18next-browser-languagedetector" -> "6.0.1",
-      "react-i18next" -> "11.8.5"
+      // others
+      "@types/prop-types" -> "15.7.5",
+      "@types/history" -> "4.7.9",
+      "@types/node" -> "16.11.7",
+      "@types/dompurify" -> "2.3.3",
+      "@types/recharts" -> "1.8.23"
     ),
     libraryDependencies ++= Seq(
+      // scala dom
+      "org.scala-js" %%% "scalajs-dom" % scalaDomVersion,
+      // scala test
+      "org.scalatest" %%% "scalatest" % "3.2.10" % Test,
+      // scala-js-macrotask-executor
+      "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
+      // circe
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
       "io.circe" %%% "circe-parser" % circe,
-      "com.softwaremill.sttp.client" %%% "core" % sttp,
-      "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
-      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
-    ),
-    libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.2.10" % Test
+      // sttp
+      "com.softwaremill.sttp.client3" %%% "core" % sttp,
+      // material
+      "com.alexitc" %%% "sjs-material-ui-facade" % muiFacadeVersion // material-ui bindings
     )
   )
 
