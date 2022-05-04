@@ -83,7 +83,7 @@ object I18n {
           .setDebug(LinkingInfo.developmentMode)
           .setDefaultNS(namespace)
           .setKeySeparator(`false`)
-          .setNonExplicitWhitelist(true)
+//          .setNonExplicitWhitelist(true)
           .setInterpolation(InterpolationOptions().setEscapeValue(false))
       )
 }

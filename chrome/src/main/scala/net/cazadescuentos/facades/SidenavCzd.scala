@@ -1,7 +1,7 @@
 package net.cazadescuentos.facades
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSGlobal, JSGlobalScope, JSImport}
+import scala.scalajs.js.annotation.JSGlobal
 
 @js.native
 @JSGlobal("sidenavCzd")
