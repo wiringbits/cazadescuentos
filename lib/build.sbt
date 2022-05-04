@@ -5,8 +5,17 @@ val circe = "0.14.1"
 val sttp = "3.5.2"
 
 val scalaDomVersion = "2.1.0"
+val scalaTestVersion = "3.2.10"
+val scalaJsChromeVersion = "0.9.0"
+
 val slinkyVersion = "0.7.2"
 val muiFacadeVersion = "0.2.0"
+val macroTaskExecutorVersion = "1.0.0"
+val javaTimeVersion = "2.3.0"
+
+lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
+lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
+lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
@@ -34,7 +43,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .jsSettings(
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
-    libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % "2.3.0"),
+    libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion),
     Compile / npmDependencies ++= Seq()
   )
 
@@ -103,8 +112,8 @@ lazy val ui = (project in file("ui"))
       "org.scala-js" %%% "scalajs-dom" % scalaDomVersion,
       "me.shadaj" %%% "slinky-web" % slinkyVersion, // core React functionality, no React DOM
       "me.shadaj" %%% "slinky-core" % slinkyVersion, // React DOM, HTML and SVG tags
-      "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
-      "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
+      "io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion,
+      "org.scala-js" %%% "scala-js-macrotask-executor" % macroTaskExecutorVersion,
       "com.alexitc" %%% "sjs-material-ui-facade" % muiFacadeVersion // material-ui bindings
     )
   )

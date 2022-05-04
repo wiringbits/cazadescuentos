@@ -5,8 +5,13 @@ val circe = "0.14.1"
 val sttp = "3.5.2"
 
 val scalaDomVersion = "2.1.0"
+val scalaTestVersion = "3.2.10"
+val scalaJsChromeVersion = "0.9.0"
+
 val slinkyVersion = "0.7.2"
 val muiFacadeVersion = "0.2.0"
+val macroTaskExecutorVersion = "1.0.0"
+val javaTimeVersion = "2.3.0"
 
 lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
 lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
@@ -37,8 +42,8 @@ lazy val baseSettings: Project => Project =
       libraryDependencies ++= Seq(
         "me.shadaj" %%% "slinky-web" % slinkyVersion, // core React functionality, no React DOM
         "me.shadaj" %%% "slinky-core" % slinkyVersion, // React DOM, HTML and SVG tags
-        "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
-        "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0"
+        "io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion,
+        "io.github.cquiroz" %%% "scala-java-time-tzdb" % javaTimeVersion
       ),
       scalacOptions += "-Ymacro-annotations",
       Test / fork := true,
@@ -199,9 +204,9 @@ lazy val root = (project in file("."))
       // scala dom
       "org.scala-js" %%% "scalajs-dom" % scalaDomVersion,
       // scala test
-      "org.scalatest" %%% "scalatest" % "3.2.10" % Test,
+      "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
       // scala-js-macrotask-executor
-      "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
+      "org.scala-js" %%% "scala-js-macrotask-executor" % macroTaskExecutorVersion,
       // circe
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
