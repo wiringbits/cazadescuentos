@@ -8,7 +8,16 @@ lazy val isProductionBuild = sys.env.getOrElse("PROD", "false") == "true"
 lazy val appName = "cazadescuentos"
 
 val circe = "0.14.1"
-val sttp = "2.2.10"
+val sttp = "3.5.2"
+
+val scalaDomVersion = "2.1.0"
+val scalaTestVersion = "3.2.10"
+val scalaJsChromeVersion = "0.9.0"
+
+val slinkyVersion = "0.7.2"
+val muiFacadeVersion = "0.2.0"
+val macroTaskExecutorVersion = "1.0.0"
+val javaTimeVersion = "2.3.0"
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
@@ -100,13 +109,15 @@ lazy val reactNpmDeps: Project => Project = {
     Compile / npmDependencies ++= Seq(
       "react" -> "16.13.1",
       "react-dom" -> "16.13.1",
+      "csstype" -> "2.6.11",
+      "react-router" -> "5.1.2",
+      "react-router-dom" -> "5.1.2",
+    ),
+    Compile / npmDevDependencies ++= Seq(
       "@types/react" -> "16.9.42",
       "@types/react-dom" -> "16.9.8",
-      "csstype" -> "2.6.11",
       "@types/prop-types" -> "15.7.3",
-      "react-router" -> "5.1.2",
       "@types/react-router" -> "5.1.2",
-      "react-router-dom" -> "5.1.2",
       "@types/react-router-dom" -> "5.1.2"
     )
   )
@@ -132,18 +143,23 @@ lazy val root = (project in file("."))
       "@types/classnames" -> "2.2.10"
     ),
     libraryDependencies ++= Seq(
-      "com.alexitc" %%% "scala-js-chrome" % "0.7.5",
-      "org.scala-js" %%% "scalajs-dom" % "1.0.0",
+      "com.alexitc" %%% "scala-js-chrome" % scalaJsChromeVersion,
+      // scala dom
+      "org.scala-js" %%% "scalajs-dom" % scalaDomVersion,
+      // scala test
+      "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
+      // scala-js-macrotask-executor
+      "org.scala-js" %%% "scala-js-macrotask-executor" % macroTaskExecutorVersion,
+      // circe
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
       "io.circe" %%% "circe-parser" % circe,
-      "com.softwaremill.sttp.client" %%% "core" % sttp,
-      "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
-      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0",
-      "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0",
-      "com.alexitc" %%% "sjs-material-ui-facade" % "0.1.5"
-    ),
-    libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest" % "3.2.10" % Test
+      // sttp
+      "com.softwaremill.sttp.client3" %%% "core" % sttp,
+      // scala-java-time
+      "io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion,
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % javaTimeVersion,
+      // material
+      "com.alexitc" %%% "sjs-material-ui-facade" % muiFacadeVersion // material-ui bindings
     )
   )

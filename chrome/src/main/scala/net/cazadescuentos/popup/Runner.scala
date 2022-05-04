@@ -6,8 +6,11 @@ import net.cazadescuentos.common.I18NMessages
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import org.scalajs.dom
 import slinky.web.ReactDOM
-
 import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
+import sttp.capabilities
+import sttp.client3.SttpBackend
+
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
 class Runner(productHttpService: ProductHttpService, messages: I18NMessages, backgroundAPI: BackgroundAPI) {
@@ -58,7 +61,7 @@ object Runner {
     val messages = new I18NMessages
     val backgroundAPI = new BackgroundAPI()
 
-    implicit val sttpBackend = sttp.client.FetchBackend()
+    implicit val sttpBackend: SttpBackend[Future, capabilities.WebSockets] = sttp.client3.FetchBackend()
     val http = new ProductHttpService.DefaultImpl(config.httpConfig)
     new Runner(http, messages, backgroundAPI)
   }

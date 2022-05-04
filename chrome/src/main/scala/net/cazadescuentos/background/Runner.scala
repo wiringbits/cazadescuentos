@@ -1,7 +1,6 @@
 package net.cazadescuentos.background
 
 import java.util.UUID
-
 import io.circe.generic.auto._
 import io.circe.syntax._
 import net.cazadescuentos.Config
@@ -14,10 +13,12 @@ import net.cazadescuentos.common.I18NMessages
 import net.wiringbits.cazadescuentos.api.PushNotificationService
 import net.wiringbits.cazadescuentos.api.http.ProductHttpService
 import org.scalajs.dom
-import org.scalajs.dom.experimental.serviceworkers.toServiceWorkerNavigator
 
 import scala.concurrent.Future
 import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
+import sttp.capabilities
+import sttp.client3.SttpBackend
+
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
@@ -101,7 +102,7 @@ object Runner {
     val legacyStorageService = new ProductStorageService()
     val storageService = new StorageService()
 
-    implicit val sttpBackend = sttp.client.FetchBackend()
+    implicit val sttpBackend: SttpBackend[Future, capabilities.WebSockets] = sttp.client3.FetchBackend()
     val http = new ProductHttpService.DefaultImpl(config.httpConfig)
 
     val pushNotificationService = PushNotificationService(http)
