@@ -10,7 +10,7 @@ lazy val appName = "cazadescuentos"
 val circe = "0.14.1"
 val sttp = "3.5.2"
 
-val scalaDomVersion = "2.1.0"
+val scalaDomVersion = "2.2.0"
 val scalaTestVersion = "3.2.10"
 val scalaJsChromeVersion = "0.9.0"
 
