@@ -1,5 +1,6 @@
 ThisBuild / scalaVersion := "2.13.8"
 ThisBuild / organization := "net.wiringbits"
+ThisBuild / versionScheme := Some("early-semver")
 
 val circe = "0.14.1"
 val sttp = "3.5.2"
@@ -36,6 +37,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .configure(baseSettings)
   .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .settings(
+    name := "cazadescuentos-common",
     libraryDependencies ++= Seq()
   )
   .jvmSettings(
@@ -55,6 +57,7 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
   .configure(baseSettings)
   .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .settings(
+    name := "cazadescuentos-api",
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
