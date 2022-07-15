@@ -21,6 +21,8 @@ lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin, GitVersioning)
     .settings(
+      // Scala.js requires this, for some reason, without this, testing jvm projects fails
+      Test / fork := false,
       githubOwner := "wiringbits",
       githubRepository := "cazadescuentos",
       scalacOptions ++= Seq(
@@ -41,11 +43,9 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
     libraryDependencies ++= Seq()
   )
   .jvmSettings(
-    Test / fork := true,
     libraryDependencies ++= Seq()
   )
   .jsSettings(
-    Test / fork := false, // Scala.js requires this
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion),
@@ -67,11 +67,9 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
     )
   )
   .jvmSettings(
-    Test / fork := true,
     libraryDependencies ++= Seq()
   )
   .jsSettings(
-    Test / fork := false, // Scala.js requires this
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq(),
@@ -86,7 +84,6 @@ lazy val ui = (project in file("ui"))
   .settings(
     name := "cazadescuentos-ui",
     scalacOptions += "-Ymacro-annotations",
-    Test / fork := false, // Scala.js requires this
     Test / requireJsDomEnv := true,
     stTypescriptVersion := "3.9.3",
     // material-ui is provided by a pre-packaged library

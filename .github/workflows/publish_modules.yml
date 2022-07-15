@@ -2,7 +2,7 @@ name: Publish the modules
 
 on:
   push:
-    branches: [ master, ci-update ]
+    branches: [ master ]
     tags:
       - "**"
 
