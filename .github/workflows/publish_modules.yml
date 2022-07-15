@@ -25,6 +25,7 @@ jobs:
           java-version: 'adopt:1.11.0-11'
           node-version: '16.7.0'
 
-      - name: Prepare the build
-        run: cd lib && sbt commonJS/publish commonJVM/publish apiJS/publish apiJVM/publish ui/publish
+      # only common/api are used by the server app
+      - name: Publish modules
+        run: cd lib && commonJVM/publish apiJVM/publish
 
