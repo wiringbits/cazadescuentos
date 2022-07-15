@@ -27,5 +27,5 @@ jobs:
 
       # only common/api are used by the server app
       - name: Publish modules
-        run: cd lib && commonJVM/publish apiJVM/publish
+        run: cd lib && sbt commonJVM/publish apiJVM/publish
 

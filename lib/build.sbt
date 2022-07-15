@@ -32,6 +32,9 @@ lazy val baseSettings: Project => Project =
         "-unchecked" // Enable additional warnings where generated code depends on assumptions.
       )
     )
+    .jsSettings(
+      Test / fork := false // Scala.js requires this
+    )
 
 lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .configure(baseSettings)
