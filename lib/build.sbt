@@ -14,15 +14,9 @@ val muiFacadeVersion = "0.2.0"
 val macroTaskExecutorVersion = "1.0.0"
 val javaTimeVersion = "2.3.0"
 
-lazy val commonJsLib = ProjectRef(file("../lib"), "commonJS")
-lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
-lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
-
 lazy val baseSettings: Project => Project =
-  _.enablePlugins(ScalaJSPlugin, GitVersioning)
+  _.enablePlugins(GitVersioning)
     .settings(
-      // Scala.js requires this, for some reason, without this, testing jvm projects fails
-      Test / fork := false,
       githubOwner := "wiringbits",
       githubRepository := "cazadescuentos",
       scalacOptions ++= Seq(
@@ -37,7 +31,7 @@ lazy val baseSettings: Project => Project =
 
 lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .configure(baseSettings)
-  .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
+  .jsConfigure(_.enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .settings(
     name := "cazadescuentos-common",
     libraryDependencies ++= Seq()
@@ -46,6 +40,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
+    Test / fork := false, // Scala.js requires this
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion),
@@ -56,7 +51,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
 lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
   .dependsOn(common)
   .configure(baseSettings)
-  .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
+  .jsConfigure(_.enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .settings(
     name := "cazadescuentos-api",
     libraryDependencies ++= Seq(
@@ -70,6 +65,7 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
+    Test / fork := false, // Scala.js requires this
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq(),
@@ -79,12 +75,13 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
 // shared on the ui only
 lazy val ui = (project in file("ui"))
   .configure(baseSettings)
-  .configure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
+  .configure(_.enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .dependsOn(api.js, common.js)
   .settings(
     name := "cazadescuentos-ui",
     scalacOptions += "-Ymacro-annotations",
     Test / requireJsDomEnv := true,
+    Test / fork := false, // Scala.js requires this
     stTypescriptVersion := "3.9.3",
     // material-ui is provided by a pre-packaged library
     stIgnore ++= List("react-proxy", "@material-ui/core", "@material-ui/styles", "@material-ui/icons"),
