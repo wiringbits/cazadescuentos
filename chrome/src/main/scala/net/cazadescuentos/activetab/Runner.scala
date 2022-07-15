@@ -47,30 +47,29 @@ class Runner(config: ActiveTabConfig, backgroundAPI: BackgroundAPI, messages: I1
           store -> url.drop(store.baseUrl.length)
       }
       .filter { case (store, productId) => store.looksLikeProduct(productId) }
-      .foreach {
-        case (store, productId) =>
-          log(s"Product found on $store")
-          val product = StoreProduct(productId, store)
-          backgroundAPI
-            .findStoredProduct(product)
-            .flatMap {
-              case None =>
-                log("Product not found, asking for permissions to track it")
-                tryToTrackProduct(product)
+      .foreach { case (store, productId) =>
+        log(s"Product found on $store")
+        val product = StoreProduct(productId, store)
+        backgroundAPI
+          .findStoredProduct(product)
+          .flatMap {
+            case None =>
+              log("Product not found, asking for permissions to track it")
+              tryToTrackProduct(product)
 
-              case Some(_) =>
-                log("Product found, notifying")
-                backgroundAPI
-                  .sendBrowserNotification(
-                    messages.appName,
-                    messages.youAreFollowingThisItem
-                  )
-            }
-            .onComplete {
-              case Success(_) => println("done")
-              case Failure(ex) =>
-                log(s"failed to verify product, e = $ex")
-            }
+            case Some(_) =>
+              log("Product found, notifying")
+              backgroundAPI
+                .sendBrowserNotification(
+                  messages.appName,
+                  messages.youAreFollowingThisItem
+                )
+          }
+          .onComplete {
+            case Success(_) => println("done")
+            case Failure(ex) =>
+              log(s"failed to verify product, e = $ex")
+          }
       }
   }
 
@@ -95,16 +94,15 @@ class Runner(config: ActiveTabConfig, backgroundAPI: BackgroundAPI, messages: I1
   ): Future[Boolean] = {
     mySidenav = Some(new sidenavCzd.customSidenav())
     mySidenav
-      .map(
-        mysidenav =>
-          mysidenav.fire(new sidenavCzd.Options {
-            title = messages.appName
-            text = messages.questionBeforeFollowingItem
-            imgLogo = chrome.runtime.Runtime.getURL("icons/96/app.png")
-            btnAcceptTxt = messages.yes
-            btnCancelTxt = messages.no
-            draggable = true
-          })
+      .map(mysidenav =>
+        mysidenav.fire(new sidenavCzd.Options {
+          title = messages.appName
+          text = messages.questionBeforeFollowingItem
+          imgLogo = chrome.runtime.Runtime.getURL("icons/96/app.png")
+          btnAcceptTxt = messages.yes
+          btnCancelTxt = messages.no
+          draggable = true
+        })
       )
       .get
       .toFuture

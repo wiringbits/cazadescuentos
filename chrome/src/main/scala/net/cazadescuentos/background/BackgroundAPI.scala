@@ -19,51 +19,49 @@ class BackgroundAPI {
 
   def findBuyerId(): Future[UUID] = {
     val command: Command = Command.FindBuyerId()
-    process(command).collect {
-      case Event.BuyerIdFound(buyerId) => buyerId
+    process(command).collect { case Event.BuyerIdFound(buyerId) =>
+      buyerId
     }
   }
 
   def trackProduct(product: StoreProduct): Future[Unit] = {
     val command: Command = Command.TrackProduct(product)
-    process(command).collect {
-      case _: Event.ProductTracked => ()
+    process(command).collect { case _: Event.ProductTracked =>
+      ()
     }
   }
 
   def findStoredProduct(id: StoreProduct): Future[Option[ProductDetails]] = {
     val command: Command = Command.FindStoredProduct(id)
-    process(command).collect {
-      case e: Event.FoundStoredProduct => e.result
+    process(command).collect { case e: Event.FoundStoredProduct =>
+      e.result
     }
   }
 
   def sendBrowserNotification(title: String, message: String): Future[Unit] = {
     val command: Command = Command.SendBrowserNotification(title, message)
-    process(command).collect {
-      case _: Event.BrowserNotificationSent => ()
+    process(command).collect { case _: Event.BrowserNotificationSent =>
+      ()
     }
   }
 
   def deleteStoredProduct(id: StoreProduct): Future[Unit] = {
     val command: Command = Command.DeleteProduct(id)
-    process(command).collect {
-      case _: Event.StoredProductDeleted => ()
+    process(command).collect { case _: Event.StoredProductDeleted =>
+      ()
     }
   }
 
   def getStoredProductsSummary(): Future[List[ProductDetails]] = {
     val command: Command = Command.GetStoredProductsSummary()
-    process(command).collect {
-      case Event.GotStoredProducts(products) => products
+    process(command).collect { case Event.GotStoredProducts(products) =>
+      products
     }
   }
 
-  /**
-   * Processes a command sending a message to the background context, when the background
-   * isn't ready, the command is retried up to 3 times, delaying 1 second each time, this
-   * retry strategy should be enough for most cases.
-   */
+  /** Processes a command sending a message to the background context, when the background isn't ready, the command is
+    * retried up to 3 times, delaying 1 second each time, this retry strategy should be enough for most cases.
+    */
   private def process(command: Command): Future[Event] = {
     val timeoutMs = 1000
     def processWithRetries(retriesLeft: Int, lastError: String): Future[Event] = {
@@ -74,18 +72,16 @@ class BackgroundAPI {
         val _ = org.scalajs.dom.window.setTimeout(() => promise.completeWith(processInternal(command)), timeoutMs)
 
         promise.future
-          .recoverWith {
-            case TransientError(e) =>
-              log(s"Trying to recover from transient error, retry = $retriesLeft, command = $command, error = $e")
-              processWithRetries(retriesLeft - 1, e)
+          .recoverWith { case TransientError(e) =>
+            log(s"Trying to recover from transient error, retry = $retriesLeft, command = $command, error = $e")
+            processWithRetries(retriesLeft - 1, e)
           }
       }
     }
 
-    processInternal(command).recoverWith {
-      case TransientError(e) =>
-        log(s"Trying to recover from transient error, command = $command, error = $e")
-        processWithRetries(3, e)
+    processInternal(command).recoverWith { case TransientError(e) =>
+      log(s"Trying to recover from transient error, command = $command, error = $e")
+      processWithRetries(3, e)
     }
   }
 

@@ -43,7 +43,7 @@ import scala.scalajs.js
       appBar = Some(
         ScaffoldAppBar(
           t("home").toString,
-          Some(InstallCard()) //TODO: Finish Install Card
+          Some(InstallCard()) // TODO: Finish Install Card
         )
       ),
       child = Fragment(

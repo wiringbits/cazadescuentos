@@ -11,9 +11,7 @@ env:
 
 jobs:
   build-lib:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -32,4 +30,56 @@ jobs:
 
       - name: Run tests
         run: cd lib && CI=true sbt test
+
+  build-pwa:
+    needs: build-lib
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Scala
+        uses: japgolly/setup-everything-scala@v3.1
+        with:
+          java-version: 'adopt:1.11.0-11'
+          node-version: '16.7.0'
+
+      - name: Check code format
+        run: cd pwa && sbt scalafmtCheckAll
+
+      - name: Compile
+        run: cd pwa && CI=true sbt compile
+
+      - name: Production build
+        run: cd pwa && sbt build
+
+      # TODO: Fix tests
+      #- name: Run tests
+      #  run: cd pwa && CI=true sbt test
+
+  build-chrome:
+    needs: build-lib
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Scala
+        uses: japgolly/setup-everything-scala@v3.1
+        with:
+          java-version: 'adopt:1.11.0-11'
+          node-version: '16.7.0'
+
+      - name: Check code format
+        run: cd chrome && sbt scalafmtCheckAll
+
+      - name: Compile
+        run: cd chrome && CI=true sbt compile
+
+      - name: Production build
+        run: cd chrome && sbt chromePackage
+
+      # TODO: Fix tests
+      #- name: Run tests
+      #  run: cd chrome && CI=true sbt test
 

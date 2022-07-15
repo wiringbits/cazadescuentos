@@ -39,10 +39,9 @@ class Runner(
 
         val result = for {
           _ <- registerServiceWorker()
-            .recover {
-              case NonFatal(ex) =>
-                println(s"Failed to register service worker: ${ex.getMessage}")
-                throw ex
+            .recover { case NonFatal(ex) =>
+              println(s"Failed to register service worker: ${ex.getMessage}")
+              throw ex
             }
           _ <- pushNotificationService.enableNotifications(buyerId)
         } yield ()
@@ -74,18 +73,16 @@ class Runner(
             cmd
           }
           .flatMap(x => commandProcessor.process(buyerId, x))
-          .recover {
-            case NonFatal(ex) =>
-              log(s"Failed to process command, error = ${ex.getMessage}")
-              Event.CommandRejected(ex.getMessage)
+          .recover { case NonFatal(ex) =>
+            log(s"Failed to process command, error = ${ex.getMessage}")
+            Event.CommandRejected(ex.getMessage)
           }
           .map(_.asJson.noSpaces)
 
-        /**
-         * NOTE: When replying on futures, the method returning an async response is the only reliable one
-         * otherwise, the sender is getting no response, the way use the async method is to pass a response
-         * in case of failures even if that case was already handled with the CommandRejected event.
-         */
+        /** NOTE: When replying on futures, the method returning an async response is the only reliable one otherwise,
+          * the sender is getting no response, the way use the async method is to pass a response in case of failures
+          * even if that case was already handled with the CommandRejected event.
+          */
         message.response(response, "Impossible failure")
       }
     }
