@@ -11,9 +11,8 @@ import com.alexitc.materialui.facade.materialUiCore.{components => mui}
 import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.util.{Failure, Success}
 
-/**
- * This entrypoint is used specifically when an url is being shared directly from the browser
- */
+/** This entrypoint is used specifically when an url is being shared directly from the browser
+  */
 @react object SharedItemApp {
 
   sealed trait State

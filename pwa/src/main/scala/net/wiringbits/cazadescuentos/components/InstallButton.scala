@@ -61,10 +61,13 @@ import scala.scalajs.js
       dom.console.log(e)
     }
 
-    Hooks.useEffect(() => {
-      dom.window.addEventListener("beforeinstallprompt", handleBeforeInstallEvent)
-      dom.window.addEventListener("appinstalled", handleAppInstalled);
-    }, "")
+    Hooks.useEffect(
+      () => {
+        dom.window.addEventListener("beforeinstallprompt", handleBeforeInstallEvent)
+        dom.window.addEventListener("appinstalled", handleAppInstalled);
+      },
+      ""
+    )
 
     val classes = useStyles(())
 

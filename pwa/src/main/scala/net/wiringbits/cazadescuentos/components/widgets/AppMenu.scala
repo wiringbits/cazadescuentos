@@ -65,13 +65,19 @@ import scala.scalajs.js.timers.RawTimers.setTimeout
     val (path, setPath) = Hooks.useState("/")
     val (visible, setVisible) = Hooks.useState(false)
 
-    Hooks.useEffect(() => {
-      if (!visible) {
-        setTimeout(() => {
-          setVisible(true)
-        }, 500)
-      }
-    }, "")
+    Hooks.useEffect(
+      () => {
+        if (!visible) {
+          setTimeout(
+            () => {
+              setVisible(true)
+            },
+            500
+          )
+        }
+      },
+      ""
+    )
 
     val body = div(className := classes("appMenu"))(
       mui.Paper(className := classes("appMenuNavContainer"))(

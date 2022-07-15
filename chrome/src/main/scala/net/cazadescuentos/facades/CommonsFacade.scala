@@ -3,9 +3,8 @@ package net.cazadescuentos.facades
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobal
 
-/**
- * A facade for the functions on scripts/common.js
- */
+/** A facade for the functions on scripts/common.js
+  */
 @js.native
 @JSGlobal("facade")
 object CommonsFacade extends js.Object {
