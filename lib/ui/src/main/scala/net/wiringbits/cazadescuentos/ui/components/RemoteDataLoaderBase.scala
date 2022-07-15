@@ -10,27 +10,31 @@ import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-/**
- * A reusable component to render some data that's retrieved from a remote source, providing:
- * - A progress indicator when the data is being retrieved.
- * - Invoking the render function when the data is available, to render such data.
- * - Displaying an error message when retrieving the data has failed, as well as displaying a
- *   retry button so that the user is able to try again.
- *
- * @tparam D The data to fetch and render
- */
+/** A reusable component to render some data that's retrieved from a remote source, providing:
+  *   - A progress indicator when the data is being retrieved.
+  *   - Invoking the render function when the data is available, to render such data.
+  *   - Displaying an error message when retrieving the data has failed, as well as displaying a retry button so that
+  *     the user is able to try again.
+  *
+  * @tparam D
+  *   The data to fetch and render
+  */
 trait RemoteDataLoaderBase[D] {
 
-  /**
-   * TODO: timesReloadingData is a hacky way to force reloading the data, there should be a better way
-   *
-   * @param fetch the function to fetch the data
-   * @param render the function to render the data once it is available
-   * @param retryLabel the label to use in the button that retries the operation
-   * @param timesReloadingData a helper to force reloading the data, useful when the parent component,
-   *                           or rendered component needs to reload the data.
-   * @param onDataLoaded a function invoked when the remote data has been loaded.
-   */
+  /** TODO: timesReloadingData is a hacky way to force reloading the data, there should be a better way
+    *
+    * @param fetch
+    *   the function to fetch the data
+    * @param render
+    *   the function to render the data once it is available
+    * @param retryLabel
+    *   the label to use in the button that retries the operation
+    * @param timesReloadingData
+    *   a helper to force reloading the data, useful when the parent component, or rendered component needs to reload
+    *   the data.
+    * @param onDataLoaded
+    *   a function invoked when the remote data has been loaded.
+    */
   case class Props(
       fetch: () => Future[D],
       render: D => ReactElement,

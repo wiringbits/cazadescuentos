@@ -1,5 +1,6 @@
 ThisBuild / scalaVersion := "2.13.8"
 ThisBuild / organization := "net.wiringbits"
+ThisBuild / versionScheme := Some("early-semver")
 
 val circe = "0.14.1"
 val sttp = "3.5.2"
@@ -18,8 +19,12 @@ lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
 lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 
 lazy val baseSettings: Project => Project =
-  _.enablePlugins(ScalaJSPlugin)
+  _.enablePlugins(ScalaJSPlugin, GitVersioning)
     .settings(
+      // Scala.js requires this, for some reason, without this, testing jvm projects fails
+      Test / fork := false,
+      githubOwner := "wiringbits",
+      githubRepository := "cazadescuentos",
       scalacOptions ++= Seq(
         "-deprecation", // Emit warning and location for usages of deprecated APIs.
         "-encoding",
@@ -34,10 +39,10 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .configure(baseSettings)
   .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .settings(
+    name := "cazadescuentos-common",
     libraryDependencies ++= Seq()
   )
   .jvmSettings(
-    Test / fork := true,
     libraryDependencies ++= Seq()
   )
   .jsSettings(
@@ -53,6 +58,7 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
   .configure(baseSettings)
   .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin, ScalablyTypedConverterPlugin))
   .settings(
+    name := "cazadescuentos-api",
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circe,
       "io.circe" %%% "circe-generic" % circe,
@@ -61,7 +67,6 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
     )
   )
   .jvmSettings(
-    Test / fork := true,
     libraryDependencies ++= Seq()
   )
   .jsSettings(
@@ -128,5 +133,6 @@ lazy val root = (project in file("."))
   )
   .settings(
     publish := {},
-    publishLocal := {}
+    publishLocal := {},
+    publish / skip := true
   )

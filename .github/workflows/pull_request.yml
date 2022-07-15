@@ -1,0 +1,35 @@
+name: Build the app
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build-lib:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Scala
+        uses: japgolly/setup-everything-scala@v3.1
+        with:
+          java-version: 'adopt:1.11.0-11'
+          node-version: '16.7.0'
+
+      - name: Check code format
+        run: cd lib && sbt scalafmtCheckAll
+
+      - name: Compile
+        run: cd lib && CI=true sbt compile
+
+      - name: Run tests
+        run: cd lib && CI=true sbt test
+

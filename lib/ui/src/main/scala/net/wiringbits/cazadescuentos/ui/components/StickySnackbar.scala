@@ -17,9 +17,8 @@ import com.alexitc.materialui.facade.materialUiStyles.withStylesMod.{
   WithStylesOptions
 }
 
-/**
- * A snackbar that isn't closed automatically
- */
+/** A snackbar that isn't closed automatically
+  */
 @react object StickySnackbar {
 
   sealed trait Variant
