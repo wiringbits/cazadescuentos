@@ -1,4 +1,4 @@
-name: Build the server app
+name: Build the app
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  build:
+  build-lib:
 
     runs-on: ubuntu-latest
 
@@ -33,11 +33,3 @@ jobs:
       - name: Run tests
         run: cd lib && CI=true sbt test
 
-        #      - name: Prepare admin build
-        #run: sbt admin/build
-
-        #- name: Prepare web build
-        #run: sbt web/build
-
-        #- name: Prepare server build
-        #run: sbt server/dist
