@@ -32,9 +32,6 @@ lazy val baseSettings: Project => Project =
         "-unchecked" // Enable additional warnings where generated code depends on assumptions.
       )
     )
-    .jsSettings(
-      Test / fork := false // Scala.js requires this
-    )
 
 lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
   .configure(baseSettings)
@@ -48,6 +45,7 @@ lazy val common = (crossProject(JSPlatform, JVMPlatform) in file("common"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
+    Test / fork := false, // Scala.js requires this
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq("io.github.cquiroz" %%% "scala-java-time" % javaTimeVersion),
@@ -73,6 +71,7 @@ lazy val api = (crossProject(JSPlatform, JVMPlatform) in file("api"))
     libraryDependencies ++= Seq()
   )
   .jsSettings(
+    Test / fork := false, // Scala.js requires this
     stUseScalaJsDom := true,
     Compile / stMinimize := Selection.All,
     libraryDependencies ++= Seq(),
@@ -87,6 +86,7 @@ lazy val ui = (project in file("ui"))
   .settings(
     name := "cazadescuentos-ui",
     scalacOptions += "-Ymacro-annotations",
+    Test / fork := false, // Scala.js requires this
     Test / requireJsDomEnv := true,
     stTypescriptVersion := "3.9.3",
     // material-ui is provided by a pre-packaged library
