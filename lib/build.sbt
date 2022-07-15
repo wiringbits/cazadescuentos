@@ -18,8 +18,10 @@ lazy val apiJsLib = ProjectRef(file("../lib"), "apiJS")
 lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 
 lazy val baseSettings: Project => Project =
-  _.enablePlugins(ScalaJSPlugin)
+  _.enablePlugins(ScalaJSPlugin, GitVersioning)
     .settings(
+      githubOwner := "wiringbits",
+      githubRepository := "cazadescuentos",
       scalacOptions ++= Seq(
         "-deprecation", // Emit warning and location for usages of deprecated APIs.
         "-encoding",
@@ -128,5 +130,6 @@ lazy val root = (project in file("."))
   )
   .settings(
     publish := {},
-    publishLocal := {}
+    publishLocal := {},
+    publish / skip := true
   )

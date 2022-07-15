@@ -1,0 +1,40 @@
+name: Build the server app
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Scala
+        uses: japgolly/setup-everything-scala@v3.1
+        with:
+          java-version: 'adopt:1.11.0-11'
+          node-version: '16.7.0'
+
+      - name: Check code format
+        run: cd lib && sbt scalafmtCheckAll
+
+      - name: Compile
+        run: cd lib && CI=true sbt compile
+
+      - name: Run tests
+        run: cd lib && CI=true sbt test
+
+        #      - name: Prepare admin build
+        #run: sbt admin/build
+
+        #- name: Prepare web build
+        #run: sbt web/build
+
+        #- name: Prepare server build
+        #run: sbt server/dist

@@ -1,0 +1,30 @@
+name: Publish the modules
+
+on:
+  push:
+    branches: [ master, ci-update ]
+    tags:
+      - "**"
+
+env:
+  # necessary to publish packages
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Scala
+        uses: japgolly/setup-everything-scala@v3.1
+        with:
+          java-version: 'adopt:1.11.0-11'
+          node-version: '16.7.0'
+
+      - name: Prepare the build
+        run: cd lib && sbt publish
+
