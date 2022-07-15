@@ -30,13 +30,14 @@ import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
     def retry: String = "Retry"
 
     def notification(createdAt: Instant, message: String): String = {
-      val time = try {
-        java.time.ZonedDateTime
-          .ofInstant(createdAt, java.time.ZoneId.systemDefault())
-          .format(java.time.format.DateTimeFormatter.ofPattern("dd/MMM/uuuu hh:mm a"))
-      } catch {
-        case _: Throwable => createdAt.toString
-      }
+      val time =
+        try {
+          java.time.ZonedDateTime
+            .ofInstant(createdAt, java.time.ZoneId.systemDefault())
+            .format(java.time.format.DateTimeFormatter.ofPattern("dd/MMM/uuuu hh:mm a"))
+        } catch {
+          case _: Throwable => createdAt.toString
+        }
 
       s"$time: $message"
     }

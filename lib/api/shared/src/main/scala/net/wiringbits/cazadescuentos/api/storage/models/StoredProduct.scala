@@ -2,13 +2,12 @@ package net.wiringbits.cazadescuentos.api.storage.models
 
 import net.wiringbits.cazadescuentos.common.models.{OnlineStore, StoreProduct}
 
-/**
- * NOTE: This model represents what gets on the browser storage, so, be aware of the names to avoid
- * breaking compatibility.
- *
- * Think what will happen when you deploy the new model and the storage has previous models, the new
- * one should be backwards compatible to avoid breaking the user stored items.
- */
+/** NOTE: This model represents what gets on the browser storage, so, be aware of the names to avoid breaking
+  * compatibility.
+  *
+  * Think what will happen when you deploy the new model and the storage has previous models, the new one should be
+  * backwards compatible to avoid breaking the user stored items.
+  */
 case class StoredProduct(
     store: OnlineStore,
     name: String,

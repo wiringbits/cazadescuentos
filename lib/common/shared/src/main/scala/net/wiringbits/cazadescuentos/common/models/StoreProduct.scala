@@ -13,9 +13,8 @@ object StoreProduct {
           store -> url.drop(store.baseUrl.length)
       }
       .filter { case (store, productId) => store.looksLikeProduct(productId) }
-      .map {
-        case (store, productId) =>
-          StoreProduct(productId, store)
+      .map { case (store, productId) =>
+        StoreProduct(productId, store)
       }
   }
 }
