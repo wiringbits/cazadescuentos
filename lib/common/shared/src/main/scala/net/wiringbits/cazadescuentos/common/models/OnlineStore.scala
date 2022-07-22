@@ -53,7 +53,14 @@ object OnlineStore {
         "Zara",
         "https://www.zara.com/",
         "zara.jpg",
-        raw"[\w\W/]{2}[\w\W]+p0[\w\W]+v1=[\w\W]+v2=[\w\W]+".r // should match "es/es/corbata-estrecha-otomán-p07347390.html?v1=17909490&v2=1388752", TODO: Improve regex
+        raw"\w{2}/\w{2}/[\w\W]+p[\d]+\.html.*$$".r
+        // should match the following:
+        // "mx/es/polo-punto-p09240403.html"
+        // "mx/es/cazadora-t-cnica-capucha-p08574470.html?v1=148816049&v2=2110795"
+        // "es/es/corbata-estrecha-otomán-p07347390.html?v1=17909490&v2=1388752"
+        //
+        // tests @ cazadescuentos/server-scala/src/test/scala/common/OnlineStoreTest.scala
+        // testOnly net.cazadescuentos.common.OnlineStoreTest
       )
 
   final case object Coppel
