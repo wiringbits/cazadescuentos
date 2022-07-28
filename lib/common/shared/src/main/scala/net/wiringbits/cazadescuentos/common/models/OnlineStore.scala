@@ -264,7 +264,6 @@ object OnlineStore {
     HomeDepotMxHttp,
     WalmartMx,
     WalmartMxSuper,
-    BestbuyMx,
     BestbuyUs,
     PalacioDeHierro,
     AmazonMx

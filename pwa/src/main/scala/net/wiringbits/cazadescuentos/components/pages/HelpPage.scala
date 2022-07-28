@@ -63,7 +63,6 @@ import scala.scalajs.js
       "https://www.costco.com.mx",
       "https://www.homedepot.com.mx",
       "https://www.walmart.com.mx",
-      "https://www.bestbuy.com.mx",
       "https://www.elpalaciodehierro.com"
     )
 
