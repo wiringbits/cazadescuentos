@@ -20,22 +20,16 @@ sealed abstract class OnlineStore(
 }
 
 object OnlineStore {
-  final case object NintendoEshopUs
+  final case object NintendoEshop
       extends OnlineStore(
-        "nintendoEshopUs",
+        "nintendoEshop",
         "Nintendo Eshop",
-        "https://www.nintendo.com/store/products/",
+        "https://www.nintendo.com/",
         "nintendoEshop.png",
-        raw"[\w\W\-]+".r // should match "super-mario-maker-2-switch"
-      )
-
-  final case object NintendoEshopMx
-      extends OnlineStore(
-        "nintendoEshopMx",
-        "Nintendo Eshop",
-        "https://www.nintendo.com/es-mx/store/products/",
-        "nintendoEshop.png",
-        raw"[\w\W\-]+".r // should match "super-mario-maker-2-switch"
+        raw"(\w{2}\-\w{2}\/)?store\/products\/[\w\W\-]+".r
+        // should match:
+        // "es-mx/store/products/portal-companion-collection-switch"
+        // "store/products/portal-companion-collection-switch"
       )
 
   final case object Liverpool
@@ -262,8 +256,7 @@ object OnlineStore {
       )
 
   val available: List[OnlineStore] = List(
-    NintendoEshopUs,
-    NintendoEshopMx,
+    NintendoEshop,
     Liverpool,
     HandM,
     HandMMobile,
