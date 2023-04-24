@@ -12,7 +12,7 @@ val scalaJsChromeVersion = "0.9.0"
 val slinkyVersion = "0.7.2"
 val muiFacadeVersion = "0.2.0"
 val macroTaskExecutorVersion = "1.0.0"
-val javaTimeVersion = "2.3.0"
+val javaTimeVersion = "2.4.0"
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(GitVersioning)
