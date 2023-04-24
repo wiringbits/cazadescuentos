@@ -7,7 +7,7 @@ lazy val uiJsLib = ProjectRef(file("../lib"), "ui")
 lazy val isProductionBuild = sys.env.getOrElse("PROD", "false") == "true"
 lazy val appName = "cazadescuentos"
 
-val circe = "0.14.1"
+val circe = "0.14.2"
 val sttp = "3.5.2"
 
 val scalaDomVersion = "2.1.0"

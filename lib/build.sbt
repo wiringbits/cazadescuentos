@@ -2,7 +2,7 @@ ThisBuild / scalaVersion := "2.13.8"
 ThisBuild / organization := "net.wiringbits"
 ThisBuild / versionScheme := Some("early-semver")
 
-val circe = "0.14.1"
+val circe = "0.14.2"
 val sttp = "3.5.2"
 
 val scalaDomVersion = "2.1.0"
